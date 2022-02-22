@@ -20,7 +20,9 @@ const Home: NextPage = () => {
         flexDirection="column"
         padding="2rem"
       >
-        <Heading>Crypto Capable Ambassadors&apos; DAO</Heading>
+        <Heading textAlign="center">
+          Crypto Capable Ambassadors&apos; DAO
+        </Heading>
         <Text mt="8" fontSize="2xl" textAlign="center" maxWidth="70vw">
           Become a part of Crypto Capable&apos;s Ambassadors program and spread
           awareness about the NEAR protocol while making some NEAR for yourself!
