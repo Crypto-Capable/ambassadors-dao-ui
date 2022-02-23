@@ -7,9 +7,9 @@ const ProposalsList: LayoutPage = () => {
   return (
     <>
       <Head>
-        <title>All Proposals</title>
+        <title>All Referrals</title>
       </Head>
-      <div>Proposal Items</div>
+      <div>Referral Items</div>
     </>
   );
 };

@@ -7,9 +7,9 @@ const ProposalsList: LayoutPage = () => {
   return (
     <>
       <Head>
-        <title>All Proposals</title>
+        <title>All Bounties</title>
       </Head>
-      <div>Proposal Items</div>
+      <div>Bounty Items</div>
     </>
   );
 };
