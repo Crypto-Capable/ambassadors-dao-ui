@@ -6,12 +6,7 @@ const DashboardLayout: React.FC = ({ children }) => {
   return (
     <Flex height="100vh" width="100vw">
       <Sidebar />
-      <Box
-        padding="2rem 2rem 0 2rem"
-        flex="1"
-        maxHeight="100vh"
-        overflowY="auto"
-      >
+      <Box padding="2rem" flex="1" maxHeight="100vh" overflowY="auto">
         {children}
       </Box>
     </Flex>

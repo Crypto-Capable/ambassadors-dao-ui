@@ -10,14 +10,15 @@ const withContract = (Component: React.FC<AcceptsContractProps>) => {
   const ContractWrapperComponent: React.FC = (props) => {
     const contract = useContractContext();
 
-    if (!contract) {
-      return (
-        <Center width="full" height="full">
-          <Spinner />
-        </Center>
-      );
-    }
+    // if (!contract) {
+    //   return (
+    //     <Center width="full" height="full">
+    //       <Spinner />
+    //     </Center>
+    //   );
+    // }
 
+    // @ts-ignore
     return <Component contract={contract} {...props} />;
   };
 

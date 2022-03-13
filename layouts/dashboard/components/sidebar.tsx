@@ -2,15 +2,9 @@ import { Button, Flex, Heading } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
 import { useAuthContext } from '../../../context/auth-context';
+import { Tabs } from '../../../types';
 
 import NavLink from './nav-link';
-
-enum Tabs {
-  PROPOSALS = 'proposals',
-  BOUNTIES = 'bounties',
-  REFERRALS = 'referrals',
-  MISCELLANEOUS = 'miscellaneous',
-}
 
 const linksMap = {
   [Tabs.PROPOSALS]: `/dashboard/${Tabs.PROPOSALS}`,
@@ -23,7 +17,7 @@ const Sidebar = () => {
   const { pathname } = useRouter();
   const { signOut } = useAuthContext();
 
-  const activeTabName = useMemo(() => pathname.split('/').pop(), [pathname]);
+  const activeTabName = useMemo(() => pathname.split('/')[2], [pathname]);
 
   return (
     <Flex
