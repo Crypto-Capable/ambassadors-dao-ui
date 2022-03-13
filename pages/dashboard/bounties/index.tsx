@@ -3,18 +3,18 @@ import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
-import { CustomContract, LayoutPage, Payout } from '../../../types';
+import { BountyType, CustomContract, LayoutPage, Payout } from '../../../types';
 
 type BountiesListPropos = {
   contract: CustomContract;
 };
 
 const BountiesList: NextPage<BountiesListPropos> = ({ contract }) => {
-  const [bounties, setBounties] = useState<Payout[]>([]);
+  const [bounties, setBounties] = useState<Payout<BountyType>[]>([]);
 
   useEffect(() => {
     contract
-      .viewAllBounties({
+      .get_all_bounties({
         startIndex: 0,
         limit: 12,
       })

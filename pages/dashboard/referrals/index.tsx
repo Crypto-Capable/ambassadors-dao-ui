@@ -3,18 +3,23 @@ import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
-import { CustomContract, LayoutPage, Payout } from '../../../types';
+import {
+  CustomContract,
+  LayoutPage,
+  Payout,
+  ReferralType,
+} from '../../../types';
 
 type ReferralsListProps = {
   contract: CustomContract;
 };
 
 const ReferralsList: NextPage<ReferralsListProps> = ({ contract }) => {
-  const [referrals, setReferrals] = useState<Payout[]>([]);
+  const [referrals, setReferrals] = useState<Payout<ReferralType>[]>([]);
 
   useEffect(() => {
     contract
-      .viewAllReferrals({
+      .get_all_referrals({
         startIndex: 0,
         limit: 12,
       })

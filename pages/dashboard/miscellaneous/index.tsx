@@ -3,18 +3,25 @@ import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
-import { CustomContract, LayoutPage, Payout } from '../../../types';
+import {
+  CustomContract,
+  LayoutPage,
+  MiscellaneousType,
+  Payout,
+} from '../../../types';
 
 type MiscellaneousListPropos = {
   contract: CustomContract;
 };
 
 const MiscellaneousList: NextPage<MiscellaneousListPropos> = ({ contract }) => {
-  const [miscellaneous, setMiscellaneous] = useState<Payout[]>([]);
+  const [miscellaneous, setMiscellaneous] = useState<
+    Payout<MiscellaneousType>[]
+  >([]);
 
   useEffect(() => {
     contract
-      .viewAllMiscellaneous({
+      .get_all_miscellaneous({
         startIndex: 0,
         limit: 12,
       })
