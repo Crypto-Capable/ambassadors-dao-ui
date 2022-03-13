@@ -1,6 +1,7 @@
-import { Box, Flex, Heading } from '@chakra-ui/react';
+import { Button, Flex, Heading } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
+import { useAuthContext } from '../../../context/auth-context';
 
 import NavLink from './nav-link';
 
@@ -20,10 +21,12 @@ const linksMap = {
 
 const Sidebar = () => {
   const { pathname } = useRouter();
+  const { signOut } = useAuthContext();
+
   const activeTabName = useMemo(() => pathname.split('/').pop(), [pathname]);
 
   return (
-    <Box
+    <Flex
       borderRight="1px"
       borderColor="gray.300"
       width="280px"
@@ -31,9 +34,10 @@ const Sidebar = () => {
       bgImage="url('/hero-bg.jpg')"
       bgSize="cover"
       backdropFilter="blur(5px)"
+      flexDirection="column"
     >
       <Heading>CA Dashboard</Heading>
-      <Flex flexDirection="column" mt="16" experimental_spaceY="2">
+      <Flex as="nav" flexDirection="column" mt="16" experimental_spaceY="2">
         <NavLink
           href={linksMap[Tabs.PROPOSALS]}
           active={activeTabName === Tabs.PROPOSALS}
@@ -59,7 +63,25 @@ const Sidebar = () => {
           Miscellaneous
         </NavLink>
       </Flex>
-    </Box>
+      <Button
+        mt="auto"
+        onClick={signOut}
+        variant="outline"
+        bg="transparent"
+        color="white"
+        shadow="lg"
+        _hover={{
+          shadow: 'xl',
+        }}
+        _active={{
+          shadow: 'md',
+          bg: 'transparent',
+        }}
+        transition="all 0.2s ease"
+      >
+        Sign Out
+      </Button>
+    </Flex>
   );
 };
 

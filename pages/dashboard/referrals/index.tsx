@@ -1,9 +1,27 @@
+import { NextPage } from 'next';
 import Head from 'next/head';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
-import { LayoutPage } from '../../../types';
+import { CustomContract, LayoutPage, Payout } from '../../../types';
 
-const ProposalsList: LayoutPage = () => {
+type ReferralsListProps = {
+  contract: CustomContract;
+};
+
+const ReferralsList: NextPage<ReferralsListProps> = ({ contract }) => {
+  const [referrals, setReferrals] = useState<Payout[]>([]);
+
+  useEffect(() => {
+    contract
+      .viewAllReferrals({
+        startIndex: 0,
+        limit: 12,
+      })
+      .then(setReferrals)
+      .catch();
+  }, [contract]);
+
   return (
     <>
       <Head>
@@ -14,6 +32,8 @@ const ProposalsList: LayoutPage = () => {
   );
 };
 
-ProposalsList.layout = Layouts.DASHBOARD;
+const ProposalsListPage = withContract(ReferralsList) as LayoutPage<{}>;
 
-export default ProposalsList;
+ProposalsListPage.layout = Layouts.DASHBOARD;
+
+export default ProposalsListPage;

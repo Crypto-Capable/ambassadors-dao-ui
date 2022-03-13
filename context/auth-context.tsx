@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { keyStores, connect, WalletConnection } from 'near-api-js';
+import { keyStores, connect, WalletConnection, Contract } from 'near-api-js';
 import { useRouter } from 'next/router';
 
 const config = {

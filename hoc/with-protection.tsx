@@ -1,9 +1,9 @@
-import { Box } from '@chakra-ui/react';
+import { Center, Spinner } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useAuthContext } from '../context/auth-context';
 
 const withProtection = (Component: React.FC) => {
-  const WithProtection: React.FC = (props) => {
+  const ProtectedComponent: React.FC = (props) => {
     const router = useRouter();
     const { wallet } = useAuthContext();
 
@@ -11,13 +11,17 @@ const withProtection = (Component: React.FC) => {
       router.replace('/');
       return null;
     } else if (!wallet) {
-      return <Box>Loading...</Box>;
+      return (
+        <Center width="100vw" height="100vh">
+          <Spinner />
+        </Center>
+      );
     }
 
     return <Component {...props} />;
   };
 
-  return WithProtection;
+  return ProtectedComponent;
 };
 
 export default withProtection;

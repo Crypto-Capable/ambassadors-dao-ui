@@ -1,9 +1,27 @@
+import { NextPage } from 'next';
 import Head from 'next/head';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
-import { LayoutPage } from '../../../types';
+import { CustomContract, LayoutPage, Payout } from '../../../types';
 
-const ProposalsList: LayoutPage = () => {
+type MiscellaneousListPropos = {
+  contract: CustomContract;
+};
+
+const MiscellaneousList: NextPage<MiscellaneousListPropos> = ({ contract }) => {
+  const [miscellaneous, setMiscellaneous] = useState<Payout[]>([]);
+
+  useEffect(() => {
+    contract
+      .viewAllMiscellaneous({
+        startIndex: 0,
+        limit: 12,
+      })
+      .then(setMiscellaneous)
+      .catch();
+  }, [contract]);
+
   return (
     <>
       <Head>
@@ -14,6 +32,8 @@ const ProposalsList: LayoutPage = () => {
   );
 };
 
-ProposalsList.layout = Layouts.DASHBOARD;
+const BountiesListPage = withContract(MiscellaneousList) as LayoutPage<{}>;
 
-export default ProposalsList;
+BountiesListPage.layout = Layouts.DASHBOARD;
+
+export default BountiesListPage;
