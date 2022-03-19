@@ -20,11 +20,11 @@ const ReferralsList: NextPage<ReferralsListProps> = ({ contract }) => {
   useEffect(() => {
     contract
       .get_all_referrals({
-        startIndex: 0,
+        from_index: 0,
         limit: 12,
       })
       .then(setReferrals)
-      .catch();
+      .catch(console.log);
   }, [contract]);
 
   return (
@@ -37,7 +37,7 @@ const ReferralsList: NextPage<ReferralsListProps> = ({ contract }) => {
   );
 };
 
-const ProposalsListPage = withContract(ReferralsList) as LayoutPage<{}>;
+const ProposalsListPage = withContract(ReferralsList) as LayoutPage;
 
 ProposalsListPage.layout = Layouts.DASHBOARD;
 

@@ -25,12 +25,13 @@ const Sidebar = () => {
       borderColor="gray.300"
       width="280px"
       padding="1rem"
+      paddingTop="1.5rem"
       bgImage="url('/hero-bg.jpg')"
       bgSize="cover"
       backdropFilter="blur(5px)"
       flexDirection="column"
     >
-      <Heading>CA Dashboard</Heading>
+      <Heading as="h1">CA Dashboard</Heading>
       <Flex as="nav" flexDirection="column" mt="16" experimental_spaceY="2">
         <NavLink
           href={linksMap[Tabs.PROPOSALS]}

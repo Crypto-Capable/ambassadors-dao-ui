@@ -1,10 +1,11 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { keyStores, connect, WalletConnection, Contract } from 'near-api-js';
+import { keyStores, connect, WalletConnection } from 'near-api-js';
 import { useRouter } from 'next/router';
 
 const config = {
   nodeUrl: 'https://rpc.testnet.near.org',
   walletUrl: 'https://wallet.testnet.near.org/',
+  helperUrl: 'https://helper.testnet.near.org/',
 };
 
 type AuthContextType = {
@@ -27,13 +28,13 @@ export const AuthProvider: React.FC = ({ children }) => {
     signIn: async () => {
       try {
         // make sure wallet connection has been established
-        await wallet!.requestSignIn(
+        wallet!.requestSignIn(
           process.env.NEXT_PUBLIC_CONTRACT_NAME,
-          "Crypto Capable Ambassadors' DAO",
-          `${process.env.NEXT_PUBLIC_HOST}/callback/success`,
-          `${process.env.NEXT_PUBLIC_HOST}/callback/failure`
+          'Crypto Capable Ambassadors DAO',
+          `${process.env.NEXT_PUBLIC_HOST}/dashboard/proposals`,
+          `${process.env.NEXT_PUBLIC_HOST}/register/failure`
         );
-        router.push('/dashboard');
+        // router.push('/dashboard');
       } catch (error) {
         console.log(error);
       }
