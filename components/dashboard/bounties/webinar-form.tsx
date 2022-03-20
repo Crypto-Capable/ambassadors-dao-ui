@@ -40,12 +40,14 @@ export const WebinarForm: React.FC<WebinarFormProps> = ({
 
     try {
       const v = await contract.contract.add_payout_bounty({
-        description,
-        information: {
-          Webinar: {
-            num_of_registrations: numOfRegistrations,
-            num_of_attendees: numOfAttendees,
-            webinar_link: webinarLink,
+        payout: {
+          description,
+          information: {
+            Webinar: {
+              num_of_registrations: numOfRegistrations,
+              num_of_attendees: numOfAttendees,
+              webinar_link: webinarLink,
+            },
           },
         },
       });

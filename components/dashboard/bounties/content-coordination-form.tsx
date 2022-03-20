@@ -47,12 +47,14 @@ export const ContentCoordinationForm: React.FC<
 
     try {
       const v = await contract.contract.add_payout_bounty({
-        description,
-        information: {
-          ContentCoordination: {
-            content_links: contentLinks.split('\n').map((s) => s.trim()),
-            story,
-            tools_used: toolsUsed.split('\n').map((s) => s.trim()),
+        payout: {
+          description,
+          information: {
+            ContentCoordination: {
+              content_links: contentLinks.split('\n').map((s) => s.trim()),
+              story,
+              tools_used: toolsUsed.split('\n').map((s) => s.trim()),
+            },
           },
         },
       });

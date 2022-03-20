@@ -9,7 +9,6 @@ import {
 import React, { useState } from 'react';
 import { useContractContext } from '../../../context/contract-context';
 import { placeholderDropboxLink } from '../../../util/constants';
-import { nearToYoctoString } from '../../../util/convert';
 
 export type HackathonInputProps = {
   onSubmitStart: () => void;
@@ -40,18 +39,21 @@ export const HackathonInput: React.FC<HackathonInputProps> = ({
 
     try {
       const v = await contract.contract.add_payout_proposal({
-        description,
-        information: {
-          Hackathon: {
-            expected_registrations: expectedRegistrations,
-            estimated_budget: nearToYoctoString(estimatedBudget),
-            supporting_document: supportingDocument,
+        payout: {
+          description,
+          information: {
+            Hackathon: {
+              expected_registrations: expectedRegistrations,
+              estimated_budget: estimatedBudget,
+              supporting_document: supportingDocument,
+            },
           },
         },
       });
       onSubmitEnd(v);
     } catch (err) {
       console.log(err);
+      onSubmitEnd(-1);
     } finally {
       setSubmitting(false);
     }

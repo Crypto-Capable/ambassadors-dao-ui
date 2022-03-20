@@ -9,10 +9,20 @@ import {
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { useAuthContext } from '../context/auth-context';
+import { Tabs } from '../types';
 
 const Home: NextPage = () => {
-  const { signIn } = useAuthContext();
+  const { signIn, wallet } = useAuthContext();
+  const { replace } = useRouter();
+
+  useEffect(() => {
+    if (!wallet) return;
+
+    if (wallet.isSignedIn()) replace(`/dashboard/${Tabs.PROPOSALS}`);
+  }, [wallet, replace]);
 
   return (
     <>

@@ -1,22 +1,40 @@
 import {
   Box,
   Button,
+  Center,
   Flex,
   Heading,
   Link as ChakraLink,
   Text,
 } from '@chakra-ui/react';
+import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Plus } from 'phosphor-react';
-import React from 'react';
+import { Plus, Spinner } from 'phosphor-react';
+import React, { useEffect, useMemo, useState } from 'react';
 import StatusBadge from '../../../components/status-badge';
+import { useContractContext } from '../../../context/contract-context';
+import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
-import { LayoutPage, Tabs } from '../../../types';
+import { LayoutPage, Payout, ProposalType, Tabs } from '../../../types';
 
-const ProposalItem: LayoutPage = () => {
+const ProposalItem: NextPage = () => {
   const { id } = useRouter().query as { id: string };
+  const { contract } = useContractContext()!;
+  const [proposal, setProposal] = useState<Payout<ProposalType> | null>(null);
+
+  useEffect(() => {
+    contract.get_proposal({ id: Number(id) }).then(setProposal);
+
+    return () => {
+      // whenever the contract or id changes, it sets the proposal to null
+      // hence it will show a spinner
+      setProposal(null);
+    };
+  }, [contract, id, setProposal]);
+
+  const isLoading = proposal === null;
 
   return (
     <>
@@ -38,16 +56,21 @@ const ProposalItem: LayoutPage = () => {
           </Button>
         </Link>
       </Flex>
-      <Flex mt="8" alignItems="center" justifyContent="space-between">
-        <Box>
-          <Text display="inline-block">{stub[id].description}</Text>
-        </Box>
-        <StatusBadge status={stub[id].status} />
-      </Flex>
+      {isLoading ? (
+        <Center>
+          <Spinner />
+        </Center>
+      ) : (
+        <Flex mt="8" alignItems="center" justifyContent="space-between">
+          {JSON.stringify(proposal, null, 2)}
+        </Flex>
+      )}
     </>
   );
 };
 
-ProposalItem.layout = Layouts.DASHBOARD;
+const ProposalItemPage = withContract(ProposalItem) as LayoutPage;
 
-export default ProposalItem;
+ProposalItemPage.layout = Layouts.DASHBOARD;
+
+export default ProposalItemPage;

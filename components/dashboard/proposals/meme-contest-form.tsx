@@ -12,7 +12,6 @@ import {
   placeholderDescription,
   placeholderDropboxLink,
 } from '../../../util/constants';
-import { nearToYoctoString } from '../../../util/convert';
 
 export type MemeContestInputProps = {
   onSubmitStart: () => void;
@@ -43,18 +42,21 @@ export const MemeContestInput: React.FC<MemeContestInputProps> = ({
 
     try {
       const v = await contract.contract.add_payout_proposal({
-        description,
-        information: {
-          MemeContest: {
-            expected_registrations: expectedRegistrations,
-            estimated_budget: nearToYoctoString(estimatedBudget),
-            supporting_document: supportingDocument,
+        payout: {
+          description,
+          information: {
+            MemeContest: {
+              expected_registrations: expectedRegistrations,
+              estimated_budget: estimatedBudget,
+              supporting_document: supportingDocument,
+            },
           },
         },
       });
       onSubmitEnd(v);
     } catch (err) {
       console.log(err);
+      onSubmitEnd(-1);
     } finally {
       setSubmitting(false);
     }

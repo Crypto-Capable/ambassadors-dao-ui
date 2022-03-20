@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { keyStores, connect, WalletConnection } from 'near-api-js';
-import { useRouter } from 'next/router';
 
 const config = {
   nodeUrl: 'https://rpc.testnet.near.org',
@@ -21,7 +20,6 @@ export const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const router = useRouter();
   const [wallet, setWallet] = useState<WalletConnection | null>(null);
 
   const value: AuthContextType = {
@@ -31,7 +29,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         wallet!.requestSignIn(
           process.env.NEXT_PUBLIC_CONTRACT_NAME,
           'Crypto Capable Ambassadors DAO',
-          `${process.env.NEXT_PUBLIC_HOST}/dashboard/proposals`,
+          `${process.env.NEXT_PUBLIC_HOST}/register/success`,
           `${process.env.NEXT_PUBLIC_HOST}/register/failure`
         );
         // router.push('/dashboard');
@@ -43,12 +41,20 @@ export const AuthProvider: React.FC = ({ children }) => {
       // make sure wallet connection has been established
       wallet!.signOut();
       setWallet(null);
-      router.push('/');
+      window.location.replace('/');
     },
     wallet,
   };
 
   useEffect(() => {
+    console.log(
+      '%cWelcome to Campus Ambassadors DAO from Crypto Capable',
+      'font-size:1rem;color:violet;font-weight:bold;font-family:sans-serif;'
+    );
+    console.log(
+      'Please do not use the javascript console as it may lead to loss of data.'
+    );
+
     const loadNearWallet = async () => {
       // create a keyStore for signing transactions using the user's key
       // which is located in the browser local storage after user logs in
@@ -68,7 +74,7 @@ export const AuthProvider: React.FC = ({ children }) => {
       setWallet(walletConnection);
     };
 
-    loadNearWallet().catch();
+    loadNearWallet().catch(console.log);
   }, []);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

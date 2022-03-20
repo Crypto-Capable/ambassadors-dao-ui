@@ -11,6 +11,7 @@ export enum Tabs {
   BOUNTIES = 'bounties',
   REFERRALS = 'referrals',
   MISCELLANEOUS = 'miscellaneous',
+  PROFILE = 'profile',
 }
 
 export type Vote = { Approve: 0 } | { Reject: 1 };
@@ -30,20 +31,20 @@ export type ProposalType =
   | {
       Hackathon: {
         expected_registrations: number;
-        estimated_budget: string;
+        estimated_budget: number;
         supporting_document: string;
       };
     }
   | {
       MemeContest: {
         expected_registrations: number;
-        estimated_budget: string;
+        estimated_budget: number;
         supporting_document: string;
       };
     }
   | {
       Open: {
-        estimated_budget: string;
+        estimated_budget: number;
         supporting_document: string;
       };
     };
@@ -91,7 +92,7 @@ export type MiscellaneousType =
   | {
       ContentCreationBounty: {
         links_to_content: string[];
-        expected_amount: string;
+        expected_amount: number;
         note: string;
       };
     }
@@ -138,15 +139,15 @@ export type getPayoutFn<T> = (args: getPayoutFnArgs) => Promise<Payout<T>>;
 
 export type getLastPayoutIdFn = () => Promise<Number>;
 
-export type addPayoutFnArgs<T> = PayoutInput<T>;
-
-export type addPayoutFn<T> = (args: addPayoutFnArgs<T>) => Promise<number>;
+export type AccountIdArgs = { account_id: string };
 
 export type viewFunctionsType = {
   version: () => Promise<string>;
   get_config: () => Promise<any>;
   get_policy: () => Promise<any>;
-  is_council_member: (args: { member_id: string }) => Promise<boolean>;
+
+  is_council_member: (args: AccountIdArgs) => Promise<boolean>;
+  is_registered_ambassador: (args: AccountIdArgs) => Promise<boolean>;
 
   get_all_proposals: getAllPayoutsFn<ProposalType>;
   get_proposal: getPayoutFn<ProposalType>;
@@ -165,7 +166,18 @@ export type viewFunctionsType = {
   get_last_miscellaneous_id: getLastPayoutIdFn;
 };
 
+export type addPayoutFnArgs<T> = {
+  payout: PayoutInput<T>;
+};
+
+export type addPayoutFn<T> = (args: addPayoutFnArgs<T>) => Promise<number>;
+
 export type changeFunctionsType = {
+  register_ambassador: (args: {
+    token: String | null;
+  }) => Promise<String | null>;
+  get_council_referral_token: (args: AccountIdArgs) => Promise<string>;
+  get_ambassador_referral_token: (args: AccountIdArgs) => Promise<string>;
   add_payout_proposal: addPayoutFn<ProposalType>;
   add_payout_bounty: addPayoutFn<BountyType>;
   add_payout_referral: addPayoutFn<ReferralType>;

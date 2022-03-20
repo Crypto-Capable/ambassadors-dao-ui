@@ -7,6 +7,7 @@ import { Tabs } from '../../../types';
 import NavLink from './nav-link';
 
 const linksMap = {
+  [Tabs.PROFILE]: `/dashboard/${Tabs.PROFILE}`,
   [Tabs.PROPOSALS]: `/dashboard/${Tabs.PROPOSALS}`,
   [Tabs.BOUNTIES]: `/dashboard/${Tabs.BOUNTIES}`,
   [Tabs.REFERRALS]: `/dashboard/${Tabs.REFERRALS}`,
@@ -33,6 +34,12 @@ const Sidebar = () => {
     >
       <Heading as="h1">CA Dashboard</Heading>
       <Flex as="nav" flexDirection="column" mt="16" experimental_spaceY="2">
+        <NavLink
+          href={linksMap[Tabs.PROFILE]}
+          active={activeTabName === Tabs.PROFILE}
+        >
+          Profile
+        </NavLink>
         <NavLink
           href={linksMap[Tabs.PROPOSALS]}
           active={activeTabName === Tabs.PROPOSALS}

@@ -59,12 +59,14 @@ export const HackathonCompletionForm: React.FC<
 
     try {
       const v = await contract.contract.add_payout_bounty({
-        description,
-        information: {
-          HackathonCompletion: {
-            num_of_registrations: numOfRegistrations,
-            num_of_submissions: numOfSubmissions,
-            winners_info: winnersInfo,
+        payout: {
+          description,
+          information: {
+            HackathonCompletion: {
+              num_of_registrations: numOfRegistrations,
+              num_of_submissions: numOfSubmissions,
+              winners_info: winnersInfo,
+            },
           },
         },
       });

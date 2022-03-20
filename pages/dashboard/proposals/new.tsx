@@ -1,4 +1,4 @@
-import { Box, Heading, Select, Text } from '@chakra-ui/react';
+import { Box, Heading, Select, Text, useToast } from '@chakra-ui/react';
 import Head from 'next/head';
 import React, { useState } from 'react';
 import {
@@ -15,6 +15,7 @@ const NewProposal: LayoutPage = () => {
   const [proposalType, setProposalType] =
     useState<TypesOfProposals>('Hackathon');
   const [submitting, setSubmitting] = useState<boolean>(false);
+  const toast = useToast();
 
   const handleProposalTypeChange: React.ChangeEventHandler<
     HTMLSelectElement
@@ -23,7 +24,20 @@ const NewProposal: LayoutPage = () => {
   };
 
   const handleSubmitStart = () => setSubmitting(true);
-  const handleSubmitEnd = (v: number) => setSubmitting(false);
+  const handleSubmitEnd = (v: number) => {
+    setSubmitting(false);
+    if (v > 0) {
+      toast({
+        description: 'Proposal created',
+        status: 'success',
+      });
+    } else {
+      toast({
+        description: 'Proposal creation failed, try again',
+        status: 'error',
+      });
+    }
+  };
 
   return (
     <>

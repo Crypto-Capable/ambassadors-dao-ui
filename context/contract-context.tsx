@@ -15,6 +15,7 @@ const viewMethods = [
   'get_config',
   'get_policy',
   'is_council_member',
+  'is_registered_ambassador',
   'get_all_proposals',
   'get_proposal',
   'get_last_proposal_id',
@@ -34,6 +35,9 @@ const changeMethods = [
   'add_payout_bounty',
   'add_payout_referral',
   'add_payout_miscellaneous',
+  'register_ambassador',
+  'get_council_referral_token',
+  'get_ambassador_referral_token',
 ];
 
 export const ContractProvider: React.FC = ({ children }) => {
@@ -55,8 +59,10 @@ export const ContractProvider: React.FC = ({ children }) => {
       }
     ) as CustomContract;
 
+    if (!wallet.getAccountId()) return;
+
     contract
-      .is_council_member({ member_id: wallet.getAccountId() })
+      .is_council_member({ account_id: wallet.getAccountId() })
       .then((v) => {
         setContract({
           contract,

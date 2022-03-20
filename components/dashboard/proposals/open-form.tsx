@@ -9,7 +9,6 @@ import {
 import React, { useState } from 'react';
 import { useContractContext } from '../../../context/contract-context';
 import { placeholderDropboxLink } from '../../../util/constants';
-import { nearToYoctoString } from '../../../util/convert';
 
 export type OpenInputProps = {
   onSubmitStart: () => void;
@@ -39,17 +38,20 @@ export const OpenInput: React.FC<OpenInputProps> = ({
 
     try {
       const v = await contract.contract.add_payout_proposal({
-        description,
-        information: {
-          Open: {
-            estimated_budget: nearToYoctoString(estimatedBudget),
-            supporting_document: supportingDocument,
+        payout: {
+          description,
+          information: {
+            Open: {
+              estimated_budget: estimatedBudget,
+              supporting_document: supportingDocument,
+            },
           },
         },
       });
       onSubmitEnd(v);
     } catch (err) {
       console.log(err);
+      onSubmitEnd(-1);
     } finally {
       setSubmitting(false);
     }

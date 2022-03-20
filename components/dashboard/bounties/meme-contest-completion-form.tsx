@@ -59,11 +59,13 @@ export const MemeContestCompletionForm: React.FC<
 
     try {
       const v = await contract.contract.add_payout_bounty({
-        description,
-        information: {
-          MemeContestCompletion: {
-            num_of_submissions: numOfSubmissions,
-            winners_info: winnersInfo,
+        payout: {
+          description,
+          information: {
+            MemeContestCompletion: {
+              num_of_submissions: numOfSubmissions,
+              winners_info: winnersInfo,
+            },
           },
         },
       });
