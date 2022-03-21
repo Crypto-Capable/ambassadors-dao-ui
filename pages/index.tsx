@@ -9,10 +9,20 @@ import {
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { useAuthContext } from '../context/auth-context';
+import { Tabs } from '../types';
 
 const Home: NextPage = () => {
-  const { signIn } = useAuthContext();
+  const { signIn, wallet } = useAuthContext();
+  const { replace } = useRouter();
+
+  useEffect(() => {
+    if (!wallet) return;
+
+    if (wallet.isSignedIn()) replace(`/dashboard/${Tabs.PROPOSALS}`);
+  }, [wallet, replace]);
 
   return (
     <>
@@ -36,41 +46,41 @@ const Home: NextPage = () => {
           awareness about the NEAR protocol while making some NEAR for yourself!
         </Text>
         <Flex mt="12">
-          <Button
-            variant="outline"
-            onClick={signIn}
-            bg="white"
-            shadow="lg"
-            marginRight="8"
-            _hover={{
-              shadow: 'xl',
-            }}
-            _active={{
-              shadow: 'md',
-            }}
-            transition="all 0.2s ease"
-          >
-            Sign in with Near Wallet
-          </Button>
-          <Link href="/dashboard/proposals" passHref>
+          <Link href="/register/with-nearamp" passHref>
             <Button
+              marginRight="8"
               as={ChakraLink}
               variant="outline"
-              bg="transparent"
-              color="white"
+              bg="white"
               shadow="lg"
               _hover={{
                 shadow: 'xl',
               }}
               _active={{
                 shadow: 'md',
-                bg: 'transparent',
               }}
               transition="all 0.2s ease"
             >
-              Go to CA Dashboard
+              Register with Nearamp
             </Button>
           </Link>
+          <Button
+            variant="outline"
+            onClick={signIn}
+            bg="transparent"
+            color="white"
+            shadow="lg"
+            _hover={{
+              shadow: 'xl',
+            }}
+            _active={{
+              shadow: 'md',
+              bg: 'transparent',
+            }}
+            transition="all 0.2s ease"
+          >
+            Sign In with Near Wallet
+          </Button>
         </Flex>
       </Center>
     </>

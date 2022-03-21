@@ -1,9 +1,11 @@
 import {
   Box,
   Button,
+  Center,
   Flex,
   Heading,
   Link as ChakraLink,
+  Spinner,
   Text,
 } from '@chakra-ui/react';
 import { NextPage } from 'next';
@@ -26,49 +28,27 @@ type ProposalsListProps = {
   contract: CustomContract;
 };
 
-const stub: Payout<ProposalType>[] = [
-  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-].map((n) => {
-  const r = Math.random();
-  return {
-    id: n,
-    description: 'asd',
-    info: {
-      Hackathon: {
-        estimated_budget: '10',
-        expected_registrations: 50,
-        supporting_document: 'asd',
-      },
-    },
-    proposer: 'asd',
-    status:
-      r > 0.5
-        ? r > 0.75
-          ? 'UnderConsideration'
-          : 'Rejected'
-        : r > 0.25
-        ? 'Approved'
-        : { Removed: null },
-    votes: {},
-    votes_count: {
-      approve_count: 0,
-      reject_count: 0,
-    },
-  };
-});
+const limit = 12;
 
 const ProposalsList: NextPage<ProposalsListProps> = ({ contract }) => {
-  const [proposals, setProposals] = useState<Payout<ProposalType>[]>(stub);
+  const [page, setPage] = useState(1);
+  const [proposals, setProposals] = useState<Payout<ProposalType>[] | null>(
+    null
+  );
 
   useEffect(() => {
-    // contract
-    //   .get_all_proposals({
-    //     startIndex: 0,
-    //     limit: 12,
-    //   })
-    //   .then(setProposals)
-    //   .catch(() => setProposals(stub));
-  }, [contract]);
+    contract
+      .get_all_proposals({
+        from_index: (page - 1) * limit,
+        limit: limit,
+      })
+      .then(setProposals)
+      .catch(console.log);
+
+    return () => {
+      setProposals(null);
+    };
+  }, [contract, page]);
 
   return (
     <>
@@ -91,32 +71,48 @@ const ProposalsList: NextPage<ProposalsListProps> = ({ contract }) => {
         </Link>
       </Flex>
       <Box mt="8" experimental_spaceY="4">
-        {proposals.map((p) => (
-          <Link
-            key={p.id}
-            href={`/dashboard/${Tabs.PROPOSALS}/${p.id}`}
-            passHref
-          >
-            <ChakraLink
-              as={Flex}
-              alignItems="center"
-              justifyContent="space-between"
+        {proposals === null ? (
+          <Center>
+            <Spinner />
+          </Center>
+        ) : proposals.length === 0 ? (
+          'No proposals to see!'
+        ) : (
+          proposals.map((p) => (
+            <Link
+              key={p.id}
+              href={`/dashboard/${Tabs.PROPOSALS}/${p.id}`}
+              passHref
             >
-              <Box>
-                <Text display="inline-block">
-                  <strong>{p.id}&gt;</strong> {p.description}
-                </Text>
-              </Box>
-              <StatusBadge status={p.status} />
-            </ChakraLink>
-          </Link>
-        ))}
+              <ChakraLink
+                as={Flex}
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <Box>
+                  <Text display="inline-block">
+                    <strong>{p.id}&gt;</strong> {p.description}
+                  </Text>
+                </Box>
+                <StatusBadge status={p.status} />
+              </ChakraLink>
+            </Link>
+          ))
+        )}
       </Box>
+      {proposals?.length == limit && (
+        <Flex alignItems="center" justifyContent="space-between">
+          {page > 1 && (
+            <Button onClick={() => setPage((p) => p + 1)}>Show Next</Button>
+          )}
+          <Button onClick={() => setPage((p) => p + 1)}>Show Next</Button>
+        </Flex>
+      )}
     </>
   );
 };
 
-const ProposalsListPage = withContract(ProposalsList) as LayoutPage<{}>;
+const ProposalsListPage = withContract(ProposalsList) as LayoutPage;
 
 ProposalsListPage.layout = Layouts.DASHBOARD;
 

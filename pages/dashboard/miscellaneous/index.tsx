@@ -22,11 +22,11 @@ const MiscellaneousList: NextPage<MiscellaneousListPropos> = ({ contract }) => {
   useEffect(() => {
     contract
       .get_all_miscellaneous({
-        startIndex: 0,
+        from_index: 0,
         limit: 12,
       })
       .then(setMiscellaneous)
-      .catch();
+      .catch(console.log);
   }, [contract]);
 
   return (
@@ -39,7 +39,7 @@ const MiscellaneousList: NextPage<MiscellaneousListPropos> = ({ contract }) => {
   );
 };
 
-const BountiesListPage = withContract(MiscellaneousList) as LayoutPage<{}>;
+const BountiesListPage = withContract(MiscellaneousList) as LayoutPage;
 
 BountiesListPage.layout = Layouts.DASHBOARD;
 

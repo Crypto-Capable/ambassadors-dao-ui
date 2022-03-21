@@ -2,7 +2,7 @@ import { Contract } from 'near-api-js';
 import { NextPage } from 'next';
 import { Layouts } from '../layouts';
 
-export type LayoutPage<T> = NextPage<T> & {
+export type LayoutPage<T = {}> = NextPage<T> & {
   layout: Layouts;
 };
 
@@ -11,6 +11,7 @@ export enum Tabs {
   BOUNTIES = 'bounties',
   REFERRALS = 'referrals',
   MISCELLANEOUS = 'miscellaneous',
+  PROFILE = 'profile',
 }
 
 export type Vote = { Approve: 0 } | { Reject: 1 };
@@ -30,20 +31,20 @@ export type ProposalType =
   | {
       Hackathon: {
         expected_registrations: number;
-        estimated_budget: string;
+        estimated_budget: number;
         supporting_document: string;
       };
     }
   | {
       MemeContest: {
         expected_registrations: number;
-        estimated_budget: string;
+        estimated_budget: number;
         supporting_document: string;
       };
     }
   | {
       Open: {
-        estimated_budget: string;
+        estimated_budget: number;
         supporting_document: string;
       };
     };
@@ -91,7 +92,7 @@ export type MiscellaneousType =
   | {
       ContentCreationBounty: {
         links_to_content: string[];
-        expected_amount: string;
+        expected_amount: number;
         note: string;
       };
     }
@@ -118,20 +119,69 @@ export type Payout<T> = {
   votes_count: VotesCount;
 };
 
-export type getAllFnArgs = {
-  startIndex: number;
+export type PayoutInput<T> = {
+  description: string;
+  information: T;
+};
+
+export type getAllPayoutsFnArgs = {
+  from_index: number;
   limit: number;
 };
 
-export type getAllFn<T> = (args: getAllFnArgs) => Promise<Payout<T>[]>;
+export type getAllPayoutsFn<T> = (
+  args: getAllPayoutsFnArgs
+) => Promise<Payout<T>[]>;
+
+export type getPayoutFnArgs = { id: Number };
+
+export type getPayoutFn<T> = (args: getPayoutFnArgs) => Promise<Payout<T>>;
+
+export type getLastPayoutIdFn = () => Promise<Number>;
+
+export type AccountIdArgs = { account_id: string };
 
 export type viewFunctionsType = {
-  get_all_proposals: getAllFn<ProposalType>;
-  get_all_bounties: getAllFn<BountyType>;
-  get_all_referrals: getAllFn<ReferralType>;
-  get_all_miscellaneous: getAllFn<MiscellaneousType>;
+  version: () => Promise<string>;
+  get_config: () => Promise<any>;
+  get_policy: () => Promise<any>;
+
+  is_council_member: (args: AccountIdArgs) => Promise<boolean>;
+  is_registered_ambassador: (args: AccountIdArgs) => Promise<boolean>;
+
+  get_all_proposals: getAllPayoutsFn<ProposalType>;
+  get_proposal: getPayoutFn<ProposalType>;
+  get_last_proposal_id: getLastPayoutIdFn;
+
+  get_all_bounties: getAllPayoutsFn<BountyType>;
+  get_bounty: getPayoutFn<BountyType>;
+  get_last_bounty_id: getLastPayoutIdFn;
+
+  get_all_referrals: getAllPayoutsFn<ReferralType>;
+  get_referral: getPayoutFn<ReferralType>;
+  get_last_referral_id: getLastPayoutIdFn;
+
+  get_all_miscellaneous: getAllPayoutsFn<MiscellaneousType>;
+  get_miscellaneous: getPayoutFn<MiscellaneousType>;
+  get_last_miscellaneous_id: getLastPayoutIdFn;
 };
 
-export type changeFunctionsType = {};
+export type addPayoutFnArgs<T> = {
+  payout: PayoutInput<T>;
+};
+
+export type addPayoutFn<T> = (args: addPayoutFnArgs<T>) => Promise<number>;
+
+export type changeFunctionsType = {
+  register_ambassador: (args: {
+    token: String | null;
+  }) => Promise<String | null>;
+  get_council_referral_token: (args: AccountIdArgs) => Promise<string>;
+  get_ambassador_referral_token: (args: AccountIdArgs) => Promise<string>;
+  add_payout_proposal: addPayoutFn<ProposalType>;
+  add_payout_bounty: addPayoutFn<BountyType>;
+  add_payout_referral: addPayoutFn<ReferralType>;
+  add_payout_miscellaneous: addPayoutFn<MiscellaneousType>;
+};
 
 export type CustomContract = Contract & viewFunctionsType & changeFunctionsType;

@@ -17,24 +17,24 @@ import React, { useEffect, useState } from 'react';
 import { useContractContext } from '../../../context/contract-context';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
-import { LayoutPage, Payout, ProposalType, Tabs } from '../../../types';
+import { BountyType, LayoutPage, Payout, Tabs } from '../../../types';
 
-const ProposalItem: NextPage = () => {
+const BountyItem: NextPage = () => {
   const { id } = useRouter().query as { id: string };
   const { contract } = useContractContext()!;
-  const [proposal, setProposal] = useState<Payout<ProposalType> | null>(null);
+  const [bounty, setBounty] = useState<Payout<BountyType> | null>(null);
 
   useEffect(() => {
-    contract.get_proposal({ id: Number(id) }).then(setProposal);
+    contract.get_bounty({ id: Number(id) }).then(setBounty);
 
     return () => {
       // whenever the contract or id changes, it sets the proposal to null
       // hence it will show a spinner
-      setProposal(null);
+      setBounty(null);
     };
-  }, [contract, id, setProposal]);
+  }, [contract, id, setBounty]);
 
-  const isLoading = proposal === null;
+  const isLoading = bounty === null;
 
   return (
     <>
@@ -62,15 +62,15 @@ const ProposalItem: NextPage = () => {
         </Center>
       ) : (
         <Flex mt="8" alignItems="center" justifyContent="space-between">
-          {JSON.stringify(proposal, null, 2)}
+          {JSON.stringify(bounty, null, 2)}
         </Flex>
       )}
     </>
   );
 };
 
-const ProposalItemPage = withContract(ProposalItem) as LayoutPage;
+const BountyItemPage = withContract(BountyItem) as LayoutPage;
 
-ProposalItemPage.layout = Layouts.DASHBOARD;
+BountyItemPage.layout = Layouts.DASHBOARD;
 
-export default ProposalItemPage;
+export default BountyItemPage;
