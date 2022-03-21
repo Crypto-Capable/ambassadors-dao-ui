@@ -5,12 +5,13 @@ import {
   Flex,
   Heading,
   Link as ChakraLink,
+  Spinner,
   Text,
 } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import { Plus, Spinner } from 'phosphor-react';
+import { Plus } from 'phosphor-react';
 import React, { useEffect, useState } from 'react';
 import StatusBadge from '../../../components/status-badge';
 import withContract from '../../../hoc/with-contract';
@@ -27,18 +28,25 @@ type BountiesListPropos = {
   contract: CustomContract;
 };
 
+const limit = 12;
+
 const BountiesList: NextPage<BountiesListPropos> = ({ contract }) => {
-  const [bounties, setBounties] = useState<Payout<BountyType>[]>([]);
+  const [page, setPage] = useState(1);
+  const [bounties, setBounties] = useState<Payout<BountyType>[] | null>(null);
 
   useEffect(() => {
     contract
       .get_all_bounties({
-        from_index: 0,
+        from_index: (page - 1) * limit,
         limit: 12,
       })
       .then(setBounties)
       .catch(console.log);
-  }, [contract]);
+
+    return () => {
+      setBounties(null);
+    };
+  }, [contract, page]);
 
   return (
     <>
@@ -66,7 +74,7 @@ const BountiesList: NextPage<BountiesListPropos> = ({ contract }) => {
             <Spinner />
           </Center>
         ) : bounties.length === 0 ? (
-          'No bounties yet, create one!'
+          'No bounties to see!'
         ) : (
           bounties.map((p) => (
             <Link
@@ -90,6 +98,14 @@ const BountiesList: NextPage<BountiesListPropos> = ({ contract }) => {
           ))
         )}
       </Box>
+      {bounties?.length == limit && (
+        <Flex alignItems="center" justifyContent="space-between">
+          {page > 1 && (
+            <Button onClick={() => setPage((p) => p + 1)}>Show Next</Button>
+          )}
+          <Button onClick={() => setPage((p) => p + 1)}>Show Next</Button>
+        </Flex>
+      )}
     </>
   );
 };

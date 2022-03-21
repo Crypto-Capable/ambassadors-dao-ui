@@ -1,4 +1,4 @@
-import { Box, Heading, Select, Text } from '@chakra-ui/react';
+import { Box, Heading, Select, Text, useToast } from '@chakra-ui/react';
 import Head from 'next/head';
 import React, { useState } from 'react';
 import {
@@ -26,6 +26,7 @@ const NewBounty: LayoutPage = () => {
     'HackathonCompletion'
   );
   const [submitting, setSubmitting] = useState<boolean>(false);
+  const toast = useToast();
 
   const handleBountyTypeChange: React.ChangeEventHandler<HTMLSelectElement> = (
     e
@@ -34,7 +35,20 @@ const NewBounty: LayoutPage = () => {
   };
 
   const handleSubmitStart = () => setSubmitting(true);
-  const handleSubmitEnd = (v: number) => setSubmitting(false);
+  const handleSubmitEnd = (v: number) => {
+    setSubmitting(false);
+    if (v > 0) {
+      toast({
+        description: 'Proposal created',
+        status: 'success',
+      });
+    } else {
+      toast({
+        description: 'Proposal creation failed, try again',
+        status: 'error',
+      });
+    }
+  };
 
   return (
     <>

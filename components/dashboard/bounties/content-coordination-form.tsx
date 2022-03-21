@@ -61,6 +61,7 @@ export const ContentCoordinationForm: React.FC<
       onSubmitEnd(v);
     } catch (err) {
       console.log(err);
+      onSubmitEnd(-1);
     } finally {
       setSubmitting(false);
     }

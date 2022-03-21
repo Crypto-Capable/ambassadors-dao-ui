@@ -28,7 +28,10 @@ type ProposalsListProps = {
   contract: CustomContract;
 };
 
+const limit = 12;
+
 const ProposalsList: NextPage<ProposalsListProps> = ({ contract }) => {
+  const [page, setPage] = useState(1);
   const [proposals, setProposals] = useState<Payout<ProposalType>[] | null>(
     null
   );
@@ -36,12 +39,16 @@ const ProposalsList: NextPage<ProposalsListProps> = ({ contract }) => {
   useEffect(() => {
     contract
       .get_all_proposals({
-        from_index: 0,
-        limit: 12,
+        from_index: (page - 1) * limit,
+        limit: limit,
       })
       .then(setProposals)
       .catch(console.log);
-  }, [contract]);
+
+    return () => {
+      setProposals(null);
+    };
+  }, [contract, page]);
 
   return (
     <>
@@ -69,7 +76,7 @@ const ProposalsList: NextPage<ProposalsListProps> = ({ contract }) => {
             <Spinner />
           </Center>
         ) : proposals.length === 0 ? (
-          'No proposals yet, create one!'
+          'No proposals to see!'
         ) : (
           proposals.map((p) => (
             <Link
@@ -93,6 +100,14 @@ const ProposalsList: NextPage<ProposalsListProps> = ({ contract }) => {
           ))
         )}
       </Box>
+      {proposals?.length == limit && (
+        <Flex alignItems="center" justifyContent="space-between">
+          {page > 1 && (
+            <Button onClick={() => setPage((p) => p + 1)}>Show Next</Button>
+          )}
+          <Button onClick={() => setPage((p) => p + 1)}>Show Next</Button>
+        </Flex>
+      )}
     </>
   );
 };
