@@ -35,7 +35,7 @@ const ProposalItem: NextPage = () => {
   }, [contract, id, setProposal]);
 
   const isLoading = proposal === null;
-
+  console.log(proposal);
   return (
     <>
       <Head>
@@ -62,7 +62,9 @@ const ProposalItem: NextPage = () => {
         </Center>
       ) : (
         <Flex mt="8" alignItems="center" justifyContent="space-between">
-          {JSON.stringify(proposal, null, 2)}
+          <Heading as="h3" fontSize="1.25rem">
+            By {proposal.proposer}
+          </Heading>
         </Flex>
       )}
     </>
@@ -70,7 +72,5 @@ const ProposalItem: NextPage = () => {
 };
 
 const ProposalItemPage = withContract(ProposalItem) as LayoutPage;
-
 ProposalItemPage.layout = Layouts.DASHBOARD;
-
 export default ProposalItemPage;

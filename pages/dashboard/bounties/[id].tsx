@@ -14,10 +14,20 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Plus } from 'phosphor-react';
 import React, { useEffect, useState } from 'react';
+import { HackathonCompletionItem } from '../../../components/dashboard/bounties/hackathon-completion-item';
+import { MemeCompletionItem } from '../../../components/dashboard/bounties/meme-completion-item';
+import { WebinarCompletionItem } from '../../../components/dashboard/bounties/webinar-completion-item';
+import StatusBadge from '../../../components/status-badge';
 import { useContractContext } from '../../../context/contract-context';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
-import { BountyType, LayoutPage, Payout, Tabs } from '../../../types';
+import {
+  BountyType,
+  LayoutPage,
+  Payout,
+  Tabs,
+  TypesOfBounties,
+} from '../../../types';
 
 const BountyItem: NextPage = () => {
   const { id } = useRouter().query as { id: string };
@@ -35,16 +45,18 @@ const BountyItem: NextPage = () => {
   }, [contract, id, setBounty]);
 
   const isLoading = bounty === null;
-
   return (
     <>
       <Head>
         <title>All Proposals</title>
       </Head>
       <Flex alignItems="center" justifyContent="space-between">
-        <Heading as="h2" fontSize="1.75rem">
-          Viewing proposal {id}
-        </Heading>
+        <Flex alignItems="center">
+          <Heading mr={2} as="h2" fontSize="1.75rem">
+            Viewing proposal {id}
+          </Heading>
+          {bounty && <StatusBadge status={bounty.status} />}
+        </Flex>
         <Link href={`/dashboard/${Tabs.PROPOSALS}/new`} passHref>
           <Button
             size="sm"
@@ -61,9 +73,34 @@ const BountyItem: NextPage = () => {
           <Spinner />
         </Center>
       ) : (
-        <Flex mt="8" alignItems="center" justifyContent="space-between">
-          {JSON.stringify(bounty, null, 2)}
-        </Flex>
+        <Box mt="8">
+          <Heading as="h3" fontSize="1.25rem">
+            By {bounty.proposer}
+          </Heading>
+          <Text mt={2}>{bounty.description}</Text>
+
+          {(() => {
+            if (TypesOfBounties.HACKATHON_COMPLETION in bounty.info) {
+              return (
+                <HackathonCompletionItem
+                  item={bounty.info[TypesOfBounties.HACKATHON_COMPLETION]}
+                />
+              );
+            } else if (TypesOfBounties.MEME_CONTEST_COMPLETION in bounty.info) {
+              return (
+                <MemeCompletionItem
+                  item={bounty.info[TypesOfBounties.MEME_CONTEST_COMPLETION]}
+                />
+              );
+            } else if (TypesOfBounties.WEBINAR in bounty.info) {
+              return (
+                <WebinarCompletionItem
+                  item={bounty.info[TypesOfBounties.WEBINAR]}
+                />
+              );
+            }
+          })()}
+        </Box>
       )}
     </>
   );
