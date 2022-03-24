@@ -1,6 +1,6 @@
 import { Link } from '@chakra-ui/react';
 import { WebinarBounty } from '../../../types';
-import { ItemContainer } from '../item-detail-container';
+import { ItemDetailContainer } from '../item-detail-container';
 
 export type WebinarCompletionItemProps = {
   item: WebinarBounty;
@@ -11,11 +11,11 @@ export const WebinarCompletionItem: React.FC<WebinarCompletionItemProps> = ({
 }) => {
   return (
     <>
-      <ItemContainer
+      <ItemDetailContainer
         text="Number of Registrations"
         value={WebinarCompletion.num_of_registrations}
       />
-      <ItemContainer
+      <ItemDetailContainer
         text="Number of Attendees"
         value={WebinarCompletion.num_of_attendees}
       />

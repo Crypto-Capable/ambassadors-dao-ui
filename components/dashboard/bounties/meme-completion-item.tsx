@@ -12,7 +12,7 @@ import {
   Link,
 } from '@chakra-ui/react';
 import { MemeCompletionBounty } from '../../../types';
-import { ItemContainer } from '../item-detail-container';
+import { ItemDetailContainer } from '../item-detail-container';
 
 export type MemeCompletionItemProps = {
   item: MemeCompletionBounty;
@@ -23,12 +23,12 @@ export const MemeCompletionItem: React.FC<MemeCompletionItemProps> = ({
 }) => {
   return (
     <>
-      <ItemContainer
+      <ItemDetailContainer
         text="Number of Submissions"
         value={MemeCompletion.num_of_submissions}
       />
       <Table mt={8} variant="simple">
-        <TableCaption>Hackathon Winners</TableCaption>
+        <TableCaption>Meme Winners</TableCaption>
         <Thead>
           <Tr>
             <Th>Name</Th>

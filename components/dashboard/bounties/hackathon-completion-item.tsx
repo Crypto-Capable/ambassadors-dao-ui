@@ -12,7 +12,7 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { HackathonCompletionBounty } from '../../../types';
-import { ItemContainer } from '../item-detail-container';
+import { ItemDetailContainer } from '../item-detail-container';
 
 export type HackathonCompletionItemProp = {
   item: HackathonCompletionBounty;
@@ -23,11 +23,11 @@ export const HackathonCompletionItem: React.FC<HackathonCompletionItemProp> = ({
 }) => {
   return (
     <>
-      <ItemContainer
+      <ItemDetailContainer
         text="Number of Registrations"
         value={HackathonCompletion.num_of_registrations}
       />
-      <ItemContainer
+      <ItemDetailContainer
         text="Number of Submissions"
         value={HackathonCompletion.num_of_submissions}
       />

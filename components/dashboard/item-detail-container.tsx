@@ -5,11 +5,10 @@ export type ItemContainerProps = {
   value: number;
 };
 
-export const ItemContainer: React.FC<ItemContainerProps> = ({
+export const ItemDetailContainer: React.FC<ItemContainerProps> = ({
   text,
   value,
 }) => {
-  console.log(text);
   return (
     <Flex mt={2} gap="6px">
       <Text>{text}</Text>

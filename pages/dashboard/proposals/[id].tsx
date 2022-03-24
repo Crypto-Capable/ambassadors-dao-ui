@@ -14,10 +14,20 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Plus } from 'phosphor-react';
 import React, { useEffect, useState } from 'react';
+import { HackathonCompletionItem } from '../../../components/dashboard/bounties/hackathon-completion-item';
+import { HackathonProposalItem } from '../../../components/dashboard/proposals/hackathon-proposal-item';
+import { MemeContestProposalItem } from '../../../components/dashboard/proposals/meme-contest-proposal-item';
+import { OpenProposalItem } from '../../../components/dashboard/proposals/open-proposal-item';
 import { useContractContext } from '../../../context/contract-context';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
-import { LayoutPage, Payout, ProposalType, Tabs } from '../../../types';
+import {
+  LayoutPage,
+  Payout,
+  ProposalType,
+  Tabs,
+  TypesOfProposals,
+} from '../../../types';
 
 const ProposalItem: NextPage = () => {
   const { id } = useRouter().query as { id: string };
@@ -34,8 +44,8 @@ const ProposalItem: NextPage = () => {
     };
   }, [contract, id, setProposal]);
 
-  const isLoading = proposal === null;
   console.log(proposal);
+  const isLoading = proposal === null;
   return (
     <>
       <Head>
@@ -61,11 +71,30 @@ const ProposalItem: NextPage = () => {
           <Spinner />
         </Center>
       ) : (
-        <Flex mt="8" alignItems="center" justifyContent="space-between">
+        <Box mt="8">
           <Heading as="h3" fontSize="1.25rem">
             By {proposal.proposer}
           </Heading>
-        </Flex>
+          <Text mt={2}>{proposal.description}</Text>
+          {(() => {
+            if (TypesOfProposals.HACKATHON in proposal.info)
+              return (
+                <HackathonProposalItem
+                  item={proposal.info[TypesOfProposals.HACKATHON]}
+                />
+              );
+            else if (TypesOfProposals.MEME_CONTEST in proposal.info)
+              return (
+                <MemeContestProposalItem
+                  item={proposal.info[TypesOfProposals.MEME_CONTEST]}
+                />
+              );
+            else if (TypesOfProposals.OPEN in proposal.info)
+              return (
+                <OpenProposalItem item={proposal.info[TypesOfProposals.OPEN]} />
+              );
+          })()}
+        </Box>
       )}
     </>
   );
