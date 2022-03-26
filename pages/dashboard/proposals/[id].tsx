@@ -14,7 +14,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Plus } from 'phosphor-react';
 import React, { useEffect, useState } from 'react';
-import { HackathonCompletionItem } from '../../../components/dashboard/bounties/hackathon-completion-item';
 import { HackathonProposalItem } from '../../../components/dashboard/proposals/hackathon-proposal-item';
 import { MemeContestProposalItem } from '../../../components/dashboard/proposals/meme-contest-proposal-item';
 import { OpenProposalItem } from '../../../components/dashboard/proposals/open-proposal-item';

@@ -19,13 +19,13 @@ export type MemeCompletionItemProps = {
 };
 
 export const MemeCompletionItem: React.FC<MemeCompletionItemProps> = ({
-  item: MemeCompletion,
+  item,
 }) => {
   return (
     <>
       <ItemDetailContainer
         text="Number of Submissions"
-        value={MemeCompletion.num_of_submissions}
+        value={item.num_of_submissions}
       />
       <Table mt={8} variant="simple">
         <TableCaption>Meme Winners</TableCaption>
@@ -37,14 +37,14 @@ export const MemeCompletionItem: React.FC<MemeCompletionItemProps> = ({
           </Tr>
         </Thead>
         <Tbody>
-          {MemeCompletion &&
-            MemeCompletion.winners_info.map((submission, index) => (
+          {item &&
+            item.winners_info.map((submission, index) => (
               <Tr key={index}>
                 <Td>{submission.name}</Td>
                 <Td>{submission.account_id}</Td>
                 <Td>
-                  <Link href={`${submission.submission_link}`} isExternal>
-                    Link{' '}
+                  <Link href={submission.submission_link} isExternal>
+                    Link
                   </Link>
                 </Td>
               </Tr>

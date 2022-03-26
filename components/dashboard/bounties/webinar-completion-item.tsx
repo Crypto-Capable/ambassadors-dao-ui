@@ -7,19 +7,19 @@ export type WebinarCompletionItemProps = {
 };
 
 export const WebinarCompletionItem: React.FC<WebinarCompletionItemProps> = ({
-  item: WebinarCompletion,
+  item,
 }) => {
   return (
     <>
       <ItemDetailContainer
         text="Number of Registrations"
-        value={WebinarCompletion.num_of_registrations}
+        value={item.num_of_registrations}
       />
       <ItemDetailContainer
         text="Number of Attendees"
-        value={WebinarCompletion.num_of_attendees}
+        value={item.num_of_attendees}
       />
-      <Link pt={2} isExternal href={`${WebinarCompletion.webinar_link}`}>
+      <Link pt={2} isExternal href={item.webinar_link}>
         Webinar Link
       </Link>
     </>

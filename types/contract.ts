@@ -44,7 +44,7 @@ export type ProposalType =
       [TypesOfProposals.MEME_CONTEST]: MemeContestProposal;
     }
   | {
-      Open: OpenProposal;
+      [TypesOfProposals.OPEN]: OpenProposal;
     };
 
 export enum TypesOfBounties {
