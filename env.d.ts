@@ -3,6 +3,7 @@ declare global {
     interface ProcessEnv {
       NEXT_PUBLIC_HOST: string;
       NEXT_PUBLIC_CONTRACT_NAME: string;
+      NEARAMP_PRIVATE_KEY: string;
     }
   }
 }

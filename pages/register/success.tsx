@@ -16,7 +16,8 @@ import React, { useEffect, useState } from 'react';
 import { useContractContext } from '../../context/contract-context';
 import { Tabs } from '../../types';
 
-const Agh = () => {
+// to make the DAO invite only, remove the don't have a referral token option
+const ReferralTokenInput = () => {
   const [referralToken, setReferralToken] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const toast = useToast();
@@ -114,7 +115,7 @@ const Success = () => {
       </Head>
       <Center height="100vh" width="100vw" flexDirection="column">
         {displayReferralInput ? (
-          <Agh />
+          <ReferralTokenInput />
         ) : (
           <>
             <Heading>Setting up your dashboard</Heading>
