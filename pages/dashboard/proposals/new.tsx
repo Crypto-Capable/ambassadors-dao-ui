@@ -7,9 +7,7 @@ import {
   OpenInput,
 } from '../../../components/dashboard/proposals/';
 import { Layouts } from '../../../layouts';
-import { LayoutPage } from '../../../types';
-
-type TypesOfProposals = 'Hackathon' | 'MemeContest' | 'Open';
+import { LayoutPage, TypesOfProposals } from '../../../types';
 
 const NewProposal: LayoutPage = () => {
   const [proposalType, setProposalType] =
