@@ -1,10 +1,16 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { keyStores, connect, WalletConnection } from 'near-api-js';
 
 const config = {
-  nodeUrl: 'https://rpc.testnet.near.org',
-  walletUrl: 'https://wallet.testnet.near.org/',
-  helperUrl: 'https://helper.testnet.near.org/',
+  nodeUrl: process.env.NEXT_PUBLIC_NODE_URL,
+  walletUrl: process.env.NEXT_PUBLIC_WALLET_URL,
+  helperUrl: process.env.NEXT_PUBLIC_HELPER_URL,
 };
 
 type AuthContextType = {
@@ -14,7 +20,7 @@ type AuthContextType = {
 };
 
 export const AuthContext = createContext<AuthContextType>({
-  signIn: () => Promise.resolve(),
+  signIn: Promise.resolve,
   signOut: () => {},
   wallet: null,
 });
@@ -22,27 +28,30 @@ export const AuthContext = createContext<AuthContextType>({
 export const AuthProvider: React.FC = ({ children }) => {
   const [wallet, setWallet] = useState<WalletConnection | null>(null);
 
-  const value: AuthContextType = {
-    signIn: async () => {
-      try {
-        // make sure wallet connection has been established
-        wallet!.requestSignIn(
-          process.env.NEXT_PUBLIC_CONTRACT_NAME,
-          'Crypto Capable Ambassadors DAO',
-          `${process.env.NEXT_PUBLIC_HOST}/register/success`,
-          `${process.env.NEXT_PUBLIC_HOST}/register/failure`
-        );
-        // router.push('/dashboard');
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    signOut: () => {
+  const signIn = useCallback(async () => {
+    try {
       // make sure wallet connection has been established
-      wallet!.signOut();
-      setWallet(null);
-      window.location.replace('/');
-    },
+      wallet!.requestSignIn(
+        process.env.NEXT_PUBLIC_CONTRACT_NAME,
+        'Crypto Capable Ambassadors DAO',
+        `${process.env.NEXT_PUBLIC_HOST}/register/success`,
+        `${process.env.NEXT_PUBLIC_HOST}/register/failure`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }, [wallet]);
+
+  const signOut = useCallback(() => {
+    // make sure wallet connection has been established
+    wallet!.signOut();
+    setWallet(null);
+    window.location.replace('/');
+  }, [wallet]);
+
+  const value: AuthContextType = {
+    signIn,
+    signOut,
     wallet,
   };
 

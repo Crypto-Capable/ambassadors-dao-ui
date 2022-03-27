@@ -2,16 +2,17 @@ import { Box, Heading, Select, Text, useToast } from '@chakra-ui/react';
 import Head from 'next/head';
 import React, { useState } from 'react';
 import {
-  HackathonInput,
-  MemeContestInput,
-  OpenInput,
+  HackathonForm,
+  MemeContestForm,
+  OpenProposalForm,
 } from '../../../components/dashboard/proposals/';
 import { Layouts } from '../../../layouts';
 import { LayoutPage, TypesOfProposals } from '../../../types';
 
 const NewProposal: LayoutPage = () => {
-  const [proposalType, setProposalType] =
-    useState<TypesOfProposals>('Hackathon');
+  const [proposalType, setProposalType] = useState<TypesOfProposals>(
+    TypesOfProposals.HACKATHON
+  );
   const [submitting, setSubmitting] = useState<boolean>(false);
   const toast = useToast();
 
@@ -39,7 +40,9 @@ const NewProposal: LayoutPage = () => {
 
   return (
     <>
-      <Head>Create a Proposal</Head>
+      <Head>
+        <title>Create a Proposal</title>
+      </Head>
       <Heading as="h2" fontSize="1.75rem">
         Create a New Proposal
       </Heading>
@@ -53,35 +56,35 @@ const NewProposal: LayoutPage = () => {
         onChange={handleProposalTypeChange}
         disabled={submitting}
       >
-        <option value="Hackathon">Hackathon</option>
-        <option value="MemeContest">MemeContest</option>
-        <option value="Open">Open</option>
+        <option value={TypesOfProposals.HACKATHON}>Hackathon</option>
+        <option value={TypesOfProposals.MEME_CONTEST}>Meme Contest</option>
+        <option value={TypesOfProposals.OPEN}>Open Proposal</option>
       </Select>
-      {((p: TypesOfProposals) => {
-        switch (p) {
-          case 'Hackathon':
+      {(() => {
+        switch (proposalType) {
+          case TypesOfProposals.HACKATHON:
             return (
-              <HackathonInput
+              <HackathonForm
                 onSubmitStart={handleSubmitStart}
                 onSubmitEnd={handleSubmitEnd}
               />
             );
-          case 'MemeContest':
+          case TypesOfProposals.MEME_CONTEST:
             return (
-              <MemeContestInput
+              <MemeContestForm
                 onSubmitStart={handleSubmitStart}
                 onSubmitEnd={handleSubmitEnd}
               />
             );
-          case 'Open':
+          case TypesOfProposals.OPEN:
             return (
-              <OpenInput
+              <OpenProposalForm
                 onSubmitStart={handleSubmitStart}
                 onSubmitEnd={handleSubmitEnd}
               />
             );
         }
-      })(proposalType)}
+      })()}
     </>
   );
 };

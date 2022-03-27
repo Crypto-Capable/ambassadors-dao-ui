@@ -5,26 +5,31 @@ import {
   Input,
   chakra,
   Button,
+  Textarea,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useContractContext } from '../../../context/contract-context';
 import {
-  placeholderDescription,
+  placeholderDriveLink,
   placeholderDropboxLink,
+  placeholderInstagramLink,
 } from '../../../util/constants';
 
-export type MemeContestFormProps = {
+export type ContentCreationBountyFormProps = {
   onSubmitStart: () => void;
   onSubmitEnd: (v: number) => void;
 };
 
-export const MemeContestForm: React.FC<MemeContestFormProps> = ({
+const linksPlaceholder = `${placeholderDriveLink}\n${placeholderDropboxLink}\n${placeholderInstagramLink}`;
+
+export const ContentCreationForm: React.FC<ContentCreationBountyFormProps> = ({
   onSubmitStart,
   onSubmitEnd,
 }) => {
-  const [expectedRegistrations, setExpectedRegistrations] = useState<number>(0);
-  const [estimatedBudget, setEstimatedBudget] = useState<number>(0);
-  const [supportingDocument, setSupportingDocument] = useState<string>('');
+  const [note, setNote] = useState<string>('');
+  const [contentLinks, setContentLinks] = useState<string>('');
+  const [expectedAmount, setExpectedAmount] = useState<number>(0);
+
   const [description, setDescription] = useState<string>('');
   const [submitting, setSubmitting] = useState<boolean>(false);
 
@@ -41,14 +46,14 @@ export const MemeContestForm: React.FC<MemeContestFormProps> = ({
     }
 
     try {
-      const v = await contract.contract.add_payout_proposal({
+      const v = await contract.contract.add_payout_miscellaneous({
         payout: {
           description,
           information: {
-            MemeContest: {
-              expected_registrations: expectedRegistrations,
-              estimated_budget: estimatedBudget,
-              supporting_document: supportingDocument,
+            ContentCreationBounty: {
+              links_to_content: contentLinks.split('\n').map((s) => s.trim()),
+              note,
+              expected_amount: expectedAmount,
             },
           },
         },
@@ -71,55 +76,44 @@ export const MemeContestForm: React.FC<MemeContestFormProps> = ({
           type="text"
           value={description}
           onChange={({ target: { value } }) => setDescription(value)}
-          placeholder={placeholderDescription}
         />
-        <FormHelperText>A brief description of this proposal.</FormHelperText>
+        <FormHelperText>A description for this bounty.</FormHelperText>
       </FormControl>
       <FormControl isRequired>
-        <FormLabel htmlFor="expectedRegistrations">
-          Expected Registrations
-        </FormLabel>
-        <Input
-          id="expectedRegistrations"
-          type="number"
-          value={expectedRegistrations}
-          onChange={({ target: { value } }) =>
-            setExpectedRegistrations(Number(value))
-          }
+        <FormLabel htmlFor="contentLinks">Content Links</FormLabel>
+        <Textarea
+          id="contentLinks"
+          value={contentLinks}
+          onChange={({ target: { value } }) => setContentLinks(value)}
+          placeholder={linksPlaceholder}
         />
         <FormHelperText>
-          The number of registrations that this hackathon will possibly get.
+          List of the all link of the content pieces that you have created, put
+          each link on a separate line.
         </FormHelperText>
       </FormControl>
       <FormControl isRequired>
-        <FormLabel htmlFor="estimatedBudget">
-          Estimated Budget (Value in NEAR)
-        </FormLabel>
+        <FormLabel htmlFor="expectedAmount">Content Links</FormLabel>
         <Input
-          id="estimatedBudget"
+          id="expectedAmount"
           type="number"
-          value={estimatedBudget}
-          onChange={({ target: { value } }) =>
-            setEstimatedBudget(Number(value))
-          }
+          value={expectedAmount}
+          onChange={({ target: { value } }) => setExpectedAmount(Number(value))}
+          placeholder={linksPlaceholder}
         />
         <FormHelperText>
-          The amount of money you will require, in Near tokens.
+          The expected amount of NEAR tokens for the content produced.
         </FormHelperText>
       </FormControl>
       <FormControl isRequired>
-        <FormLabel htmlFor="supportingDocument">
-          Supporting Document Link
-        </FormLabel>
-        <Input
-          id="supportingDocument"
-          type="url"
-          value={supportingDocument}
-          onChange={({ target: { value } }) => setSupportingDocument(value)}
-          placeholder={placeholderDropboxLink}
+        <FormLabel htmlFor="note">Brief Note</FormLabel>
+        <Textarea
+          id="story"
+          value={note}
+          onChange={({ target: { value } }) => setNote(value)}
         />
         <FormHelperText>
-          A document describing everything concerning this event.
+          A short note describing your experience with this content creation.
         </FormHelperText>
       </FormControl>
       <Button isLoading={submitting} type="submit">

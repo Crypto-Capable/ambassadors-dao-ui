@@ -14,26 +14,26 @@ export type SubmissionInfo = {
 };
 
 export enum TypesOfProposals {
-	HACKATHON = 'Hackathon',
-	MEME_CONTEST = 'MemeContest',
-	OPEN = 'Open',
+  HACKATHON = 'Hackathon',
+  MEME_CONTEST = 'MemeContest',
+  OPEN = 'Open',
 }
 
 export type HackathonProposal = {
-	expected_registrations: number;
-	estimated_budget: number;
-	supporting_document: string;
+  expected_registrations: number;
+  estimated_budget: number;
+  supporting_document: string;
 };
 
 export type MemeContestProposal = {
-	expected_registrations: number;
-	estimated_budget: number;
-	supporting_document: string;
+  expected_registrations: number;
+  estimated_budget: number;
+  supporting_document: string;
 };
 
 export type OpenProposal = {
-	estimated_budget: number;
-	supporting_document: string;
+  estimated_budget: number;
+  supporting_document: string;
 };
 
 export type ProposalType =
@@ -48,33 +48,33 @@ export type ProposalType =
     };
 
 export enum TypesOfBounties {
-	HACKATHON_COMPLETION = 	'HackathonCompletion',
-	MEME_CONTEST_COMPLETION = 'MemeContestCompletion',
-	WEBINAR = 'Webinar',
-	CONTENT_COORDINATION = 'ContentCoordination',
+  HACKATHON_COMPLETION = 'HackathonCompletion',
+  MEME_CONTEST_COMPLETION = 'MemeContestCompletion',
+  WEBINAR = 'Webinar',
+  CONTENT_COORDINATION = 'ContentCoordination',
 }
 
 export type HackathonCompletionBounty = {
-	num_of_registrations: number;
-	num_of_submissions: number;
-	winners_info: SubmissionInfo[];
+  num_of_registrations: number;
+  num_of_submissions: number;
+  winners_info: SubmissionInfo[];
 };
 
 export type MemeCompletionBounty = {
-	num_of_submissions: number;
-	winners_info: SubmissionInfo[];
+  num_of_submissions: number;
+  winners_info: SubmissionInfo[];
 };
 
 export type WebinarBounty = {
-	num_of_registrations: number;
-	num_of_attendees: number;
-	webinar_link: string;
+  num_of_registrations: number;
+  num_of_attendees: number;
+  webinar_link: string;
 };
 
 export type ContentCoordintionBounty = {
-	content_links: string[];
-	story: string;
-	tools_used: string[];
+  content_links: string[];
+  story: string;
+  tools_used: string[];
 };
 
 export type BountyType =
@@ -91,43 +91,83 @@ export type BountyType =
       [TypesOfBounties.CONTENT_COORDINATION]: ContentCoordintionBounty;
     };
 
-type AmbassadorRegistrationReferralType = {
-	referrer_id: string;
-	referred_id: string;
+export enum TypesOfReferrals {
+  AMBASSADOR_REGISTRATION = 'AmbassadorRegistration',
+  RECRUITMENT = 'Recruitment',
+  NEAR_CERTIFIED_DEVELOPER = 'NearCertifiedDeveloper',
+}
+
+export type ReferralCommonBody = {
+  referrer_id: string;
+  referred_id: string;
+};
+
+export type AmbassadorRegistrationReferral = ReferralCommonBody;
+
+export type RecruitmentReferral = ReferralCommonBody;
+
+export enum NCDReferralKind {
+  FORM_FILLED = 'FormFilled',
+  COMPLETION = 'Completion',
+}
+
+export type NearCertifiedDeveloperReferral = ReferralCommonBody & {
+  kind: NCDReferralKind;
+  proof_link: string;
 };
 
 export type ReferralType =
   | {
-      AmbassadorRegistration: AmbassadorRegistrationReferralType;
+      [TypesOfReferrals.AMBASSADOR_REGISTRATION]: AmbassadorRegistrationReferral;
     }
-  | 'Recruitment'
-  | 'NearCertifiedDeveloper';
+  | {
+      [TypesOfReferrals.RECRUITMENT]: RecruitmentReferral;
+    }
+  | {
+      [TypesOfReferrals.NEAR_CERTIFIED_DEVELOPER]: NearCertifiedDeveloperReferral;
+    };
+
+export enum TypesOfMiscellaneous {
+  CONTENT_CREATION_BOUNTY = 'ContentCreationBounty',
+  CAMPUS_SIGNING_MOU = 'CampusSigningMOU',
+  CAMPUS_AMBASSADOR_BONUS = 'CampusAmbassadorBonus',
+}
+
+export type ContentCreationMiscellaneous = {
+  links_to_content: string[];
+  expected_amount: number;
+  note: string;
+};
+
+export type CampusSigningMOU = {
+  supporting_document: string;
+};
+
+export type CampusAmbassadorBonus = {
+  links_to_payouts: string[];
+};
 
 export type MiscellaneousType =
   | {
-      ContentCreationBounty: {
-        links_to_content: string[];
-        expected_amount: number;
-        note: string;
-      };
+      [TypesOfMiscellaneous.CONTENT_CREATION_BOUNTY]: ContentCreationMiscellaneous;
     }
-  | 'CampusSigningMOU'
   | {
-      CampusAmbassadorBonus: {
-        links_to_payout: string[];
-      };
+      [TypesOfMiscellaneous.CAMPUS_SIGNING_MOU]: CampusSigningMOU;
+    }
+  | {
+      [TypesOfMiscellaneous.CAMPUS_AMBASSADOR_BONUS]: CampusAmbassadorBonus;
     };
 
-export type PayoutStatusType =
-  | 'Approved'
-  | 'Rejected'
-  | { Removed: string | null }
-  | 'UnderConsideration';
-
+enum PayoutStatus {
+  APPROVED = 'Approved',
+  REJECTED = 'Rejected',
+  REMOVED = 'Removed',
+  UNDER_CONSIDERATION = 'UnderConsideration',
+}
 
 export type Payout<T> = {
   id: number;
-  status: PayoutStatusType;
+  status: PayoutStatus;
   proposer: string;
   info: T;
   description: string;
@@ -189,11 +229,12 @@ export type addPayoutFnArgs<T> = {
 export type addPayoutFn<T> = (args: addPayoutFnArgs<T>) => Promise<number>;
 
 export type changeFunctionsType = {
-  register_ambassador: (args: {
-    token: String | null;
-  }) => Promise<String | null>;
+  register_ambassador: (args: { token: String | null }) => Promise<boolean>;
+
   get_council_referral_token: (args: AccountIdArgs) => Promise<string>;
   get_ambassador_referral_token: (args: AccountIdArgs) => Promise<string>;
+  get_council: () => Promise<string[]>;
+
   add_payout_proposal: addPayoutFn<ProposalType>;
   add_payout_bounty: addPayoutFn<BountyType>;
   add_payout_referral: addPayoutFn<ReferralType>;

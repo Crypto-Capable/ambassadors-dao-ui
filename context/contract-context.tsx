@@ -59,14 +59,16 @@ export const ContractProvider: React.FC = ({ children }) => {
       }
     ) as CustomContract;
 
-    if (!wallet.getAccountId()) return;
+    const accountId = wallet.getAccountId();
+
+    if (!accountId) return;
 
     contract
-      .is_council_member({ account_id: wallet.getAccountId() })
-      .then((v) => {
+      .is_council_member({ account_id: accountId })
+      .then((isCouncilMember) => {
         setContract({
           contract,
-          isCouncilMember: v,
+          isCouncilMember,
         });
       });
   }, [wallet]);

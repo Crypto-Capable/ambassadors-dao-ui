@@ -14,39 +14,35 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Plus } from 'phosphor-react';
 import React, { useEffect, useState } from 'react';
-import {
-  HackathonProposalItem,
-  MemeContestProposalItem,
-  OpenProposalItem,
-} from '../../../components/dashboard/proposals';
 import { useContractContext } from '../../../context/contract-context';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
 import {
   LayoutPage,
   Payout,
-  ProposalType,
+  ReferralType,
   Tabs,
   TypesOfProposals,
 } from '../../../types';
 
-const ProposalItem: NextPage = () => {
+const ReferralItem: NextPage = () => {
   const { id } = useRouter().query as { id: string };
   const { contract } = useContractContext()!;
-  const [proposal, setProposal] = useState<Payout<ProposalType> | null>(null);
+  const [referral, setReferral] = useState<Payout<ReferralType> | null>(null);
 
   useEffect(() => {
-    contract.get_proposal({ id: Number(id) }).then(setProposal);
+    contract.get_referral({ id: Number(id) }).then(setReferral);
 
     return () => {
       // whenever the contract or id changes, it sets the proposal to null
       // hence it will show a spinner
-      setProposal(null);
+      setReferral(null);
     };
-  }, [contract, id, setProposal]);
+  }, [contract, id, setReferral]);
 
-  console.log(proposal);
-  const isLoading = proposal === null;
+  console.log(referral);
+  const isLoading = referral === null;
+
   return (
     <>
       <Head>
@@ -74,26 +70,11 @@ const ProposalItem: NextPage = () => {
       ) : (
         <Box mt="8">
           <Heading as="h3" fontSize="1.25rem">
-            By {proposal.proposer}
+            By {referral.proposer}
           </Heading>
-          <Text mt={2}>{proposal.description}</Text>
+          <Text mt={2}>{referral.description}</Text>
           {(() => {
-            if (TypesOfProposals.HACKATHON in proposal.info)
-              return (
-                <HackathonProposalItem
-                  item={proposal.info[TypesOfProposals.HACKATHON]}
-                />
-              );
-            else if (TypesOfProposals.MEME_CONTEST in proposal.info)
-              return (
-                <MemeContestProposalItem
-                  item={proposal.info[TypesOfProposals.MEME_CONTEST]}
-                />
-              );
-            else if (TypesOfProposals.OPEN in proposal.info)
-              return (
-                <OpenProposalItem item={proposal.info[TypesOfProposals.OPEN]} />
-              );
+            // FIXME: handle individual cases and render components accordingly
           })()}
         </Box>
       )}
@@ -101,6 +82,6 @@ const ProposalItem: NextPage = () => {
   );
 };
 
-const ProposalItemPage = withContract(ProposalItem) as LayoutPage;
+const ProposalItemPage = withContract(ReferralItem) as LayoutPage;
 ProposalItemPage.layout = Layouts.DASHBOARD;
 export default ProposalItemPage;

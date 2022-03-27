@@ -8,21 +8,17 @@ import {
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useContractContext } from '../../../context/contract-context';
-import {
-  placeholderDescription,
-  placeholderDropboxLink,
-} from '../../../util/constants';
+import { placeholderDropboxLink } from '../../../util/constants';
 
-export type MemeContestFormProps = {
+export type OpenProposalFormProps = {
   onSubmitStart: () => void;
   onSubmitEnd: (v: number) => void;
 };
 
-export const MemeContestForm: React.FC<MemeContestFormProps> = ({
+export const OpenProposalForm: React.FC<OpenProposalFormProps> = ({
   onSubmitStart,
   onSubmitEnd,
 }) => {
-  const [expectedRegistrations, setExpectedRegistrations] = useState<number>(0);
   const [estimatedBudget, setEstimatedBudget] = useState<number>(0);
   const [supportingDocument, setSupportingDocument] = useState<string>('');
   const [description, setDescription] = useState<string>('');
@@ -45,8 +41,7 @@ export const MemeContestForm: React.FC<MemeContestFormProps> = ({
         payout: {
           description,
           information: {
-            MemeContest: {
-              expected_registrations: expectedRegistrations,
+            Open: {
               estimated_budget: estimatedBudget,
               supporting_document: supportingDocument,
             },
@@ -71,24 +66,9 @@ export const MemeContestForm: React.FC<MemeContestFormProps> = ({
           type="text"
           value={description}
           onChange={({ target: { value } }) => setDescription(value)}
-          placeholder={placeholderDescription}
-        />
-        <FormHelperText>A brief description of this proposal.</FormHelperText>
-      </FormControl>
-      <FormControl isRequired>
-        <FormLabel htmlFor="expectedRegistrations">
-          Expected Registrations
-        </FormLabel>
-        <Input
-          id="expectedRegistrations"
-          type="number"
-          value={expectedRegistrations}
-          onChange={({ target: { value } }) =>
-            setExpectedRegistrations(Number(value))
-          }
         />
         <FormHelperText>
-          The number of registrations that this hackathon will possibly get.
+          A document describing everything concerning this event.
         </FormHelperText>
       </FormControl>
       <FormControl isRequired>
