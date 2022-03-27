@@ -13,7 +13,7 @@ function generateJWT() {
 // to make our DAO invite only, we can ask for a referral token and verify if it exists
 // if yes, send the JWT otherwise send an empty response.
 const signNearampJWT = (_: NextApiRequest, res: NextApiResponse) => {
-  res.status(200).send(generateJWT());
+  res.status(200).send(JSON.stringify(generateJWT()));
 };
 
 export default signNearampJWT;

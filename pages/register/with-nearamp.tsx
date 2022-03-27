@@ -1,21 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Button,
-  Center,
-  Flex,
-  Heading,
-  Text,
-  Link as ChakraLink,
-  Box,
-} from '@chakra-ui/react';
+import { Heading, Box } from '@chakra-ui/react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
 import initNearamp from '../../util/init-nearamp';
 
 const RegisterWithNearamp: NextPage = () => {
-  const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     initNearamp(
       window,
@@ -26,9 +16,8 @@ const RegisterWithNearamp: NextPage = () => {
     );
 
     const getToken = async () => {
-      // const res = await fetch('/api/get-token');
-      // return await res.json();
-      return 'asd';
+      const res = await fetch('/api/sign-nearamp-jwt');
+      return await res.json();
     };
 
     getToken()
@@ -62,7 +51,7 @@ const RegisterWithNearamp: NextPage = () => {
         <Box
           height="full"
           overflowY="auto"
-          bg="whiteAlpha.700"
+          bg="white"
           rounded="md"
           border="1px"
           padding="1rem"
