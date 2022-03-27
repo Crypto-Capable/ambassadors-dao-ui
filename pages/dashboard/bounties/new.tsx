@@ -7,23 +7,12 @@ import {
   WebinarForm,
 } from '../../../components/dashboard/bounties';
 import { ContentCoordinationForm } from '../../../components/dashboard/bounties/content-coordination-form';
-import {
-  HackathonInput,
-  MemeContestInput,
-  OpenInput,
-} from '../../../components/dashboard/proposals/';
 import { Layouts } from '../../../layouts';
-import { LayoutPage } from '../../../types';
-
-type TypesOfBounties =
-  | 'HackathonCompletion'
-  | 'MemeContestCompletion'
-  | 'Webinar'
-  | 'ContentCoordination';
+import { LayoutPage, TypesOfBounties } from '../../../types';
 
 const NewBounty: LayoutPage = () => {
   const [bountyType, setBountyType] = useState<TypesOfBounties>(
-    'HackathonCompletion'
+    TypesOfBounties.HACKATHON_COMPLETION
   );
   const [submitting, setSubmitting] = useState<boolean>(false);
   const toast = useToast();
@@ -39,12 +28,12 @@ const NewBounty: LayoutPage = () => {
     setSubmitting(false);
     if (v > 0) {
       toast({
-        description: 'Proposal created',
+        description: 'Bounty created',
         status: 'success',
       });
     } else {
       toast({
-        description: 'Proposal creation failed, try again',
+        description: 'Bounty creation failed, try again',
         status: 'error',
       });
     }
@@ -52,7 +41,9 @@ const NewBounty: LayoutPage = () => {
 
   return (
     <>
-      <Head>Create a Bounty</Head>
+      <Head>
+        <title>Create a Bounty</title>
+      </Head>
       <Heading as="h2" fontSize="1.75rem">
         Create a New Bounty
       </Heading>
@@ -66,10 +57,16 @@ const NewBounty: LayoutPage = () => {
         onChange={handleBountyTypeChange}
         disabled={submitting}
       >
-        <option value="HackathonCompletion">Hackathon Completion</option>
-        <option value="MemeContestCompletion">Meme Contest Completion</option>
-        <option value="Webinar">Webinar</option>
-        <option value="ContentCoordination">Content Coordination</option>
+        <option value={TypesOfBounties.HACKATHON_COMPLETION}>
+          Hackathon Completion
+        </option>
+        <option value={TypesOfBounties.MEME_CONTEST_COMPLETION}>
+          Meme Contest Completion
+        </option>
+        <option value={TypesOfBounties.WEBINAR}>Webinar</option>
+        <option value={TypesOfBounties.CONTENT_COORDINATION}>
+          Content Coordination
+        </option>
       </Select>
       {((p: TypesOfBounties) => {
         switch (p) {

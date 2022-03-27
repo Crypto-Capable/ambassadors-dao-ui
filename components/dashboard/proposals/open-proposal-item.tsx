@@ -5,6 +5,7 @@ import { ItemDetailContainer } from '../item-detail-container';
 export type OpenProposalItemProps = {
   item: OpenProposal;
 };
+
 export const OpenProposalItem: React.FC<OpenProposalItemProps> = ({
   item: OpenProposal,
 }) => {

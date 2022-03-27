@@ -10,12 +10,12 @@ import React, { useState } from 'react';
 import { useContractContext } from '../../../context/contract-context';
 import { placeholderDropboxLink } from '../../../util/constants';
 
-export type HackathonInputProps = {
+export type HackathonFormProps = {
   onSubmitStart: () => void;
   onSubmitEnd: (v: number) => void;
 };
 
-export const HackathonInput: React.FC<HackathonInputProps> = ({
+export const HackathonForm: React.FC<HackathonFormProps> = ({
   onSubmitStart,
   onSubmitEnd,
 }) => {

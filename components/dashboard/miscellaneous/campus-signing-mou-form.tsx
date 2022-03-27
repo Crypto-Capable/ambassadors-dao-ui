@@ -10,16 +10,15 @@ import React, { useState } from 'react';
 import { useContractContext } from '../../../context/contract-context';
 import { placeholderDropboxLink } from '../../../util/constants';
 
-export type OpenInputProps = {
+export type CampusSigningMOUFormProps = {
   onSubmitStart: () => void;
   onSubmitEnd: (v: number) => void;
 };
 
-export const OpenInput: React.FC<OpenInputProps> = ({
+export const CampusSigningMOUForm: React.FC<CampusSigningMOUFormProps> = ({
   onSubmitStart,
   onSubmitEnd,
 }) => {
-  const [estimatedBudget, setEstimatedBudget] = useState<number>(0);
   const [supportingDocument, setSupportingDocument] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [submitting, setSubmitting] = useState<boolean>(false);
@@ -37,12 +36,11 @@ export const OpenInput: React.FC<OpenInputProps> = ({
     }
 
     try {
-      const v = await contract.contract.add_payout_proposal({
+      const v = await contract.contract.add_payout_miscellaneous({
         payout: {
           description,
           information: {
-            Open: {
-              estimated_budget: estimatedBudget,
+            CampusSigningMOU: {
               supporting_document: supportingDocument,
             },
           },
@@ -67,25 +65,7 @@ export const OpenInput: React.FC<OpenInputProps> = ({
           value={description}
           onChange={({ target: { value } }) => setDescription(value)}
         />
-        <FormHelperText>
-          A document describing everything concerning this event.
-        </FormHelperText>
-      </FormControl>
-      <FormControl isRequired>
-        <FormLabel htmlFor="estimatedBudget">
-          Estimated Budget (Value in NEAR)
-        </FormLabel>
-        <Input
-          id="estimatedBudget"
-          type="number"
-          value={estimatedBudget}
-          onChange={({ target: { value } }) =>
-            setEstimatedBudget(Number(value))
-          }
-        />
-        <FormHelperText>
-          The amount of money you will require, in Near tokens.
-        </FormHelperText>
+        <FormHelperText>A description for this bounty.</FormHelperText>
       </FormControl>
       <FormControl isRequired>
         <FormLabel htmlFor="supportingDocument">

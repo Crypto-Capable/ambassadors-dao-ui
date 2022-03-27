@@ -14,11 +14,15 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Plus } from 'phosphor-react';
 import React, { useEffect, useState } from 'react';
-
 import StatusBadge from '../../../components/status-badge';
 import { useContractContext } from '../../../context/contract-context';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
+import {
+  HackathonCompletionItem,
+  MemeCompletionItem,
+  WebinarCompletionItem,
+} from '../../../components/dashboard/bounties';
 import {
   BountyType,
   LayoutPage,
@@ -27,11 +31,6 @@ import {
   TypesOfBounties,
 } from '../../../types';
 
-import {
-  HackathonCompletionItem,
-  MemeCompletionItem,
-  WebinarCompletionItem,
-} from '../../../components/dashboard/bounties/completion-items';
 const BountyItem: NextPage = () => {
   const { id } = useRouter().query as { id: string };
   const { contract } = useContractContext()!;
