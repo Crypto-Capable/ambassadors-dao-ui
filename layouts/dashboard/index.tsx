@@ -1,5 +1,6 @@
 import { Box, Flex } from '@chakra-ui/react';
 import React from 'react';
+import withProtection from '../../hoc/with-protection';
 import Sidebar from './components/sidebar';
 
 const DashboardLayout: React.FC = ({ children }) => {
@@ -13,4 +14,6 @@ const DashboardLayout: React.FC = ({ children }) => {
   );
 };
 
-export default DashboardLayout;
+const ProtectedDashboardLayout = withProtection(DashboardLayout);
+
+export default ProtectedDashboardLayout;
