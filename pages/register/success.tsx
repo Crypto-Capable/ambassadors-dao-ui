@@ -16,14 +16,13 @@ const SuccessPage = () => {
     if (!contractContext) return;
     const { isCouncilMember, contract } = contractContext;
     if (isCouncilMember) {
-      console.log('what');
       replace(`/dashboard/${Tabs.PROPOSALS}`);
     } else {
       contract
         .is_registered_ambassador({ account_id: contract.account.accountId })
         .then((v) => {
           if (v) {
-            replace(`/dashboard/${Tabs.PROPOSALS}`);
+            replace(`/dashboard/${Tabs.PROFILE}`);
           } else {
             setDisplayReferralInput(true);
           }
