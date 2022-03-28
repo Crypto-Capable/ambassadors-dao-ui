@@ -1,4 +1,4 @@
-function initNearamp(w, d, s, o, f, js, fjs) {
+function loadNearamp(w, d, s, o, f, js, fjs) {
   // @ts-ignore
   w['NEARamp'] = o;
   w[o] =
@@ -13,4 +13,4 @@ function initNearamp(w, d, s, o, f, js, fjs) {
   fjs.parentNode.insertBefore(js, fjs);
 }
 
-export default initNearamp;
+export default loadNearamp;

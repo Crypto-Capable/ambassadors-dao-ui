@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { Heading, Box } from '@chakra-ui/react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Heading, Box, Button, Center } from '@chakra-ui/react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
-import initNearamp from '../../util/init-nearamp';
+import loadNearamp from '../../util/load-nearamp';
+import { useAuthContext } from '../../context/auth-context';
+import { useRouter } from 'next/router';
+import { Tabs } from '../../types';
 
 const RegisterWithNearamp: NextPage = () => {
-  useEffect(() => {
-    initNearamp(
-      window,
-      document,
-      'script',
-      'NR',
-      'https://sdk.testnet.nearamp.dev/nearamp.js'
-    );
+  const { wallet } = useAuthContext();
+  const { replace, query } = useRouter();
+  const [started, setStarted] = useState<boolean>(false);
 
+  const startRegistration = useCallback(() => {
     const getToken = async () => {
       const res = await fetch('/api/sign-nearamp-jwt');
       return await res.json();
@@ -32,6 +31,37 @@ const RegisterWithNearamp: NextPage = () => {
         })
       )
       .catch(console.log);
+  }, []);
+
+  const handleClick = useCallback(() => {
+    setStarted(true);
+    startRegistration();
+  }, [setStarted, startRegistration]);
+
+  useEffect(() => {
+    if (!wallet) return;
+
+    if (wallet.isSignedIn()) {
+      // if the URL has query params including the account_id, it means this
+      // is a new account and hence needs to be registered with the smart
+      if ((query as any).account_id) {
+        replace('/register/success');
+      } else {
+        replace(`/dashboard/${Tabs.PROFILE}`);
+      }
+    }
+  }, [wallet, replace, query]);
+
+  useEffect(() => {
+    if (!(window as any).NR) {
+      loadNearamp(
+        window,
+        document,
+        'script',
+        'NR',
+        'https://sdk.testnet.nearamp.dev/nearamp.js'
+      );
+    }
   }, []);
 
   return (
@@ -59,7 +89,13 @@ const RegisterWithNearamp: NextPage = () => {
           <Heading textAlign="center" fontSize="1.5rem">
             Register using Nearamp with a pre-funded wallet!
           </Heading>
-          <Box marginTop="8" id="nearamp-widget"></Box>
+          {started ? (
+            <Box marginTop="8" id="nearamp-widget"></Box>
+          ) : (
+            <Center height="full">
+              <Button onClick={handleClick}>Begin Registration</Button>
+            </Center>
+          )}
         </Box>
       </Box>
     </>
