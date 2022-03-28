@@ -6,7 +6,6 @@ import {
   Heading,
   Link as ChakraLink,
   Spinner,
-  Text,
 } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
@@ -30,6 +29,7 @@ import {
   Tabs,
   TypesOfBounties,
 } from '../../../types';
+import { PayoutItemDescription } from '../../../components/dashboard/payout-item-description';
 
 const BountyItem: NextPage = () => {
   const { id } = useRouter().query as { id: string };
@@ -76,10 +76,10 @@ const BountyItem: NextPage = () => {
         </Center>
       ) : (
         <Box mt="8">
-          <Heading as="h3" fontSize="1.25rem">
-            By {bounty.proposer}
-          </Heading>
-          <Text mt={2}>{bounty.description}</Text>
+          <PayoutItemDescription
+            description={bounty.description}
+            proposer={bounty.proposer}
+          />
 
           {(() => {
             if (TypesOfBounties.HACKATHON_COMPLETION in bounty.info) {

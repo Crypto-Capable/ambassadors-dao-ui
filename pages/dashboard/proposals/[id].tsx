@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Plus } from 'phosphor-react';
 import React, { useEffect, useState } from 'react';
+import { PayoutItemDescription } from '../../../components/dashboard/payout-item-description';
 import {
   HackathonProposalItem,
   MemeContestProposalItem,
@@ -45,7 +46,6 @@ const ProposalItem: NextPage = () => {
     };
   }, [contract, id, setProposal]);
 
-  console.log(proposal);
   const isLoading = proposal === null;
   return (
     <>
@@ -73,28 +73,31 @@ const ProposalItem: NextPage = () => {
         </Center>
       ) : (
         <Box mt="8">
-          <Heading as="h3" fontSize="1.25rem">
-            By {proposal.proposer}
-          </Heading>
-          <Text mt={2}>{proposal.description}</Text>
-          {(() => {
-            if (TypesOfProposals.HACKATHON in proposal.info)
-              return (
-                <HackathonProposalItem
-                  item={proposal.info[TypesOfProposals.HACKATHON]}
-                />
-              );
-            else if (TypesOfProposals.MEME_CONTEST in proposal.info)
-              return (
-                <MemeContestProposalItem
-                  item={proposal.info[TypesOfProposals.MEME_CONTEST]}
-                />
-              );
-            else if (TypesOfProposals.OPEN in proposal.info)
-              return (
-                <OpenProposalItem item={proposal.info[TypesOfProposals.OPEN]} />
-              );
-          })()}
+          <PayoutItemDescription
+            description={proposal.description}
+            proposer={proposal.proposer}
+          >
+            {(() => {
+              if (TypesOfProposals.HACKATHON in proposal.info)
+                return (
+                  <HackathonProposalItem
+                    item={proposal.info[TypesOfProposals.HACKATHON]}
+                  />
+                );
+              else if (TypesOfProposals.MEME_CONTEST in proposal.info)
+                return (
+                  <MemeContestProposalItem
+                    item={proposal.info[TypesOfProposals.MEME_CONTEST]}
+                  />
+                );
+              else if (TypesOfProposals.OPEN in proposal.info)
+                return (
+                  <OpenProposalItem
+                    item={proposal.info[TypesOfProposals.OPEN]}
+                  />
+                );
+            })()}
+          </PayoutItemDescription>
         </Box>
       )}
     </>

@@ -6,7 +6,6 @@ import {
   Heading,
   Link as ChakraLink,
   Spinner,
-  Text,
 } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
@@ -14,6 +13,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Plus } from 'phosphor-react';
 import React, { useEffect, useState } from 'react';
+import { PayoutItemDescription } from '../../../components/dashboard/payout-item-description';
+import {
+  AmbassadorReferralItem,
+  RecruitmentReferralItem,
+  NCDReferralItem,
+} from '../../../components/dashboard/referrals/index';
 import { useContractContext } from '../../../context/contract-context';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
@@ -22,7 +27,7 @@ import {
   Payout,
   ReferralType,
   Tabs,
-  TypesOfProposals,
+  TypesOfReferrals,
 } from '../../../types';
 
 const ReferralItem: NextPage = () => {
@@ -40,7 +45,6 @@ const ReferralItem: NextPage = () => {
     };
   }, [contract, id, setReferral]);
 
-  console.log(referral);
   const isLoading = referral === null;
 
   return (
@@ -69,12 +73,30 @@ const ReferralItem: NextPage = () => {
         </Center>
       ) : (
         <Box mt="8">
-          <Heading as="h3" fontSize="1.25rem">
-            By {referral.proposer}
-          </Heading>
-          <Text mt={2}>{referral.description}</Text>
+          <PayoutItemDescription
+            description={referral.description}
+            proposer={referral.proposer}
+          />
           {(() => {
-            // FIXME: handle individual cases and render components accordingly
+            if (TypesOfReferrals.AMBASSADOR_REGISTRATION in referral.info) {
+              return (
+                <AmbassadorReferralItem
+                  item={referral.info[TypesOfReferrals.AMBASSADOR_REGISTRATION]}
+                />
+              );
+            } else if (TypesOfReferrals.RECRUITMENT in referral.info) {
+              return (
+                <RecruitmentReferralItem
+                  item={referral.info[TypesOfReferrals.RECRUITMENT]}
+                />
+              );
+            } else if (
+              TypesOfReferrals.NEAR_CERTIFIED_DEVELOPER in referral.info
+            ) {
+              <NCDReferralItem
+                item={referral.info[TypesOfReferrals.NEAR_CERTIFIED_DEVELOPER]}
+              />;
+            }
           })()}
         </Box>
       )}
