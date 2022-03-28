@@ -18,6 +18,7 @@ import { useContractContext } from '../../../context/contract-context';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
 import {
+  ContentCoordinationItem,
   HackathonCompletionItem,
   MemeCompletionItem,
   WebinarCompletionItem,
@@ -45,7 +46,7 @@ const BountyItem: NextPage = () => {
       setBounty(null);
     };
   }, [contract, id, setBounty]);
-
+  console.log(bounty);
   const isLoading = bounty === null;
   return (
     <>
@@ -98,6 +99,12 @@ const BountyItem: NextPage = () => {
               return (
                 <WebinarCompletionItem
                   item={bounty.info[TypesOfBounties.WEBINAR]}
+                />
+              );
+            } else if (TypesOfBounties.CONTENT_COORDINATION in bounty.info) {
+              return (
+                <ContentCoordinationItem
+                  item={bounty.info[TypesOfBounties.CONTENT_COORDINATION]}
                 />
               );
             }

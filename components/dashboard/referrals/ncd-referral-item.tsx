@@ -1,3 +1,4 @@
+import { Link, Text } from '@chakra-ui/react';
 import { NearCertifiedDeveloperReferral } from '../../../types';
 import { ItemDetailContainer } from '../item-detail-container';
 
@@ -6,10 +7,14 @@ export type NCDReferralItemProps = {
 };
 
 export const NCDReferralItem: React.FC<NCDReferralItemProps> = ({ item }) => {
-  console.log(item);
   return (
     <>
-      <h1>Hello world</h1>
+      <ItemDetailContainer text="Referrer ID" value={item.referrer_id} />
+      <ItemDetailContainer text="Referred ID" value={item.referred_id} />
+      <ItemDetailContainer text="Developer Kind" value={item.kind} />
+      <Link color="blue.600" isExternal href={item.proof_link}>
+        <Text mt={2}> Proof Link</Text>
+      </Link>
     </>
   );
 };

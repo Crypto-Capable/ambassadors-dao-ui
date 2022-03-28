@@ -93,9 +93,13 @@ const ReferralItem: NextPage = () => {
             } else if (
               TypesOfReferrals.NEAR_CERTIFIED_DEVELOPER in referral.info
             ) {
-              <NCDReferralItem
-                item={referral.info[TypesOfReferrals.NEAR_CERTIFIED_DEVELOPER]}
-              />;
+              return (
+                <NCDReferralItem
+                  item={
+                    referral.info[TypesOfReferrals.NEAR_CERTIFIED_DEVELOPER]
+                  }
+                />
+              );
             }
           })()}
         </Box>
