@@ -36,19 +36,25 @@ const Home: NextPage = () => {
         bgSize="cover"
         backdropFilter="blur(5px)"
         flexDirection="column"
-        padding="2rem"
+        padding={['1rem', '2rem']}
       >
-        <Heading textAlign="center">
+        <Heading textAlign="center" fontSize={['xl', '2xl', '4xl']}>
           Crypto Capable Ambassadors&apos; DAO
         </Heading>
-        <Text mt="8" fontSize="2xl" textAlign="center" maxWidth="70vw">
+        <Text
+          mt="8"
+          fontSize={['md', 'lg', '2xl']}
+          textAlign="center"
+          maxWidth="70vw"
+        >
           Become a part of Crypto Capable&apos;s Ambassadors program and spread
           awareness about the NEAR protocol while making some NEAR for yourself!
         </Text>
-        <Flex mt="12">
+        <Flex mt="12" flexDirection={['column', 'row']}>
           <Link href="/register/with-nearamp" passHref>
             <Button
-              marginRight="8"
+              marginRight={['0', '8']}
+              marginBottom={['4', '0']}
               as={ChakraLink}
               variant="outline"
               bg="white"
