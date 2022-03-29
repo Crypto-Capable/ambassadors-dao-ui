@@ -17,7 +17,7 @@ export const ContentCoordinationItem: React.FC<
         {item.content_links.map((item_link, index) => (
           <ListItem key={index}>
             <Link isExternal href={item_link}>
-              {item_link}
+              <Text color="blue.600">{item_link}</Text>
             </Link>
           </ListItem>
         ))}

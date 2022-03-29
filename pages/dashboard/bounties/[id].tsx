@@ -46,7 +46,6 @@ const BountyItem: NextPage = () => {
       setBounty(null);
     };
   }, [contract, id, setBounty]);
-  console.log(bounty);
   const isLoading = bounty === null;
   return (
     <>
