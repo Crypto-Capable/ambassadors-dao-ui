@@ -6,7 +6,6 @@ import {
   Heading,
   Link as ChakraLink,
   Spinner,
-  Text,
 } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
@@ -19,6 +18,7 @@ import { useContractContext } from '../../../context/contract-context';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
 import {
+  ContentCoordinationItem,
   HackathonCompletionItem,
   MemeCompletionItem,
   WebinarCompletionItem,
@@ -30,6 +30,7 @@ import {
   Tabs,
   TypesOfBounties,
 } from '../../../types';
+import { PayoutItemDescription } from '../../../components/dashboard/payout-item-description';
 
 const BountyItem: NextPage = () => {
   const { id } = useRouter().query as { id: string };
@@ -45,7 +46,6 @@ const BountyItem: NextPage = () => {
       setBounty(null);
     };
   }, [contract, id, setBounty]);
-
   const isLoading = bounty === null;
   return (
     <>
@@ -59,7 +59,7 @@ const BountyItem: NextPage = () => {
           </Heading>
           {bounty && <StatusBadge status={bounty.status} />}
         </Flex>
-        <Link href={`/dashboard/${Tabs.PROPOSALS}/new`} passHref>
+        <Link href={`/dashboard/${Tabs.BOUNTIES}/new`} passHref>
           <Button
             size="sm"
             rightIcon={<Plus weight="bold" />}
@@ -76,10 +76,10 @@ const BountyItem: NextPage = () => {
         </Center>
       ) : (
         <Box mt="8">
-          <Heading as="h3" fontSize="1.25rem">
-            By {bounty.proposer}
-          </Heading>
-          <Text mt={2}>{bounty.description}</Text>
+          <PayoutItemDescription
+            description={bounty.description}
+            proposer={bounty.proposer}
+          />
 
           {(() => {
             if (TypesOfBounties.HACKATHON_COMPLETION in bounty.info) {
@@ -98,6 +98,12 @@ const BountyItem: NextPage = () => {
               return (
                 <WebinarCompletionItem
                   item={bounty.info[TypesOfBounties.WEBINAR]}
+                />
+              );
+            } else if (TypesOfBounties.CONTENT_COORDINATION in bounty.info) {
+              return (
+                <ContentCoordinationItem
+                  item={bounty.info[TypesOfBounties.CONTENT_COORDINATION]}
                 />
               );
             }

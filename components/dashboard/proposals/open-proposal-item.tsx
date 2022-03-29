@@ -8,22 +8,20 @@ export type OpenProposalItemProps = {
 
 export const OpenProposalItem: React.FC<OpenProposalItemProps> = ({
   item: OpenProposal,
-}) => {
-  return (
-    <>
-      <ItemDetailContainer
-        text="Estimated Budget"
-        value={OpenProposal.estimated_budget}
-      />
-      <Box mt={2}>
-        <Link
-          color="blue.600"
-          isExternal
-          href={`${OpenProposal.supporting_document}`}
-        >
-          Supporting Doc
-        </Link>
-      </Box>
-    </>
-  );
-};
+}) => (
+  <>
+    <ItemDetailContainer
+      text="Estimated Budget"
+      value={OpenProposal.estimated_budget}
+    />
+    <Box mt={2}>
+      <Link
+        color="blue.600"
+        isExternal
+        href={`${OpenProposal.supporting_document}`}
+      >
+        Supporting Doc
+      </Link>
+    </Box>
+  </>
+);

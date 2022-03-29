@@ -4,3 +4,4 @@ export * from './webinar-form';
 export * from './hackathon-completion-item';
 export * from './meme-completion-item';
 export * from './webinar-completion-item';
+export * from './content-coordination-item'
