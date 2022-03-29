@@ -59,7 +59,7 @@ const BountyItem: NextPage = () => {
           </Heading>
           {bounty && <StatusBadge status={bounty.status} />}
         </Flex>
-        <Link href={`/dashboard/${Tabs.PROPOSALS}/new`} passHref>
+        <Link href={`/dashboard/${Tabs.BOUNTIES}/new`} passHref>
           <Button
             size="sm"
             rightIcon={<Plus weight="bold" />}

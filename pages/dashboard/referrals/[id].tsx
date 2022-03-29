@@ -56,7 +56,7 @@ const ReferralItem: NextPage = () => {
         <Heading as="h2" fontSize="1.75rem">
           Viewing proposal {id}
         </Heading>
-        <Link href={`/dashboard/${Tabs.PROPOSALS}/new`} passHref>
+        <Link href={`/dashboard/${Tabs.REFERRALS}/new`} passHref>
           <Button
             size="sm"
             rightIcon={<Plus weight="bold" />}
