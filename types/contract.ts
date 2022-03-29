@@ -1,5 +1,11 @@
 import { Contract } from 'near-api-js';
 
+export enum Action {
+  VOTE_APPROVE = 'VoteApprove',
+  VOTE_REJECT = 'VoteReject',
+  REMOVE_PAYOUT = 'RemovePayout',
+}
+
 export type Vote = { Approve: 0 } | { Reject: 1 };
 
 export type VotesCount = {
@@ -228,6 +234,14 @@ export type addPayoutFnArgs<T> = {
 
 export type addPayoutFn<T> = (args: addPayoutFnArgs<T>) => Promise<number>;
 
+export type actPayoutFnArgs = {
+  id: number;
+  action: Action;
+  note: string | null;
+};
+
+export type actPayoutFn = (args: actPayoutFnArgs) => Promise<void>;
+
 export type changeFunctionsType = {
   register_ambassador: (args: { token: String | null }) => Promise<boolean>;
 
@@ -239,6 +253,11 @@ export type changeFunctionsType = {
   add_payout_bounty: addPayoutFn<BountyType>;
   add_payout_referral: addPayoutFn<ReferralType>;
   add_payout_miscellaneous: addPayoutFn<MiscellaneousType>;
+
+  act_payout_proposal: actPayoutFn;
+  act_payout_bounty: actPayoutFn;
+  act_payout_referral: actPayoutFn;
+  act_payout_miscellaneous: actPayoutFn;
 };
 
 export type CustomContract = Contract & viewFunctionsType & changeFunctionsType;

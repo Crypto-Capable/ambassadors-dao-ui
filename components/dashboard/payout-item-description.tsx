@@ -1,8 +1,8 @@
-import { Box, Heading, Text } from '@chakra-ui/react';
+import { Heading, Text } from '@chakra-ui/react';
+
 export type PayoutItemDescriptionProps = {
   proposer: string;
   description: string;
-  children?: React.ReactNode;
 };
 
 export const PayoutItemDescription: React.FC<PayoutItemDescriptionProps> = ({

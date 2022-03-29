@@ -1,4 +1,5 @@
 import { Box, Heading, Select, Text, useToast } from '@chakra-ui/react';
+import { NextPage } from 'next';
 import Head from 'next/head';
 import React, { useState } from 'react';
 import {

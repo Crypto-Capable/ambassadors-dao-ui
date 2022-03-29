@@ -1,12 +1,8 @@
 import { Center, Spinner } from '@chakra-ui/react';
 import { useContractContext } from '../context/contract-context';
-import { CustomContract } from '../types';
+import { CustomContract, WithContractChildProps } from '../types';
 
-type AcceptsContractProps = {
-  contract: CustomContract;
-};
-
-const withContract = (Component: React.FC<AcceptsContractProps>) => {
+const withContract = (Component: React.FC<WithContractChildProps>) => {
   const ContractWrapperComponent: React.FC = (props) => {
     const contract = useContractContext();
 
@@ -18,7 +14,13 @@ const withContract = (Component: React.FC<AcceptsContractProps>) => {
       );
     }
 
-    return <Component contract={contract.contract} {...props} />;
+    return (
+      <Component
+        isCouncilMember={contract.isCouncilMember}
+        contract={contract.contract}
+        {...props}
+      />
+    );
   };
 
   return ContractWrapperComponent;

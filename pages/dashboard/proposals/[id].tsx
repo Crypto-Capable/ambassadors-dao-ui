@@ -20,10 +20,11 @@ import {
   MemeContestProposalItem,
   OpenProposalItem,
 } from '../../../components/dashboard/proposals';
-import { useContractContext } from '../../../context/contract-context';
+import VotesDisplay from '../../../components/dashboard/voting';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
 import {
+  WithContractChildProps,
   LayoutPage,
   Payout,
   ProposalType,
@@ -31,9 +32,11 @@ import {
   TypesOfProposals,
 } from '../../../types';
 
-const ProposalItem: NextPage = () => {
+const ProposalItem: NextPage<WithContractChildProps> = ({
+  contract,
+  isCouncilMember,
+}) => {
   const { id } = useRouter().query as { id: string };
-  const { contract } = useContractContext()!;
   const [proposal, setProposal] = useState<Payout<ProposalType> | null>(null);
 
   useEffect(() => {
@@ -98,6 +101,12 @@ const ProposalItem: NextPage = () => {
                 );
             })()}
           </PayoutItemDescription>
+          <VotesDisplay
+            accountId={contract.account.accountId}
+            isCouncilMember={isCouncilMember}
+            votes={proposal.votes}
+            votes_count={proposal.votes_count}
+          />
         </Box>
       )}
     </>
@@ -105,5 +114,7 @@ const ProposalItem: NextPage = () => {
 };
 
 const ProposalItemPage = withContract(ProposalItem) as LayoutPage;
+
 ProposalItemPage.layout = Layouts.DASHBOARD;
+
 export default ProposalItemPage;

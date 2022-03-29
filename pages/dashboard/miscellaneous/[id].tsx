@@ -3,13 +3,13 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import { useContractContext } from '../../../context/contract-context';
 import {
   LayoutPage,
   MiscellaneousType,
   Payout,
   Tabs,
   TypesOfMiscellaneous,
+  WithContractChildProps,
 } from '../../../types';
 import {
   Box,
@@ -28,10 +28,13 @@ import { PayoutItemDescription } from '../../../components/dashboard/payout-item
 import { CABonusItem } from '../../../components/dashboard/miscellaneous/ca-bonus-item';
 import { CampusSigningMOUItem } from '../../../components/dashboard/miscellaneous/campus-signing-mou-item';
 import { ContentCreationMiscellaneousItem } from '../../../components/dashboard/miscellaneous/content-creation-bounty-item';
+import VotesDisplay from '../../../components/dashboard/voting';
 
-const MiscellaneousItem: NextPage = () => {
+const MiscellaneousItem: NextPage<WithContractChildProps> = ({
+  contract,
+  isCouncilMember,
+}) => {
   const { id } = useRouter().query as { id: string };
-  const { contract } = useContractContext()!;
   const [misc, setMisc] = useState<Payout<MiscellaneousType> | null>(null);
 
   useEffect(() => {
@@ -43,6 +46,7 @@ const MiscellaneousItem: NextPage = () => {
   }, [contract, id, setMisc]);
 
   const isLoading = misc === null;
+
   return (
     <>
       <Head>
@@ -99,6 +103,12 @@ const MiscellaneousItem: NextPage = () => {
               );
             }
           })()}
+          <VotesDisplay
+            accountId={contract.account.accountId}
+            isCouncilMember={isCouncilMember}
+            votes={misc.votes}
+            votes_count={misc.votes_count}
+          />
         </Box>
       )}
     </>
@@ -106,6 +116,7 @@ const MiscellaneousItem: NextPage = () => {
 };
 
 const MiscellaneousItemPage = withContract(MiscellaneousItem) as LayoutPage;
+
 MiscellaneousItemPage.layout = Layouts.DASHBOARD;
 
 export default MiscellaneousItemPage;

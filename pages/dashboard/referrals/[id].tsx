@@ -19,10 +19,11 @@ import {
   RecruitmentReferralItem,
   NCDReferralItem,
 } from '../../../components/dashboard/referrals/index';
-import { useContractContext } from '../../../context/contract-context';
+import VotesDisplay from '../../../components/dashboard/voting';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
 import {
+  WithContractChildProps,
   LayoutPage,
   Payout,
   ReferralType,
@@ -30,9 +31,11 @@ import {
   TypesOfReferrals,
 } from '../../../types';
 
-const ReferralItem: NextPage = () => {
+const ReferralItem: NextPage<WithContractChildProps> = ({
+  contract,
+  isCouncilMember,
+}) => {
   const { id } = useRouter().query as { id: string };
-  const { contract } = useContractContext()!;
   const [referral, setReferral] = useState<Payout<ReferralType> | null>(null);
 
   useEffect(() => {
@@ -102,6 +105,12 @@ const ReferralItem: NextPage = () => {
               );
             }
           })()}
+          <VotesDisplay
+            accountId={contract.account.accountId}
+            isCouncilMember={isCouncilMember}
+            votes={referral.votes}
+            votes_count={referral.votes_count}
+          />
         </Box>
       )}
     </>
