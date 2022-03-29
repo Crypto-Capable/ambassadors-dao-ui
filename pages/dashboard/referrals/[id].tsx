@@ -109,5 +109,7 @@ const ReferralItem: NextPage = () => {
 };
 
 const ProposalItemPage = withContract(ReferralItem) as LayoutPage;
+
 ProposalItemPage.layout = Layouts.DASHBOARD;
+
 export default ProposalItemPage;

@@ -9,14 +9,12 @@ export const PayoutItemDescription: React.FC<PayoutItemDescriptionProps> = ({
   proposer,
   description,
   children,
-}) => {
-  return (
-    <>
-      <Heading as="h3" fontSize="1.25rem">
-        By {proposer}
-      </Heading>
-      <Text mt={2}>{description}</Text>
-      {children ? children : null}
-    </>
-  );
-};
+}) => (
+  <>
+    <Heading as="h3" fontSize="1.25rem">
+      By {proposer}
+    </Heading>
+    <Text mt={2}>{description}</Text>
+    {children}
+  </>
+);

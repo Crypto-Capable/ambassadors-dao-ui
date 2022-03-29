@@ -7,14 +7,10 @@ export type CampusSigningMOUItemProps = {
 
 export const CampusSigningMOUItem: React.FC<CampusSigningMOUItemProps> = ({
   item,
-}) => {
-  return (
-    <>
-      <Link isExternal href={item.supporting_document}>
-        <Text mt={2} color="blue.600">
-          Support Document
-        </Text>
-      </Link>
-    </>
-  );
-};
+}) => (
+  <Link isExternal href={item.supporting_document}>
+    <Text mt={2} color="blue.600">
+      Support Document
+    </Text>
+  </Link>
+);

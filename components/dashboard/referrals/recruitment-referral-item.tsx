@@ -6,11 +6,9 @@ export type RecruitmentRefferalItemProps = {
 
 export const RecruitmentReferralItem: React.FC<
   RecruitmentRefferalItemProps
-> = ({ item }) => {
-  return (
-    <>
-      <ItemDetailContainer text="Referrer ID" value={item.referrer_id} />
-      <ItemDetailContainer text="Referred ID" value={item.referred_id} />
-    </>
-  );
-};
+> = ({ item }) => (
+  <>
+    <ItemDetailContainer text="Referrer ID" value={item.referrer_id} />
+    <ItemDetailContainer text="Referred ID" value={item.referred_id} />
+  </>
+);

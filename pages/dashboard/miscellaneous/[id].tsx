@@ -43,7 +43,6 @@ const MiscellaneousItem: NextPage = () => {
   }, [contract, id, setMisc]);
 
   const isLoading = misc === null;
-  console.log(misc);
   return (
     <>
       <Head>

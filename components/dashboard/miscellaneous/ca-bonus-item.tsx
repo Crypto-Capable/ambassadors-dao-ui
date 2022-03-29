@@ -6,20 +6,17 @@ export type CABonusItemProps = {
 };
 
 export const CABonusItem: React.FC<CABonusItemProps> = ({ item }) => {
-  console.log(item);
   return (
     <>
       <Text mt={2}>Links to Payouts - </Text>
       <UnorderedList mt={2}>
-        {item.links_to_payouts.map((link, index) => {
-          return (
-            <ListItem key={index}>
-              <Link isExternal href={link}>
-                {link}
-              </Link>
-            </ListItem>
-          );
-        })}
+        {item.links_to_payouts.map((link, index) => (
+          <ListItem key={index}>
+            <Link isExternal href={link}>
+              {link}
+            </Link>
+          </ListItem>
+        ))}
       </UnorderedList>
     </>
   );
