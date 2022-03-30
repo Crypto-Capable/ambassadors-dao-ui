@@ -13,6 +13,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { Plus } from 'phosphor-react';
 import React, { useEffect, useState } from 'react';
+import { CreateNewButton } from '../../../components/dashboard/create-new-button';
 import StatusBadge from '../../../components/status-badge';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
@@ -59,16 +60,7 @@ const ReferralsList: NextPage<ReferralsListProps> = ({ contract }) => {
         <Heading as="h2" fontSize="1.75rem">
           Viewing all referrals
         </Heading>
-        <Link href={`/dashboard/${Tabs.REFERRALS}/new`} passHref>
-          <Button
-            size="sm"
-            rightIcon={<Plus weight="bold" />}
-            variant="outline"
-            as={ChakraLink}
-          >
-            Create New
-          </Button>
-        </Link>
+        <CreateNewButton href={`/dashboard/${Tabs.REFERRALS}/new`} />
       </Flex>
       <Box mt="8" experimental_spaceY="4">
         {referrals === null ? (

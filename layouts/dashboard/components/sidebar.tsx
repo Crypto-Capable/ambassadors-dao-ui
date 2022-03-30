@@ -1,9 +1,9 @@
-import { Button, Flex, Heading } from '@chakra-ui/react';
+import { Button, DrawerCloseButton, Flex, Heading } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
 import { useAuthContext } from '../../../context/auth-context';
 import { Tabs } from '../../../types';
-
+import { useMediaQuery } from '@chakra-ui/react';
 import NavLink from './nav-link';
 
 const linksMap = {
@@ -20,11 +20,14 @@ const Sidebar = () => {
 
   const activeTabName = useMemo(() => pathname.split('/')[2], [pathname]);
 
+  const [isLargerThan480] = useMediaQuery('(min-width: 480px)');
+
   return (
     <Flex
       borderRight="1px"
       borderColor="gray.300"
-      width="280px"
+      width={!isLargerThan480 ? '100vw' : '280px'}
+      height={!isLargerThan480 ? '100vh' : ''}
       padding="1rem"
       paddingTop="1.5rem"
       bgImage="url('/hero-bg.jpg')"
@@ -32,6 +35,7 @@ const Sidebar = () => {
       backdropFilter="blur(5px)"
       flexDirection="column"
     >
+      {!isLargerThan480 && <DrawerCloseButton />}
       <Heading as="h1">CA Dashboard</Heading>
       <Flex as="nav" flexDirection="column" mt="16" experimental_spaceY="2">
         <NavLink

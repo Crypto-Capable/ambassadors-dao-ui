@@ -7,6 +7,7 @@ import {
   Link as ChakraLink,
   Spinner,
   Text,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
@@ -14,6 +15,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Plus } from 'phosphor-react';
 import React, { useEffect, useState } from 'react';
+import { CreateNewButton } from '../../../components/dashboard/create-new-button';
 import { PayoutItemDescription } from '../../../components/dashboard/payout-item-description';
 import {
   HackathonProposalItem,
@@ -56,16 +58,7 @@ const ProposalItem: NextPage = () => {
         <Heading as="h2" fontSize="1.75rem">
           Viewing proposal {id}
         </Heading>
-        <Link href={`/dashboard/${Tabs.PROPOSALS}/new`} passHref>
-          <Button
-            size="sm"
-            rightIcon={<Plus weight="bold" />}
-            variant="outline"
-            as={ChakraLink}
-          >
-            Create New
-          </Button>
-        </Link>
+        <CreateNewButton href={`/dashboard/${Tabs.PROPOSALS}/new`} />
       </Flex>
       {isLoading ? (
         <Center>

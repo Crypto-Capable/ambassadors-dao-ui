@@ -28,6 +28,7 @@ import { PayoutItemDescription } from '../../../components/dashboard/payout-item
 import { CABonusItem } from '../../../components/dashboard/miscellaneous/ca-bonus-item';
 import { CampusSigningMOUItem } from '../../../components/dashboard/miscellaneous/campus-signing-mou-item';
 import { ContentCreationMiscellaneousItem } from '../../../components/dashboard/miscellaneous/content-creation-bounty-item';
+import { CreateNewButton } from '../../../components/dashboard/create-new-button';
 
 const MiscellaneousItem: NextPage = () => {
   const { id } = useRouter().query as { id: string };
@@ -55,16 +56,8 @@ const MiscellaneousItem: NextPage = () => {
           </Heading>
           {misc && <StatusBadge status={misc.status} />}
         </Flex>
-        <Link href={`/dashboard/${Tabs.MISCELLANEOUS}/new`} passHref>
-          <Button
-            size="sm"
-            rightIcon={<Plus weight="bold" />}
-            variant="outline"
-            as={ChakraLink}
-          >
-            Create New
-          </Button>
-        </Link>
+
+        <CreateNewButton href={`/dashboard/${Tabs.MISCELLANEOUS}/new`} />
       </Flex>
       {isLoading ? (
         <Center>

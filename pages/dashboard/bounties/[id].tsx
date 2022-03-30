@@ -6,6 +6,7 @@ import {
   Heading,
   Link as ChakraLink,
   Spinner,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
@@ -31,12 +32,14 @@ import {
   TypesOfBounties,
 } from '../../../types';
 import { PayoutItemDescription } from '../../../components/dashboard/payout-item-description';
+import { CreateNewButton } from '../../../components/dashboard/create-new-button';
 
 const BountyItem: NextPage = () => {
   const { id } = useRouter().query as { id: string };
   const { contract } = useContractContext()!;
   const [bounty, setBounty] = useState<Payout<BountyType> | null>(null);
 
+  const [isLargerThan480] = useMediaQuery('(min-width: 520px)');
   useEffect(() => {
     contract.get_bounty({ id: Number(id) }).then(setBounty);
 
@@ -59,16 +62,7 @@ const BountyItem: NextPage = () => {
           </Heading>
           {bounty && <StatusBadge status={bounty.status} />}
         </Flex>
-        <Link href={`/dashboard/${Tabs.BOUNTIES}/new`} passHref>
-          <Button
-            size="sm"
-            rightIcon={<Plus weight="bold" />}
-            variant="outline"
-            as={ChakraLink}
-          >
-            Create New
-          </Button>
-        </Link>
+        <CreateNewButton href={`/dashboard/${Tabs.BOUNTIES}/new`} />
       </Flex>
       {isLoading ? (
         <Center>

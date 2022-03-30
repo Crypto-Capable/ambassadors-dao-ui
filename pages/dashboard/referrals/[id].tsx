@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Plus } from 'phosphor-react';
 import React, { useEffect, useState } from 'react';
+import { CreateNewButton } from '../../../components/dashboard/create-new-button';
 import { PayoutItemDescription } from '../../../components/dashboard/payout-item-description';
 import {
   AmbassadorReferralItem,
@@ -56,16 +57,7 @@ const ReferralItem: NextPage = () => {
         <Heading as="h2" fontSize="1.75rem">
           Viewing proposal {id}
         </Heading>
-        <Link href={`/dashboard/${Tabs.REFERRALS}/new`} passHref>
-          <Button
-            size="sm"
-            rightIcon={<Plus weight="bold" />}
-            variant="outline"
-            as={ChakraLink}
-          >
-            Create New
-          </Button>
-        </Link>
+        <CreateNewButton href={`/dashboard/${Tabs.REFERRALS}/new`} />
       </Flex>
       {isLoading ? (
         <Center>
