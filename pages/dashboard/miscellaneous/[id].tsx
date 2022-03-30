@@ -1,6 +1,5 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import {
@@ -8,21 +7,11 @@ import {
   MiscellaneousType,
   Payout,
   PayoutType,
-  Tabs,
   TypesOfMiscellaneous,
   WithContractChildProps,
 } from '../../../types';
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  Link as ChakraLink,
-  Spinner,
-} from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Spinner } from '@chakra-ui/react';
 import StatusBadge from '../../../components/status-badge';
-import { Plus } from 'phosphor-react';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
 import { PayoutItemDescription } from '../../../components/dashboard/payout-item-description';
@@ -30,6 +19,7 @@ import { CABonusItem } from '../../../components/dashboard/miscellaneous/ca-bonu
 import { CampusSigningMOUItem } from '../../../components/dashboard/miscellaneous/campus-signing-mou-item';
 import { ContentCreationMiscellaneousItem } from '../../../components/dashboard/miscellaneous/content-creation-bounty-item';
 import VotesDisplay from '../../../components/dashboard/voting';
+import RemovePayout from '../../../components/dashboard/remove-payout';
 
 const MiscellaneousItem: NextPage<WithContractChildProps> = ({
   contract,
@@ -60,16 +50,9 @@ const MiscellaneousItem: NextPage<WithContractChildProps> = ({
           </Heading>
           {misc && <StatusBadge status={misc.status} />}
         </Flex>
-        <Link href={`/dashboard/${Tabs.MISCELLANEOUS}/new`} passHref>
-          <Button
-            size="sm"
-            rightIcon={<Plus weight="bold" />}
-            variant="outline"
-            as={ChakraLink}
-          >
-            Create New
-          </Button>
-        </Link>
+        {contract.account.accountId === misc?.proposer && (
+          <RemovePayout payoutId={id} payoutType={PayoutType.MISCELLANEOUS} />
+        )}
       </Flex>
       {isLoading ? (
         <Center>

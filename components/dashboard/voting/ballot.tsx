@@ -6,11 +6,10 @@ import NoteModal from './note-modal';
 
 export type BallotProps = {
   id: string;
-  alreadyVoted: boolean;
   payoutType: PayoutType;
 };
 
-const Ballot: React.FC<BallotProps> = ({ id, alreadyVoted, payoutType }) => {
+const Ballot: React.FC<BallotProps> = ({ id, payoutType }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [action, setAction] = useState<
     Action.VOTE_APPROVE | Action.VOTE_REJECT | null
@@ -44,7 +43,6 @@ const Ballot: React.FC<BallotProps> = ({ id, alreadyVoted, payoutType }) => {
         isOpen={isOpen}
         onClose={onClose}
         id={id}
-        alreadyVoted={alreadyVoted}
         payoutType={payoutType}
         action={action}
       />

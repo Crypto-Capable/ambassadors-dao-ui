@@ -27,14 +27,12 @@ import {
 
 export type NoteModalProps = {
   id: string;
-  alreadyVoted: boolean;
   payoutType: PayoutType;
   action: Action.VOTE_APPROVE | Action.VOTE_REJECT | null;
 } & Pick<UseModalProps, 'isOpen' | 'onClose'>;
 
 const NoteModal: React.FC<NoteModalProps> = ({
   id,
-  alreadyVoted,
   payoutType,
   isOpen,
   onClose,
@@ -55,13 +53,6 @@ const NoteModal: React.FC<NoteModalProps> = ({
 
   const handleApproveRequest = useCallback(
     async (note: string | null) => {
-      if (alreadyVoted) {
-        toast({
-          description: 'You have made your vote',
-          status: 'info',
-        });
-        return;
-      }
       setSubmitting(true);
       try {
         // call the method
@@ -87,18 +78,11 @@ const NoteModal: React.FC<NoteModalProps> = ({
         onClose();
       }
     },
-    [id, contract, alreadyVoted, toast, payoutType, onClose]
+    [id, contract, toast, payoutType, onClose]
   );
 
   const handleRejectRequest = useCallback(
     async (note: string | null) => {
-      if (alreadyVoted) {
-        toast({
-          description: 'You have made your vote',
-          status: 'info',
-        });
-        return;
-      }
       setSubmitting(true);
       try {
         const methodName =
@@ -123,7 +107,7 @@ const NoteModal: React.FC<NoteModalProps> = ({
         onClose();
       }
     },
-    [id, contract, alreadyVoted, toast, payoutType, onClose]
+    [id, contract, toast, payoutType, onClose]
   );
 
   const voteLabel = action?.slice(4).toLowerCase();

@@ -1,17 +1,7 @@
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  Link as ChakraLink,
-  Spinner,
-} from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Spinner } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Plus } from 'phosphor-react';
 import React, { useEffect, useState } from 'react';
 import { PayoutItemDescription } from '../../../components/dashboard/payout-item-description';
 import {
@@ -19,6 +9,7 @@ import {
   MemeContestProposalItem,
   OpenProposalItem,
 } from '../../../components/dashboard/proposals';
+import RemovePayout from '../../../components/dashboard/remove-payout';
 import VotesDisplay from '../../../components/dashboard/voting';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
@@ -59,16 +50,9 @@ const ProposalItem: NextPage<WithContractChildProps> = ({
         <Heading as="h2" fontSize="1.75rem">
           Viewing proposal {id}
         </Heading>
-        <Link href={`/dashboard/${Tabs.PROPOSALS}/new`} passHref>
-          <Button
-            size="sm"
-            rightIcon={<Plus weight="bold" />}
-            variant="outline"
-            as={ChakraLink}
-          >
-            Create New
-          </Button>
-        </Link>
+        {contract.account.accountId === proposal?.proposer && (
+          <RemovePayout payoutId={id} payoutType={PayoutType.PROPOSAL} />
+        )}
       </Flex>
       {isLoading ? (
         <Center>

@@ -23,9 +23,9 @@ import Ballot from './ballot';
 
 const voteEmoji = (vote: Vote) => {
   if (vote === Vote.APPROVE) {
-    return <Check />;
+    return <Check weight="bold" />;
   } else if (vote === Vote.REJECT) {
-    return <X />;
+    return <X weight="bold" />;
   }
 };
 
@@ -56,7 +56,7 @@ const VotesDisplay: React.FC<VotesDisplayProps> = ({
   }, [approve_count, reject_count]);
 
   const votesArray = Object.entries(votes);
-  const alreadyVoted = votesArray.some(([k]) => k === accountId);
+  const alreadyVoted = votesArray.find(([k]) => k === accountId);
 
   return (
     <Box mt="8">
@@ -110,13 +110,14 @@ const VotesDisplay: React.FC<VotesDisplayProps> = ({
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-      {isCouncilMember && (
-        <Ballot
-          id={payoutId}
-          payoutType={payoutType}
-          alreadyVoted={alreadyVoted}
-        />
-      )}
+      {isCouncilMember &&
+        (alreadyVoted ? (
+          <Text>
+            You have {alreadyVoted![1]}ed the {payoutType}
+          </Text>
+        ) : (
+          <Ballot id={payoutId} payoutType={payoutType} />
+        ))}
     </Box>
   );
 };

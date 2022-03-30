@@ -1,4 +1,4 @@
-import { Box, Heading, Select, Text, useToast } from '@chakra-ui/react';
+import { Heading, Select, Text, useToast } from '@chakra-ui/react';
 import Head from 'next/head';
 import React, { useState } from 'react';
 import {

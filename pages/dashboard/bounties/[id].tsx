@@ -1,17 +1,7 @@
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  Link as ChakraLink,
-  Spinner,
-} from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Spinner } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Plus } from 'phosphor-react';
 import React, { useEffect, useState } from 'react';
 import StatusBadge from '../../../components/status-badge';
 import withContract from '../../../hoc/with-contract';
@@ -27,12 +17,12 @@ import {
   LayoutPage,
   Payout,
   PayoutType,
-  Tabs,
   TypesOfBounties,
   WithContractChildProps,
 } from '../../../types';
 import { PayoutItemDescription } from '../../../components/dashboard/payout-item-description';
 import VotesDisplay from '../../../components/dashboard/voting';
+import RemovePayout from '../../../components/dashboard/remove-payout';
 
 const BountyItem: NextPage<WithContractChildProps> = ({
   contract,
@@ -65,16 +55,9 @@ const BountyItem: NextPage<WithContractChildProps> = ({
           </Heading>
           {bounty && <StatusBadge status={bounty.status} />}
         </Flex>
-        <Link href={`/dashboard/${Tabs.BOUNTIES}/new`} passHref>
-          <Button
-            size="sm"
-            rightIcon={<Plus weight="bold" />}
-            variant="outline"
-            as={ChakraLink}
-          >
-            Create New
-          </Button>
-        </Link>
+        {contract.account.accountId === bounty?.proposer && (
+          <RemovePayout payoutId={id} payoutType={PayoutType.BOUNTY} />
+        )}
       </Flex>
       {isLoading ? (
         <Center>
