@@ -10,8 +10,6 @@ export type BallotProps = {
   payoutType: PayoutType;
 };
 
-// TODO: open a modal on vote button press and if user wants to add a note, they can
-// TODO: remove payout option for the proposer
 const Ballot: React.FC<BallotProps> = ({ id, alreadyVoted, payoutType }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [action, setAction] = useState<

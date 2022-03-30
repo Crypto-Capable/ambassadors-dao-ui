@@ -13,6 +13,8 @@ import {
   Button,
   UseModalProps,
   useToast,
+  Badge,
+  Text,
 } from '@chakra-ui/react';
 import React, { useCallback, useState } from 'react';
 import { useContractContext } from '../../../context/contract-context';
@@ -81,6 +83,7 @@ const NoteModal: React.FC<NoteModalProps> = ({
         });
       } finally {
         setSubmitting(false);
+        setNote('');
         onClose();
       }
     },
@@ -116,20 +119,33 @@ const NoteModal: React.FC<NoteModalProps> = ({
         });
       } finally {
         setSubmitting(false);
+        setNote('');
         onClose();
       }
     },
     [id, contract, alreadyVoted, toast, payoutType, onClose]
   );
 
+  const voteLabel = action?.slice(4).toLowerCase();
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Modal Title</ModalHeader>
+        <ModalHeader>Confirm Your Vote</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <FormControl>
+          <Text>
+            You have given a vote to
+            <Badge
+              colorScheme={voteLabel === 'reject' ? 'red' : 'green'}
+              mx="2"
+            >
+              {voteLabel}
+            </Badge>
+            the {payoutType}
+          </Text>
+          <FormControl mt="4">
             <FormLabel htmlFor="note">Optional Note</FormLabel>
             <Input
               id="note"
@@ -138,7 +154,7 @@ const NoteModal: React.FC<NoteModalProps> = ({
               onChange={({ target: { value } }) => setNote(value)}
             />
             <FormHelperText>
-              You may add a small note for making this action.
+              You may add a small note for making this vote.
             </FormHelperText>
           </FormControl>
         </ModalBody>

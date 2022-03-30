@@ -6,7 +6,6 @@ import {
   Heading,
   Link as ChakraLink,
   Spinner,
-  Text,
 } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
