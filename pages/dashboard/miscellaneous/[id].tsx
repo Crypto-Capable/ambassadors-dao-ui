@@ -7,6 +7,7 @@ import {
   LayoutPage,
   MiscellaneousType,
   Payout,
+  PayoutType,
   Tabs,
   TypesOfMiscellaneous,
   WithContractChildProps,
@@ -108,6 +109,8 @@ const MiscellaneousItem: NextPage<WithContractChildProps> = ({
             isCouncilMember={isCouncilMember}
             votes={misc.votes}
             votes_count={misc.votes_count}
+            payoutId={id}
+            payoutType={PayoutType.MISCELLANEOUS}
           />
         </Box>
       )}

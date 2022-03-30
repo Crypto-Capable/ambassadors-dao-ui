@@ -29,6 +29,7 @@ import {
   ReferralType,
   Tabs,
   TypesOfReferrals,
+  PayoutType,
 } from '../../../types';
 
 const ReferralItem: NextPage<WithContractChildProps> = ({
@@ -110,6 +111,8 @@ const ReferralItem: NextPage<WithContractChildProps> = ({
             isCouncilMember={isCouncilMember}
             votes={referral.votes}
             votes_count={referral.votes_count}
+            payoutId={id}
+            payoutType={PayoutType.REFERRAL}
           />
         </Box>
       )}

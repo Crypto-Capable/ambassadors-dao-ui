@@ -17,7 +17,7 @@ import {
   Text,
   Flex,
 } from '@chakra-ui/react';
-import { Payout, Vote } from '../../../types';
+import { Payout, PayoutType, Vote } from '../../../types';
 import { Check, X } from 'phosphor-react';
 import Ballot from './ballot';
 
@@ -32,6 +32,8 @@ const voteEmoji = (vote: Vote) => {
 export type VotesDisplayProps = {
   isCouncilMember: boolean;
   accountId: string;
+  payoutId: string;
+  payoutType: PayoutType;
 } & Pick<Payout<{}>, 'votes' | 'votes_count'>;
 
 const VotesDisplay: React.FC<VotesDisplayProps> = ({
@@ -39,6 +41,8 @@ const VotesDisplay: React.FC<VotesDisplayProps> = ({
   isCouncilMember,
   votes,
   votes_count,
+  payoutId,
+  payoutType,
 }) => {
   const { approve_count, reject_count } = votes_count;
 
@@ -106,7 +110,13 @@ const VotesDisplay: React.FC<VotesDisplayProps> = ({
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-      {isCouncilMember && <Ballot alreadyVoted={alreadyVoted} />}
+      {isCouncilMember && (
+        <Ballot
+          id={payoutId}
+          payoutType={payoutType}
+          alreadyVoted={alreadyVoted}
+        />
+      )}
     </Box>
   );
 };

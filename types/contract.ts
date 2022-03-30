@@ -6,6 +6,13 @@ export enum Action {
   REMOVE_PAYOUT = 'RemovePayout',
 }
 
+export enum PayoutType {
+  PROPOSAL = 'proposal',
+  BOUNTY = 'bounty',
+  REFERRAL = 'referral',
+  MISCELLANEOUS = 'miscellaneous',
+}
+
 export type Vote = { Approve: 0 } | { Reject: 1 };
 
 export type VotesCount = {

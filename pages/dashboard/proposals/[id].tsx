@@ -30,6 +30,7 @@ import {
   ProposalType,
   Tabs,
   TypesOfProposals,
+  PayoutType,
 } from '../../../types';
 
 const ProposalItem: NextPage<WithContractChildProps> = ({
@@ -106,6 +107,8 @@ const ProposalItem: NextPage<WithContractChildProps> = ({
             isCouncilMember={isCouncilMember}
             votes={proposal.votes}
             votes_count={proposal.votes_count}
+            payoutId={id}
+            payoutType={PayoutType.PROPOSAL}
           />
         </Box>
       )}

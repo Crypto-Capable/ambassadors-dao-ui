@@ -1,76 +1,56 @@
 import React, { memo, useCallback, useState } from 'react';
-import { Button, Flex, useDisclosure, useToast } from '@chakra-ui/react';
+import { Button, Flex, useDisclosure } from '@chakra-ui/react';
 import { Check, X } from 'phosphor-react';
-import { useContractContext } from '../../../context/contract-context';
+import { PayoutType, Action } from '../../../types';
+import NoteModal from './note-modal';
 
 export type BallotProps = {
+  id: string;
   alreadyVoted: boolean;
+  payoutType: PayoutType;
 };
 
 // TODO: open a modal on vote button press and if user wants to add a note, they can
 // TODO: remove payout option for the proposer
-const Ballot: React.FC<BallotProps> = ({ alreadyVoted }) => {
-  const [submitting, setSubmitting] = useState<boolean>(false);
-
-  const { contract } = useContractContext()!;
-  const toast = useToast();
+const Ballot: React.FC<BallotProps> = ({ id, alreadyVoted, payoutType }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const handleApproveRequest = useCallback(async () => {
-    if (alreadyVoted) {
-      toast({
-        description: 'You have made your vote',
-        status: 'info',
-      });
-      return;
-    }
-    setSubmitting(true);
-    try {
-      // call the method
-    } catch {
-      toast({
-        description: 'Failed to make the vote',
-        status: 'error',
-      });
-    } finally {
-      setSubmitting(false);
-    }
-  }, [contract, alreadyVoted, toast]);
-
-  const handleRejectRequest = useCallback(async () => {
-    if (alreadyVoted) {
-      toast({
-        description: 'You have made your vote',
-        status: 'info',
-      });
-      return;
-    }
-    setSubmitting(true);
-    try {
-      // call the method
-    } catch {
-      toast({
-        description: 'Failed to make the vote',
-        status: 'error',
-      });
-    } finally {
-      setSubmitting(false);
-    }
-  }, [contract, alreadyVoted, toast]);
+  const [action, setAction] = useState<
+    Action.VOTE_APPROVE | Action.VOTE_REJECT | null
+  >(null);
 
   return (
-    <Flex mt="4" alignItems="center" justifyContent="space-between">
-      <Button
-        onClick={handleApproveRequest}
-        colorScheme="green"
-        leftIcon={<Check weight="bold" />}
-      >
-        Approve
-      </Button>
-      <Button colorScheme="red" leftIcon={<X weight="bold" />}>
-        Reject
-      </Button>
-    </Flex>
+    <>
+      <Flex mt="4" alignItems="center" justifyContent="space-between">
+        <Button
+          onClick={() => {
+            setAction(Action.VOTE_APPROVE);
+            onOpen();
+          }}
+          colorScheme="green"
+          leftIcon={<Check weight="bold" />}
+        >
+          Approve
+        </Button>
+        <Button
+          onClick={() => {
+            setAction(Action.VOTE_REJECT);
+            onOpen();
+          }}
+          colorScheme="red"
+          leftIcon={<X weight="bold" />}
+        >
+          Reject
+        </Button>
+      </Flex>
+      <NoteModal
+        isOpen={isOpen}
+        onClose={onClose}
+        id={id}
+        alreadyVoted={alreadyVoted}
+        payoutType={payoutType}
+        action={action}
+      />
+    </>
   );
 };
 

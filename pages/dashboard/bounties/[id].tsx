@@ -26,6 +26,7 @@ import {
   BountyType,
   LayoutPage,
   Payout,
+  PayoutType,
   Tabs,
   TypesOfBounties,
   WithContractChildProps,
@@ -117,6 +118,8 @@ const BountyItem: NextPage<WithContractChildProps> = ({
             isCouncilMember={isCouncilMember}
             votes={bounty.votes}
             votes_count={bounty.votes_count}
+            payoutId={id}
+            payoutType={PayoutType.BOUNTY}
           />
         </Box>
       )}
