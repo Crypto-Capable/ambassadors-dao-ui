@@ -13,7 +13,10 @@ export enum PayoutType {
   MISCELLANEOUS = 'miscellaneous',
 }
 
-export type Vote = { Approve: 0 } | { Reject: 1 };
+export enum Vote {
+  APPROVE = 'Approve',
+  REJECT = 'Reject',
+}
 
 export type VotesCount = {
   approve_count: number;

@@ -22,9 +22,9 @@ import { Check, X } from 'phosphor-react';
 import Ballot from './ballot';
 
 const voteEmoji = (vote: Vote) => {
-  if ('Approve' in vote) {
+  if (vote === Vote.APPROVE) {
     return <Check />;
-  } else if ('Reject' in vote) {
+  } else if (vote === Vote.REJECT) {
     return <X />;
   }
 };
