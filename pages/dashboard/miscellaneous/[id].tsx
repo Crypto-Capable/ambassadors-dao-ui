@@ -1,38 +1,31 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import { useContractContext } from '../../../context/contract-context';
-import {
-  LayoutPage,
-  MiscellaneousType,
-  Payout,
-  Tabs,
-  TypesOfMiscellaneous,
-} from '../../../types';
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  Link as ChakraLink,
-  Spinner,
-} from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Spinner } from '@chakra-ui/react';
 import StatusBadge from '../../../components/status-badge';
-import { Plus } from 'phosphor-react';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
 import { PayoutItemDescription } from '../../../components/dashboard/payout-item-description';
 import { CABonusItem } from '../../../components/dashboard/miscellaneous/ca-bonus-item';
 import { CampusSigningMOUItem } from '../../../components/dashboard/miscellaneous/campus-signing-mou-item';
 import { ContentCreationMiscellaneousItem } from '../../../components/dashboard/miscellaneous/content-creation-bounty-item';
-import { CreateNewButton } from '../../../components/dashboard/create-new-button';
+import VotesDisplay from '../../../components/dashboard/voting';
+import RemovePayout from '../../../components/dashboard/remove-payout';
+import {
+  LayoutPage,
+  MiscellaneousType,
+  Payout,
+  PayoutType,
+  TypesOfMiscellaneous,
+  WithContractChildProps,
+} from '../../../types';
 
-const MiscellaneousItem: NextPage = () => {
+const MiscellaneousItem: NextPage<WithContractChildProps> = ({
+  contract,
+  isCouncilMember,
+}) => {
   const { id } = useRouter().query as { id: string };
-  const { contract } = useContractContext()!;
   const [misc, setMisc] = useState<Payout<MiscellaneousType> | null>(null);
 
   useEffect(() => {
@@ -44,6 +37,7 @@ const MiscellaneousItem: NextPage = () => {
   }, [contract, id, setMisc]);
 
   const isLoading = misc === null;
+
   return (
     <>
       <Head>
@@ -56,8 +50,9 @@ const MiscellaneousItem: NextPage = () => {
           </Heading>
           {misc && <StatusBadge status={misc.status} />}
         </Flex>
-
-        <CreateNewButton href={`/dashboard/${Tabs.MISCELLANEOUS}/new`} />
+        {contract.account.accountId === misc?.proposer && (
+          <RemovePayout payoutId={id} payoutType={PayoutType.MISCELLANEOUS} />
+        )}
       </Flex>
       {isLoading ? (
         <Center>
@@ -92,6 +87,14 @@ const MiscellaneousItem: NextPage = () => {
               );
             }
           })()}
+          <VotesDisplay
+            accountId={contract.account.accountId}
+            isCouncilMember={isCouncilMember}
+            votes={misc.votes}
+            votes_count={misc.votes_count}
+            payoutId={id}
+            payoutType={PayoutType.MISCELLANEOUS}
+          />
         </Box>
       )}
     </>
@@ -99,6 +102,7 @@ const MiscellaneousItem: NextPage = () => {
 };
 
 const MiscellaneousItemPage = withContract(MiscellaneousItem) as LayoutPage;
+
 MiscellaneousItemPage.layout = Layouts.DASHBOARD;
 
 export default MiscellaneousItemPage;

@@ -1,41 +1,32 @@
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  Link as ChakraLink,
-  Spinner,
-  Text,
-  useMediaQuery,
-} from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Spinner } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Plus } from 'phosphor-react';
 import React, { useEffect, useState } from 'react';
-import { CreateNewButton } from '../../../components/dashboard/create-new-button';
 import { PayoutItemDescription } from '../../../components/dashboard/payout-item-description';
 import {
   HackathonProposalItem,
   MemeContestProposalItem,
   OpenProposalItem,
 } from '../../../components/dashboard/proposals';
-import { useContractContext } from '../../../context/contract-context';
+import RemovePayout from '../../../components/dashboard/remove-payout';
+import VotesDisplay from '../../../components/dashboard/voting';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
 import {
+  WithContractChildProps,
   LayoutPage,
   Payout,
   ProposalType,
-  Tabs,
   TypesOfProposals,
+  PayoutType,
 } from '../../../types';
 
-const ProposalItem: NextPage = () => {
+const ProposalItem: NextPage<WithContractChildProps> = ({
+  contract,
+  isCouncilMember,
+}) => {
   const { id } = useRouter().query as { id: string };
-  const { contract } = useContractContext()!;
   const [proposal, setProposal] = useState<Payout<ProposalType> | null>(null);
 
   useEffect(() => {
@@ -58,7 +49,9 @@ const ProposalItem: NextPage = () => {
         <Heading as="h2" fontSize="1.75rem">
           Viewing proposal {id}
         </Heading>
-        <CreateNewButton href={`/dashboard/${Tabs.PROPOSALS}/new`} />
+        {contract.account.accountId === proposal?.proposer && (
+          <RemovePayout payoutId={id} payoutType={PayoutType.PROPOSAL} />
+        )}
       </Flex>
       {isLoading ? (
         <Center>
@@ -91,6 +84,14 @@ const ProposalItem: NextPage = () => {
                 );
             })()}
           </PayoutItemDescription>
+          <VotesDisplay
+            accountId={contract.account.accountId}
+            isCouncilMember={isCouncilMember}
+            votes={proposal.votes}
+            votes_count={proposal.votes_count}
+            payoutId={id}
+            payoutType={PayoutType.PROPOSAL}
+          />
         </Box>
       )}
     </>
@@ -98,5 +99,7 @@ const ProposalItem: NextPage = () => {
 };
 
 const ProposalItemPage = withContract(ProposalItem) as LayoutPage;
+
 ProposalItemPage.layout = Layouts.DASHBOARD;
+
 export default ProposalItemPage;

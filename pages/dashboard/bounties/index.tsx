@@ -24,15 +24,12 @@ import {
   LayoutPage,
   Payout,
   Tabs,
+  WithContractChildProps,
 } from '../../../types';
-
-type BountiesListPropos = {
-  contract: CustomContract;
-};
 
 const limit = 12;
 
-const BountiesList: NextPage<BountiesListPropos> = ({ contract }) => {
+const BountiesList: NextPage<WithContractChildProps> = ({ contract }) => {
   const [page, setPage] = useState(1);
   const [bounties, setBounties] = useState<Payout<BountyType>[] | null>(null);
 

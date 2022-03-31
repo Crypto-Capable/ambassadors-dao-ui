@@ -18,20 +18,16 @@ import StatusBadge from '../../../components/status-badge';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
 import {
-  CustomContract,
+  WithContractChildProps,
   LayoutPage,
   Payout,
   ProposalType,
   Tabs,
 } from '../../../types';
 
-type ProposalsListProps = {
-  contract: CustomContract;
-};
-
 const limit = 12;
 
-const ProposalsList: NextPage<ProposalsListProps> = ({ contract }) => {
+const ProposalsList: NextPage<WithContractChildProps> = ({ contract }) => {
   const [page, setPage] = useState(1);
   const [proposals, setProposals] = useState<Payout<ProposalType>[] | null>(
     null

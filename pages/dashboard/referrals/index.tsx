@@ -23,15 +23,12 @@ import {
   Payout,
   ReferralType,
   Tabs,
+  WithContractChildProps,
 } from '../../../types';
-
-type ReferralsListProps = {
-  contract: CustomContract;
-};
 
 const limit = 12;
 
-const ReferralsList: NextPage<ReferralsListProps> = ({ contract }) => {
+const ReferralsList: NextPage<WithContractChildProps> = ({ contract }) => {
   const [page, setPage] = useState(1);
   const [referrals, setReferrals] = useState<Payout<ReferralType>[] | null>(
     null
