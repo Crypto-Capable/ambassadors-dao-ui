@@ -32,7 +32,7 @@ const DashboardLayout: React.FC = ({ children }) => {
             bottom="5"
             onClick={onOpen}
             aria-label="Sidebar"
-            icon={<List />}
+            icon={<List size={28} />}
           />
           <Drawer
             isOpen={isOpen}
