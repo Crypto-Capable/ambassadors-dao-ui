@@ -2,14 +2,6 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import {
-  LayoutPage,
-  MiscellaneousType,
-  Payout,
-  PayoutType,
-  TypesOfMiscellaneous,
-  WithContractChildProps,
-} from '../../../types';
 import { Box, Center, Flex, Heading, Spinner } from '@chakra-ui/react';
 import StatusBadge from '../../../components/status-badge';
 import withContract from '../../../hoc/with-contract';
@@ -20,6 +12,14 @@ import { CampusSigningMOUItem } from '../../../components/dashboard/miscellaneou
 import { ContentCreationMiscellaneousItem } from '../../../components/dashboard/miscellaneous/content-creation-bounty-item';
 import VotesDisplay from '../../../components/dashboard/voting';
 import RemovePayout from '../../../components/dashboard/remove-payout';
+import {
+  LayoutPage,
+  MiscellaneousType,
+  Payout,
+  PayoutType,
+  TypesOfMiscellaneous,
+  WithContractChildProps,
+} from '../../../types';
 
 const MiscellaneousItem: NextPage<WithContractChildProps> = ({
   contract,

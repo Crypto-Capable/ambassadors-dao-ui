@@ -7,12 +7,14 @@ import {
   Link as ChakraLink,
   Spinner,
   Text,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Plus } from 'phosphor-react';
 import React, { useEffect, useState } from 'react';
+import { CreateNewButton } from '../../../components/dashboard/create-new-button';
 import StatusBadge from '../../../components/status-badge';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
@@ -31,6 +33,7 @@ const BountiesList: NextPage<WithContractChildProps> = ({ contract }) => {
   const [page, setPage] = useState(1);
   const [bounties, setBounties] = useState<Payout<BountyType>[] | null>(null);
 
+  const [isLargerThan480] = useMediaQuery('(min-width: 520px)');
   useEffect(() => {
     contract
       .get_all_bounties({
@@ -54,16 +57,7 @@ const BountiesList: NextPage<WithContractChildProps> = ({ contract }) => {
         <Heading as="h2" fontSize="1.75rem">
           Viewing all bounties
         </Heading>
-        <Link href={`/dashboard/${Tabs.BOUNTIES}/new`} passHref>
-          <Button
-            size="sm"
-            rightIcon={<Plus weight="bold" />}
-            variant="outline"
-            as={ChakraLink}
-          >
-            Create New
-          </Button>
-        </Link>
+        <CreateNewButton href={`/dashboard/${Tabs.BOUNTIES}/new`} />
       </Flex>
       <Box mt="8" experimental_spaceY="4">
         {bounties === null ? (

@@ -18,7 +18,6 @@ import {
   LayoutPage,
   Payout,
   ProposalType,
-  Tabs,
   TypesOfProposals,
   PayoutType,
 } from '../../../types';

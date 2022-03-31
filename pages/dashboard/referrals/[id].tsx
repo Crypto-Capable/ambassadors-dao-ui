@@ -18,7 +18,6 @@ import {
   LayoutPage,
   Payout,
   ReferralType,
-  Tabs,
   TypesOfReferrals,
   PayoutType,
 } from '../../../types';

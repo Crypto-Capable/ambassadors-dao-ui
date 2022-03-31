@@ -12,6 +12,9 @@ import {
   MemeCompletionItem,
   WebinarCompletionItem,
 } from '../../../components/dashboard/bounties';
+import { PayoutItemDescription } from '../../../components/dashboard/payout-item-description';
+import VotesDisplay from '../../../components/dashboard/voting';
+import RemovePayout from '../../../components/dashboard/remove-payout';
 import {
   BountyType,
   LayoutPage,
@@ -20,9 +23,6 @@ import {
   TypesOfBounties,
   WithContractChildProps,
 } from '../../../types';
-import { PayoutItemDescription } from '../../../components/dashboard/payout-item-description';
-import VotesDisplay from '../../../components/dashboard/voting';
-import RemovePayout from '../../../components/dashboard/remove-payout';
 
 const BountyItem: NextPage<WithContractChildProps> = ({
   contract,
