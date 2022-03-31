@@ -7,6 +7,7 @@ import {
   Spinner,
   Link as ChakraLink,
   Text,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
@@ -33,7 +34,7 @@ const ReferralsList: NextPage<WithContractChildProps> = ({ contract }) => {
   const [referrals, setReferrals] = useState<Payout<ReferralType>[] | null>(
     null
   );
-
+  const [isLargerThan480] = useMediaQuery('(min-width: 480px)');
   useEffect(() => {
     contract
       .get_all_referrals({
@@ -75,15 +76,18 @@ const ReferralsList: NextPage<WithContractChildProps> = ({ contract }) => {
             >
               <ChakraLink
                 as={Flex}
-                alignItems="center"
+                alignItems={isLargerThan480 ? 'center' : 'start'}
                 justifyContent="space-between"
+                flexDir={isLargerThan480 ? 'row' : 'column'}
               >
                 <Box>
                   <Text display="inline-block">
                     <strong>{p.id}&gt;</strong> {p.description}
                   </Text>
                 </Box>
-                <StatusBadge status={p.status} />
+                <Box>
+                  <StatusBadge status={p.status} />
+                </Box>
               </ChakraLink>
             </Link>
           ))

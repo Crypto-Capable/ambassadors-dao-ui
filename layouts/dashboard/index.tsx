@@ -3,11 +3,8 @@ import {
   Flex,
   useMediaQuery,
   Drawer,
-  DrawerBody,
-  DrawerHeader,
   DrawerOverlay,
   DrawerContent,
-  DrawerCloseButton,
   useDisclosure,
   IconButton,
 } from '@chakra-ui/react';
