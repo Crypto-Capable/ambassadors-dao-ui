@@ -11,6 +11,7 @@ import {
 } from '../../../components/dashboard/proposals';
 import RemovePayout from '../../../components/dashboard/remove-payout';
 import VotesDisplay from '../../../components/dashboard/voting';
+import StatusBadge from '../../../components/status-badge';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
 import {
@@ -46,9 +47,17 @@ const ProposalItem: NextPage<WithContractChildProps> = ({
         <title>All Proposals</title>
       </Head>
       <Flex alignItems="center" justifyContent="space-between">
-        <Heading as="h2" fontSize="1.75rem">
-          Viewing proposal {id}
-        </Heading>
+        <Flex flexDir={'column'}>
+          <Heading as="h2" fontSize="1.75rem">
+            Viewing proposal {id}
+          </Heading>
+          {proposal && (
+            <Box>
+              <StatusBadge status={proposal.status} />{' '}
+            </Box>
+          )}
+        </Flex>
+
         {contract.account.accountId === proposal?.proposer && (
           <RemovePayout payoutId={id} payoutType={PayoutType.PROPOSAL} />
         )}

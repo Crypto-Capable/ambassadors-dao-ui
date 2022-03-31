@@ -75,15 +75,18 @@ const BountiesList: NextPage<WithContractChildProps> = ({ contract }) => {
             >
               <ChakraLink
                 as={Flex}
-                alignItems="center"
+                alignItems={isLargerThan480 ? 'center' : 'start'}
                 justifyContent="space-between"
+                flexDir={isLargerThan480 ? 'row' : 'column'}
               >
                 <Box>
                   <Text display="inline-block">
                     <strong>{p.id}&gt;</strong> {p.description}
                   </Text>
                 </Box>
-                <StatusBadge status={p.status} />
+                <Box>
+                  <StatusBadge status={p.status} />
+                </Box>
               </ChakraLink>
             </Link>
           ))

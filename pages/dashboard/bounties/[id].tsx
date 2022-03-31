@@ -49,11 +49,15 @@ const BountyItem: NextPage<WithContractChildProps> = ({
         <title>All Proposals</title>
       </Head>
       <Flex alignItems="center" justifyContent="space-between">
-        <Flex alignItems="center">
+        <Flex flexDirection={'column'}>
           <Heading mr={2} as="h2" fontSize="1.75rem">
             Viewing proposal {id}
           </Heading>
-          {bounty && <StatusBadge status={bounty.status} />}
+          {bounty && (
+            <Box>
+              <StatusBadge status={bounty.status} />
+            </Box>
+          )}
         </Flex>
         {contract.account.accountId === bounty?.proposer && (
           <RemovePayout payoutId={id} payoutType={PayoutType.BOUNTY} />

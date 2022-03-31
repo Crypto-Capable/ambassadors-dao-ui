@@ -44,11 +44,15 @@ const MiscellaneousItem: NextPage<WithContractChildProps> = ({
         <title>All Proposals</title>
       </Head>
       <Flex alignItems="center" justifyContent="space-between">
-        <Flex alignItems="center">
+        <Flex flexDir={'column'}>
           <Heading mr={2} as="h2" fontSize="1.75rem">
             Viewing proposal {id}
           </Heading>
-          {misc && <StatusBadge status={misc.status} />}
+          {misc && (
+            <Box>
+              <StatusBadge status={misc.status} />
+            </Box>
+          )}
         </Flex>
         {contract.account.accountId === misc?.proposer && (
           <RemovePayout payoutId={id} payoutType={PayoutType.MISCELLANEOUS} />
