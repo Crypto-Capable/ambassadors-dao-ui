@@ -17,20 +17,16 @@ import StatusBadge from '../../../components/status-badge';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
 import {
-  CustomContract,
   LayoutPage,
   MiscellaneousType,
   Payout,
   Tabs,
+  WithContractChildProps,
 } from '../../../types';
-
-type MiscellaneousListProps = {
-  contract: CustomContract;
-};
 
 const limit = 12;
 
-const MiscellaneousList: NextPage<MiscellaneousListProps> = ({ contract }) => {
+const MiscellaneousList: NextPage<WithContractChildProps> = ({ contract }) => {
   const [page, setPage] = useState(1);
   const [miscellaneous, setMiscellaneous] = useState<
     Payout<MiscellaneousType>[] | null

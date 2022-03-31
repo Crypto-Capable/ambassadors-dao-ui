@@ -1,20 +1,9 @@
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  Link as ChakraLink,
-  Spinner,
-} from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Spinner } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Plus } from 'phosphor-react';
 import React, { useEffect, useState } from 'react';
 import StatusBadge from '../../../components/status-badge';
-import { useContractContext } from '../../../context/contract-context';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
 import {
@@ -27,14 +16,19 @@ import {
   BountyType,
   LayoutPage,
   Payout,
-  Tabs,
+  PayoutType,
   TypesOfBounties,
+  WithContractChildProps,
 } from '../../../types';
 import { PayoutItemDescription } from '../../../components/dashboard/payout-item-description';
+import VotesDisplay from '../../../components/dashboard/voting';
+import RemovePayout from '../../../components/dashboard/remove-payout';
 
-const BountyItem: NextPage = () => {
+const BountyItem: NextPage<WithContractChildProps> = ({
+  contract,
+  isCouncilMember,
+}) => {
   const { id } = useRouter().query as { id: string };
-  const { contract } = useContractContext()!;
   const [bounty, setBounty] = useState<Payout<BountyType> | null>(null);
 
   useEffect(() => {
@@ -46,7 +40,9 @@ const BountyItem: NextPage = () => {
       setBounty(null);
     };
   }, [contract, id, setBounty]);
+
   const isLoading = bounty === null;
+
   return (
     <>
       <Head>
@@ -59,16 +55,9 @@ const BountyItem: NextPage = () => {
           </Heading>
           {bounty && <StatusBadge status={bounty.status} />}
         </Flex>
-        <Link href={`/dashboard/${Tabs.BOUNTIES}/new`} passHref>
-          <Button
-            size="sm"
-            rightIcon={<Plus weight="bold" />}
-            variant="outline"
-            as={ChakraLink}
-          >
-            Create New
-          </Button>
-        </Link>
+        {contract.account.accountId === bounty?.proposer && (
+          <RemovePayout payoutId={id} payoutType={PayoutType.BOUNTY} />
+        )}
       </Flex>
       {isLoading ? (
         <Center>
@@ -80,7 +69,6 @@ const BountyItem: NextPage = () => {
             description={bounty.description}
             proposer={bounty.proposer}
           />
-
           {(() => {
             if (TypesOfBounties.HACKATHON_COMPLETION in bounty.info) {
               return (
@@ -108,6 +96,14 @@ const BountyItem: NextPage = () => {
               );
             }
           })()}
+          <VotesDisplay
+            accountId={contract.account.accountId}
+            isCouncilMember={isCouncilMember}
+            votes={bounty.votes}
+            votes_count={bounty.votes_count}
+            payoutId={id}
+            payoutType={PayoutType.BOUNTY}
+          />
         </Box>
       )}
     </>
