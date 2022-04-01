@@ -89,7 +89,7 @@ const NoteModal: React.FC<NoteModalProps> = ({
           `act_payout_${payoutType}` as keyof changeFunctionsType;
         await (contract[methodName] as actPayoutFn)({
           id: Number(id),
-          action: Action.VOTE_APPROVE,
+          action: Action.VOTE_REJECT,
           note,
         });
         toast({
