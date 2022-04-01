@@ -112,7 +112,7 @@ const VotesDisplay: React.FC<VotesDisplayProps> = ({
       </Accordion>
       {isCouncilMember &&
         (alreadyVoted ? (
-          <Text>
+          <Text mt="4">
             You have {alreadyVoted![1]}ed the {payoutType}
           </Text>
         ) : (
