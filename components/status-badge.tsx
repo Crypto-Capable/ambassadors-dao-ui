@@ -13,13 +13,13 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
   const bottom = !isLargerThan480 ? '5' : '';
   const properties = [position, left, bottom];
   switch (status) {
-    case PayoutStatus.APPROVED:
+    case 'Approved':
       return <Badge colorScheme="green">APPROVED</Badge>;
-    case PayoutStatus.REJECTED:
+    case 'Rejected':
       return <Badge colorScheme="red">REJECTED</Badge>;
-    case PayoutStatus.UNDER_CONSIDERATION:
+    case 'UnderConsideration':
       return <Badge colorScheme="blue">UNDER CONSIDERATION</Badge>;
-    case PayoutStatus.REMOVED:
+    default:
       return <Badge colorScheme="red">REMOVED</Badge>;
   }
 };
