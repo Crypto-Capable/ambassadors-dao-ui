@@ -88,8 +88,10 @@ const ProfilePage = () => {
           </Badge>
         </Flex>
         <Flex mt="8" alignItems="flex-end" justifyContent="space-between">
-          <Text>Your referral token</Text>
-
+          <Box>
+            <Text>Your referral token</Text>
+            <Text>Share to earn 0.5 Near</Text>
+          </Box>
           <ReferralTokenView />
         </Flex>
       </Box>

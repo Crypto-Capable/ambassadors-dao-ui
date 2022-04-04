@@ -1,6 +1,7 @@
 import { Box, Heading, Select, Text, useToast } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import {
   HackathonForm,
@@ -11,6 +12,7 @@ import { Layouts } from '../../../layouts';
 import { LayoutPage, TypesOfProposals } from '../../../types';
 
 const NewProposal: LayoutPage = () => {
+  const router = useRouter();
   const [proposalType, setProposalType] = useState<TypesOfProposals>(
     TypesOfProposals.HACKATHON
   );
@@ -31,6 +33,7 @@ const NewProposal: LayoutPage = () => {
         description: 'Proposal created',
         status: 'success',
       });
+      router.push(`/dashboard/proposals/${v}`);
     } else {
       toast({
         description: 'Proposal creation failed, try again',
