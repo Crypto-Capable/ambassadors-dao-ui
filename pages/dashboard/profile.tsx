@@ -89,6 +89,7 @@ const ProfilePage = () => {
         </Flex>
         <Flex mt="8" alignItems="flex-end" justifyContent="space-between">
           <Text>Your referral token</Text>
+
           <ReferralTokenView />
         </Flex>
       </Box>

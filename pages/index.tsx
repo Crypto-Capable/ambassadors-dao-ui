@@ -67,7 +67,7 @@ const Home: NextPage = () => {
               }}
               transition="all 0.2s ease"
             >
-              Register with Nearamp
+              Create a wallet with Nearamp
             </Button>
           </Link>
           <Button

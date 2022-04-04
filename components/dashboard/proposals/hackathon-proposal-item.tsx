@@ -10,13 +10,15 @@ export const HackathonProposalItem: React.FC<HackathonProposalItemProps> = ({
 }) => (
   <>
     <ItemDetailContainer
-      text="Estimated Budget"
-      value={HackathonProposal.estimated_budget}
-    />
-    <ItemDetailContainer
       text="Expected Registrations"
       value={HackathonProposal.expected_registrations}
     />
+    <ItemDetailContainer
+      text="Estimated Budget"
+      value={HackathonProposal.estimated_budget}
+      denomination
+    />
+
     <Box mt={2}>
       <Link
         color="blue.600"
