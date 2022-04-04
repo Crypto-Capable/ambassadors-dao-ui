@@ -8,7 +8,7 @@ import {
   NCDForm,
 } from '../../../components/dashboard/referrals';
 import { Layouts } from '../../../layouts';
-import { LayoutPage, TypesOfReferrals } from '../../../types';
+import { LayoutPage, Tabs, TypesOfReferrals } from '../../../types';
 
 const NewReferral: LayoutPage = () => {
   const router = useRouter();
@@ -32,7 +32,7 @@ const NewReferral: LayoutPage = () => {
         description: 'Referral created',
         status: 'success',
       });
-      router.push(`/dashboard/referrals/${v}`);
+      router.push(`/dashboard/${Tabs.REFERRALS}/${v}`);
     } else {
       toast({
         description: 'Referral creation failed, try again',

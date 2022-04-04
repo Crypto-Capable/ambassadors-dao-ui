@@ -9,7 +9,7 @@ import {
 } from '../../../components/dashboard/bounties';
 import { ContentCoordinationForm } from '../../../components/dashboard/bounties/content-coordination-form';
 import { Layouts } from '../../../layouts';
-import { LayoutPage, TypesOfBounties } from '../../../types';
+import { LayoutPage, Tabs, TypesOfBounties } from '../../../types';
 
 const NewBounty: LayoutPage = () => {
   const router = useRouter();
@@ -34,7 +34,7 @@ const NewBounty: LayoutPage = () => {
         description: 'Bounty created',
         status: 'success',
       });
-      router.push(`/dashboard/bounties/${v}`);
+      router.push(`/dashboard/${Tabs.BOUNTIES}/${v}`);
     } else {
       toast({
         description: 'Bounty creation failed, try again',

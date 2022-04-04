@@ -9,7 +9,7 @@ import {
   OpenProposalForm,
 } from '../../../components/dashboard/proposals/';
 import { Layouts } from '../../../layouts';
-import { LayoutPage, TypesOfProposals } from '../../../types';
+import { LayoutPage, Tabs, TypesOfProposals } from '../../../types';
 
 const NewProposal: LayoutPage = () => {
   const router = useRouter();
@@ -33,7 +33,7 @@ const NewProposal: LayoutPage = () => {
         description: 'Proposal created',
         status: 'success',
       });
-      router.push(`/dashboard/proposals/${v}`);
+      router.push(`/dashboard/${Tabs.PROPOSALS}/${v}`);
     } else {
       toast({
         description: 'Proposal creation failed, try again',

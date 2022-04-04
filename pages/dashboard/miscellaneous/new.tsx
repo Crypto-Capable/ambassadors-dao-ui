@@ -8,7 +8,7 @@ import {
   ContentCreationForm,
 } from '../../../components/dashboard/miscellaneous';
 import { Layouts } from '../../../layouts';
-import { LayoutPage, TypesOfMiscellaneous } from '../../../types';
+import { LayoutPage, Tabs, TypesOfMiscellaneous } from '../../../types';
 
 const NewMiscellaneous: LayoutPage = () => {
   const router = useRouter();
@@ -32,7 +32,7 @@ const NewMiscellaneous: LayoutPage = () => {
         description: 'Miscellaneous payout created',
         status: 'success',
       });
-      router.push(`/dashboard/miscellaneous/${v}`);
+      router.push(`/dashboard/${Tabs.MISCELLANEOUS}/${v}`);
     } else {
       toast({
         description: 'Miscellaneous payout creation failed, try again',
