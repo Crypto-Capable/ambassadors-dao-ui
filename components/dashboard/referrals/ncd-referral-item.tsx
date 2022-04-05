@@ -8,9 +8,9 @@ export type NCDReferralItemProps = {
 
 export const NCDReferralItem: React.FC<NCDReferralItemProps> = ({ item }) => (
   <>
-    <ItemDetailContainer text="Referrer ID" value={item.referrer_id} />
-    <ItemDetailContainer text="Referred ID" value={item.referred_id} />
-    <ItemDetailContainer text="Referral Kind" value={item.kind} />
+    <ItemDetailContainer label="Referrer ID" value={item.referrer_id} />
+    <ItemDetailContainer label="Referred ID" value={item.referred_id} />
+    <ItemDetailContainer label="Referral Kind" value={item.kind} />
     <Link color="blue.600" isExternal href={item.proof_link}>
       <Text mt={2}> Proof Link</Text>
     </Link>

@@ -58,7 +58,10 @@ const ProposalsList: NextPage<WithContractChildProps> = ({ contract }) => {
           proposals.map((p) => (
             <PayoutListItem
               key={p.id}
-              {...p}
+              description={p.description}
+              status={p.status}
+              proposer={p.proposer}
+              id={p.id}
               link={`/dashboard/${Tabs.PROPOSALS}/${p.id}`}
             />
           ))

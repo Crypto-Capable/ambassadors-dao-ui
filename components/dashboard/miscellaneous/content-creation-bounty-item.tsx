@@ -11,11 +11,11 @@ export const ContentCreationMiscellaneousItem: React.FC<
 > = ({ item }) => (
   <>
     <ItemDetailContainer
-      text="Expected Amount"
+      label="Expected Amount"
       value={item.expected_amount}
       denomination
     />
-    <ItemDetailContainer text="Note" value={item.note} />
+    <ItemDetailContainer label="Note" value={item.note} />
     <Text mt={2}>Links to content -</Text>
     <UnorderedList>
       {item.links_to_content.map((link, index) => (

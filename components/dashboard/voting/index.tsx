@@ -74,8 +74,8 @@ const VotesDisplay: React.FC<VotesDisplayProps> = ({
       </Flex>
       {votesValue !== 0 && (
         <Flex justifyContent="space-between" flexWrap="wrap">
-          <ItemDetailContainer text="Approved by" value={approve_count} />
-          <ItemDetailContainer text="Rejected by" value={reject_count} />
+          <ItemDetailContainer label="Approved by" value={approve_count} />
+          <ItemDetailContainer label="Rejected by" value={reject_count} />
         </Flex>
       )}
 

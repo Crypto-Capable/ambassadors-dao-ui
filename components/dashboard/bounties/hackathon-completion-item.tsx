@@ -23,11 +23,11 @@ export const HackathonCompletionItem: React.FC<
 > = ({ item }) => (
   <>
     <ItemDetailContainer
-      text="Number of Registrations"
+      label="Number of Registrations"
       value={item.num_of_registrations}
     />
     <ItemDetailContainer
-      text="Number of Submissions"
+      label="Number of Submissions"
       value={item.num_of_submissions}
     />
     <Table mt={8} variant="simple">

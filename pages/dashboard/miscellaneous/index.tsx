@@ -58,7 +58,10 @@ const MiscellaneousList: NextPage<WithContractChildProps> = ({ contract }) => {
           miscellaneous.map((p) => (
             <PayoutListItem
               key={p.id}
-              {...p}
+              description={p.description}
+              status={p.status}
+              proposer={p.proposer}
+              id={p.id}
               link={`/dashboard/${Tabs.MISCELLANEOUS}/${p.id}`}
             />
           ))

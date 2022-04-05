@@ -11,7 +11,7 @@ export const OpenProposalItem: React.FC<OpenProposalItemProps> = ({
 }) => (
   <>
     <ItemDetailContainer
-      text="Estimated Budget"
+      label="Estimated Budget"
       value={OpenProposal.estimated_budget}
     />
     <Box mt={2}>

@@ -1,14 +1,14 @@
 import { Flex, Text } from '@chakra-ui/react';
 
 export type ItemContainerProps = {
-  text: string;
+  label: string;
   value?: number | string;
   link?: string;
   denomination?: boolean;
 };
 
 export const ItemDetailContainer: React.FC<ItemContainerProps> = ({
-  text,
+  label: text,
   value,
   denomination,
 }) => (

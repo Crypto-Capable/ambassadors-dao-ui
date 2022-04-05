@@ -10,11 +10,11 @@ export const MemeContestProposalItem: React.FC<
 > = ({ item: MemeContestProposal }) => (
   <>
     <ItemDetailContainer
-      text="Expected Registrations"
+      label="Expected Registrations"
       value={MemeContestProposal.expected_registrations}
     />
     <ItemDetailContainer
-      text="Estimated Budget"
+      label="Estimated Budget"
       value={MemeContestProposal.estimated_budget}
       denomination
     />

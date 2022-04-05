@@ -57,7 +57,10 @@ const ReferralsList: NextPage<WithContractChildProps> = ({ contract }) => {
           referrals.map((p) => (
             <PayoutListItem
               key={p.id}
-              {...p}
+              description={p.description}
+              status={p.status}
+              proposer={p.proposer}
+              id={p.id}
               link={`/dashboard/${Tabs.REFERRALS}/${p.id}`}
             />
           ))

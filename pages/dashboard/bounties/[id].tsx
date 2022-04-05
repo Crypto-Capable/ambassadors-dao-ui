@@ -51,7 +51,7 @@ const BountyItem: NextPage<WithContractChildProps> = ({
       <Flex alignItems="center" justifyContent="space-between">
         <Flex flexDirection={'column'}>
           <Heading mr={2} as="h2" fontSize="1.75rem">
-            Viewing proposal {id}
+            Viewing bounty {id}
           </Heading>
           {bounty && (
             <Box>

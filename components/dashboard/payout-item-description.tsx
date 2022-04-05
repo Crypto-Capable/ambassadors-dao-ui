@@ -15,7 +15,7 @@ export const PayoutItemDescription: React.FC<PayoutItemDescriptionProps> = ({
     <Heading as="h3" fontSize="1.25rem">
       By {proposer}
     </Heading>
-    <ItemDetailContainer text="Description" value={description} />
+    <ItemDetailContainer label="Description" value={description} />
     {children}
   </>
 );

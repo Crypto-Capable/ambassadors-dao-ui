@@ -10,11 +10,11 @@ export const HackathonProposalItem: React.FC<HackathonProposalItemProps> = ({
 }) => (
   <>
     <ItemDetailContainer
-      text="Expected Registrations"
+      label="Expected Registrations"
       value={HackathonProposal.expected_registrations}
     />
     <ItemDetailContainer
-      text="Estimated Budget"
+      label="Estimated Budget"
       value={HackathonProposal.estimated_budget}
       denomination
     />

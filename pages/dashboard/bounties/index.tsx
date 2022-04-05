@@ -56,7 +56,10 @@ const BountiesList: NextPage<WithContractChildProps> = ({ contract }) => {
           bounties.map((p) => (
             <PayoutListItem
               key={p.id}
-              {...p}
+              description={p.description}
+              status={p.status}
+              proposer={p.proposer}
+              id={p.id}
               link={`/dashboard/${Tabs.BOUNTIES}/${p.id}`}
             />
           ))
