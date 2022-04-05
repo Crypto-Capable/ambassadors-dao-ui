@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
+import { withSentry } from '@sentry/nextjs';
 
 const privateKey = process.env.NEARAMP_PRIVATE_KEY; // RSA Private Key
 
@@ -16,4 +17,4 @@ const signNearampJWT = (_: NextApiRequest, res: NextApiResponse) => {
   res.status(200).send(JSON.stringify(generateJWT()));
 };
 
-export default signNearampJWT;
+export default withSentry(signNearampJWT);

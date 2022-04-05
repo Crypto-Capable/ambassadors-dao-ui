@@ -13,7 +13,7 @@
     "@chakra-ui/react": "^1.8.5",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "@sentry/nextjs": "^6.17.9",
+    "@sentry/nextjs": "^6.19.4",
     "@types/jsonwebtoken": "^8.5.8",
     "axios": "^0.26.0",
     "framer-motion": "^6",
