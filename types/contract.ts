@@ -174,12 +174,11 @@ export type MiscellaneousType =
       [TypesOfMiscellaneous.CAMPUS_AMBASSADOR_BONUS]: CampusAmbassadorBonus;
     };
 
-export enum PayoutStatus {
-  APPROVED = 'Approved',
-  REJECTED = 'Rejected',
-  REMOVED = 'Removed',
-  UNDER_CONSIDERATION = 'UnderConsideration',
-}
+export type PayoutStatus =
+  | 'Approved'
+  | 'Rejected'
+  | { Removed: string }
+  | 'UnderConsideration';
 
 export type Payout<T> = {
   id: number;
