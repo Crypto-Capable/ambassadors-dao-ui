@@ -45,12 +45,12 @@ const ReferralItem: NextPage<WithContractChildProps> = ({
   return (
     <>
       <Head>
-        <title>All Proposals</title>
+        <title>All Referrals</title>
       </Head>
       <Flex alignItems="center" justifyContent="space-between">
         <Flex flexDir={'column'}>
           <Heading as="h2" fontSize="1.75rem">
-            Viewing proposal {id}
+            Viewing Referral {id}
           </Heading>
           {referral && (
             <Box>

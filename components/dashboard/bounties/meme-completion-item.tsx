@@ -23,7 +23,7 @@ export const MemeCompletionItem: React.FC<MemeCompletionItemProps> = ({
 }) => (
   <>
     <ItemDetailContainer
-      text="Number of Submissions"
+      label="Number of Submissions"
       value={item.num_of_submissions}
     />
     <Table mt={8} variant="simple">

@@ -1,5 +1,6 @@
 import { Box, Heading, Select, Text, useToast } from '@chakra-ui/react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import {
   RegistrationForm,
@@ -7,9 +8,10 @@ import {
   NCDForm,
 } from '../../../components/dashboard/referrals';
 import { Layouts } from '../../../layouts';
-import { LayoutPage, TypesOfReferrals } from '../../../types';
+import { LayoutPage, Tabs, TypesOfReferrals } from '../../../types';
 
 const NewReferral: LayoutPage = () => {
+  const router = useRouter();
   const [referralType, setReferralType] = useState<TypesOfReferrals>(
     TypesOfReferrals.AMBASSADOR_REGISTRATION
   );
@@ -30,6 +32,7 @@ const NewReferral: LayoutPage = () => {
         description: 'Referral created',
         status: 'success',
       });
+      router.push(`/dashboard/${Tabs.REFERRALS}/${v}`);
     } else {
       toast({
         description: 'Referral creation failed, try again',

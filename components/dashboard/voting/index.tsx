@@ -20,6 +20,7 @@ import {
 import { Payout, PayoutType, Vote } from '../../../types';
 import { Check, X } from 'phosphor-react';
 import Ballot from './ballot';
+import { ItemDetailContainer } from '../item-detail-container';
 
 const voteEmoji = (vote: Vote) => {
   if (vote === Vote.APPROVE) {
@@ -59,57 +60,48 @@ const VotesDisplay: React.FC<VotesDisplayProps> = ({
   const alreadyVoted = votesArray.find(([k]) => k === accountId);
 
   return (
-    <Box mt="8">
-      <Accordion
-        rounded="md"
-        borderRight="1px"
-        borderLeft="1px"
-        overflow="hidden"
-        borderColor="gray.300"
-      >
-        <AccordionItem>
-          <AccordionButton>
-            <Flex alignItems="center" flex="1">
-              <Text mr="4">Votes</Text>
-              <Progress
-                value={votesValue}
-                rounded="md"
-                colorScheme="teal"
-                backgroundColor={
-                  votesArray.length === 0 ? 'gray.200' : 'red.600'
-                }
-                flex="1"
-                mr="4"
-              />
-            </Flex>
-            <AccordionIcon />
-          </AccordionButton>
-          <AccordionPanel>
-            {votesArray.length === 0 ? (
-              <Text>No votes to show yet</Text>
-            ) : (
-              <TableContainer>
-                <Table variant="simple">
-                  <Thead>
-                    <Tr>
-                      <Th>Council Member</Th>
-                      <Th>Approved</Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody>
-                    {votesArray.map(([councilMember, vote], index) => (
-                      <Tr key={index}>
-                        <Td>{councilMember}</Td>
-                        <Td>{voteEmoji(vote)}</Td>
-                      </Tr>
-                    ))}
-                  </Tbody>
-                </Table>
-              </TableContainer>
-            )}
-          </AccordionPanel>
-        </AccordionItem>
-      </Accordion>
+    <Box mt="4">
+      <Flex alignItems="center" flex="1">
+        <Text mr="4">Votes</Text>
+
+        <Progress
+          value={votesValue}
+          rounded="md"
+          colorScheme="teal"
+          backgroundColor={votesArray.length === 0 ? 'gray.200' : 'red.600'}
+          flex="1"
+        />
+      </Flex>
+      {votesValue !== 0 && (
+        <Flex justifyContent="space-between" flexWrap="wrap">
+          <ItemDetailContainer label="Approved by" value={approve_count} />
+          <ItemDetailContainer label="Rejected by" value={reject_count} />
+        </Flex>
+      )}
+
+      {votesArray.length === 0 ? (
+        <Text>No votes to show yet</Text>
+      ) : (
+        <TableContainer mt="4">
+          <Table variant="simple">
+            <Thead>
+              <Tr>
+                <Th>Council Member</Th>
+                <Th>Approved</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {votesArray.map(([councilMember, vote], index) => (
+                <Tr key={index}>
+                  <Td>{councilMember}</Td>
+                  <Td>{voteEmoji(vote)}</Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      )}
+
       {isCouncilMember &&
         (alreadyVoted ? (
           <Text mt="4">

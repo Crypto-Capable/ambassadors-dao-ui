@@ -46,7 +46,7 @@ const MiscellaneousItem: NextPage<WithContractChildProps> = ({
       <Flex alignItems="center" justifyContent="space-between">
         <Flex flexDir={'column'}>
           <Heading mr={2} as="h2" fontSize="1.75rem">
-            Viewing proposal {id}
+            Viewing miscellaneous payout {id}
           </Heading>
           {misc && (
             <Box>

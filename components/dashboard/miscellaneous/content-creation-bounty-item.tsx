@@ -10,8 +10,12 @@ export const ContentCreationMiscellaneousItem: React.FC<
   ContentCreationMiscellaneousItemProps
 > = ({ item }) => (
   <>
-    <ItemDetailContainer text="Expected Amount" value={item.expected_amount} />
-    <ItemDetailContainer text="Note" value={item.note} />
+    <ItemDetailContainer
+      label="Expected Amount"
+      value={item.expected_amount}
+      denomination
+    />
+    <ItemDetailContainer label="Note" value={item.note} />
     <Text mt={2}>Links to content -</Text>
     <UnorderedList>
       {item.links_to_content.map((link, index) => (

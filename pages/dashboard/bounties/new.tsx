@@ -1,5 +1,6 @@
 import { Heading, Select, Text, useToast } from '@chakra-ui/react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import {
   HackathonCompletionForm,
@@ -8,9 +9,10 @@ import {
 } from '../../../components/dashboard/bounties';
 import { ContentCoordinationForm } from '../../../components/dashboard/bounties/content-coordination-form';
 import { Layouts } from '../../../layouts';
-import { LayoutPage, TypesOfBounties } from '../../../types';
+import { LayoutPage, Tabs, TypesOfBounties } from '../../../types';
 
 const NewBounty: LayoutPage = () => {
+  const router = useRouter();
   const [bountyType, setBountyType] = useState<TypesOfBounties>(
     TypesOfBounties.HACKATHON_COMPLETION
   );
@@ -26,11 +28,13 @@ const NewBounty: LayoutPage = () => {
   const handleSubmitStart = () => setSubmitting(true);
   const handleSubmitEnd = (v: number) => {
     setSubmitting(false);
+
     if (v > 0) {
       toast({
         description: 'Bounty created',
         status: 'success',
       });
+      router.push(`/dashboard/${Tabs.BOUNTIES}/${v}`);
     } else {
       toast({
         description: 'Bounty creation failed, try again',

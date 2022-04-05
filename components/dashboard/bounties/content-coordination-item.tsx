@@ -10,7 +10,7 @@ export const ContentCoordinationItem: React.FC<
   ContentCoordinationItemProps
 > = ({ item }) => (
   <>
-    <ItemDetailContainer text="Story" value={item.story} />
+    <ItemDetailContainer label="Story" value={item.story} />
     <Text mt={2}> Content Links - </Text>
     <UnorderedList>
       {item.content_links.map((item_link, index) => (
