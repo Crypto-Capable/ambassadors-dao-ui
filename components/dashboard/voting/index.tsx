@@ -61,15 +61,6 @@ const VotesDisplay: React.FC<VotesDisplayProps> = ({
 
   return (
     <Box mt="4">
-      {/* <Accordion
-        rounded="md"
-        borderRight="1px"
-        borderLeft="1px"
-        overflow="hidden"
-        borderColor="gray.300"
-      >
-        <AccordionItem>
-          <AccordionButton> */}
       <Flex alignItems="center" flex="1">
         <Text mr="4">Votes</Text>
 
@@ -79,22 +70,15 @@ const VotesDisplay: React.FC<VotesDisplayProps> = ({
           colorScheme="teal"
           backgroundColor={votesArray.length === 0 ? 'gray.200' : 'red.600'}
           flex="1"
-          mr="4"
         />
       </Flex>
-      {(approve_count || reject_count) && (
-        <>
-          <ItemDetailContainer
-            text="Approve Vote-Count"
-            value={approve_count}
-          />
-          <ItemDetailContainer text="Reject Vote-Count" value={reject_count} />
-        </>
+      {votesValue !== 0 && (
+        <Flex justifyContent="space-between" flexWrap="wrap">
+          <ItemDetailContainer text="Approved by" value={approve_count} />
+          <ItemDetailContainer text="Rejected by" value={reject_count} />
+        </Flex>
       )}
 
-      {/* <AccordionIcon />
-          </AccordionButton>
-          <AccordionPanel> */}
       {votesArray.length === 0 ? (
         <Text>No votes to show yet</Text>
       ) : (
@@ -117,9 +101,7 @@ const VotesDisplay: React.FC<VotesDisplayProps> = ({
           </Table>
         </TableContainer>
       )}
-      {/* </AccordionPanel>
-        </AccordionItem>
-      </Accordion> */}
+
       {isCouncilMember &&
         (alreadyVoted ? (
           <Text mt="4">

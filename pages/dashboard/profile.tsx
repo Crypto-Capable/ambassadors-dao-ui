@@ -87,13 +87,14 @@ const ProfilePage = () => {
             {isCouncilMember ? 'council member' : 'campus ambassador'}
           </Badge>
         </Flex>
-        <Flex mt="8" alignItems="flex-end" justifyContent="space-between">
-          <Box>
-            <Text>Your referral token</Text>
-            <Text>Share to earn 0.5 Near</Text>
-          </Box>
+        <Flex mt="8" alignItems="flex-start" justifyContent="space-between">
+          <Text>Your referral token</Text>
           <ReferralTokenView />
         </Flex>
+        <Text color="gray.500" fontSize="0.9rem" mt="2">
+          Share your referral token and earn 0.5 Near when a Campus Ambassador
+          registers using your referral token.
+        </Text>
       </Box>
     </>
   );

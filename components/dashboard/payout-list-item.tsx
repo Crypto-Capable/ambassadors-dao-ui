@@ -8,6 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { PayoutStatus } from '../../types';
 import StatusBadge from '../status-badge';
+import { useMemo } from 'react';
 export type PayoutListItemProps = {
   id: number;
   link: string;
@@ -24,13 +25,13 @@ export const PayoutListItem: React.FC<PayoutListItemProps> = ({
   proposer,
 }) => {
   const [isLargerThan480] = useMediaQuery('(min-width: 520px)');
-  let finalProposer = 'A Campus Ambassador';
-  if (
-    proposer.endsWith('.near') ||
-    proposer.endsWith('.mainnet') ||
-    proposer.endsWith('.testnet')
-  )
-    finalProposer = proposer;
+
+  const proposedBy = useMemo(() => {
+    if (proposer.endsWith('.near') || proposer.endsWith('.testnet')) {
+      return proposer;
+    }
+    return 'a Campus Ambassador';
+  }, [proposer]);
 
   return (
     <Link href={link} passHref>
@@ -50,7 +51,7 @@ export const PayoutListItem: React.FC<PayoutListItemProps> = ({
           gap="2"
           flexDir={isLargerThan480 ? 'row' : 'column'}
         >
-          <Text>By {finalProposer}</Text>
+          <Text>By {proposedBy}</Text>
           <StatusBadge status={status} />
         </Flex>
       </ChakraLink>
