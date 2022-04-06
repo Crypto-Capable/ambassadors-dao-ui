@@ -6,8 +6,13 @@ declare global {
       NEXT_PUBLIC_NODE_URL: string;
       NEXT_PUBLIC_WALLET_URL: string;
       NEXT_PUBLIC_HELPER_URL: string;
+      NEXT_PUBLIC_SENTRY_DSN: string;
 
       NEARAMP_PRIVATE_KEY: string;
+      SENTRY_DSN: string;
+      SENTRY_AUTH_TOKEN: string;
+      SENTRY_ORG_SLUG: string;
+      SENTRY_PROJECT_ID: string;
     }
   }
 }

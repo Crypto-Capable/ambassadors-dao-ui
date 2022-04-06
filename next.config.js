@@ -28,6 +28,9 @@ const nextConfig = {
 
 const sentryWebpackPluginOptions = {
   silent: true,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  org: process.env.SENTRY_ORG_SLUG,
+  project: process.env.SENTRY_PROJECT_ID,
 };
 
 // Make sure adding Sentry options is the last code to run before exporting, to
