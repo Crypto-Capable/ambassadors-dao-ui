@@ -1,8 +1,8 @@
-import { Box, Center, Flex, Heading, Spinner } from '@chakra-ui/react';
+import React from 'react';
+import { Box, Center, Flex, Heading, Spinner, Text } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
 import { PayoutItemDescription } from '../../../components/dashboard/payout-item-description';
 import {
   HackathonProposalItem,
@@ -17,56 +17,40 @@ import { Layouts } from '../../../layouts';
 import {
   WithContractChildProps,
   LayoutPage,
-  Payout,
-  ProposalType,
   TypesOfProposals,
   PayoutType,
 } from '../../../types';
+import { useProposal } from '../../../hooks/payout-hooks';
 
 const ProposalItem: NextPage<WithContractChildProps> = ({
   contract,
   isCouncilMember,
 }) => {
   const { id } = useRouter().query as { id: string };
-  const [proposal, setProposal] = useState<Payout<ProposalType> | null>(null);
 
-  useEffect(() => {
-    contract.get_proposal({ id: Number(id) }).then(setProposal);
+  const { data: proposal, loading } = useProposal({ contract, id: Number(id) });
 
-    return () => {
-      // whenever the contract or id changes, it sets the proposal to null
-      // hence it will show a spinner
-      setProposal(null);
-    };
-  }, [contract, id, setProposal]);
-
-  const isLoading = proposal === null;
-  return (
-    <>
-      <Head>
-        <title>All Proposals</title>
-      </Head>
-      <Flex alignItems="center" justifyContent="space-between">
-        <Flex flexDir={'column'}>
-          <Heading as="h2" fontSize="1.75rem">
-            Viewing proposal {id}
-          </Heading>
-          {proposal && (
-            <Box>
-              <StatusBadge status={proposal.status} />{' '}
-            </Box>
-          )}
+  if (proposal !== undefined) {
+    return (
+      <>
+        <Head>
+          <title>All Proposals</title>
+        </Head>
+        <Flex alignItems="center" justifyContent="space-between">
+          <Flex>
+            <Heading as="h2" fontSize="1.75rem">
+              Viewing proposal {id}
+            </Heading>
+            {proposal && (
+              <Box>
+                <StatusBadge status={proposal.status} />{' '}
+              </Box>
+            )}
+            {contract.account.accountId === proposal?.proposer && (
+              <RemovePayout payoutId={id} payoutType={PayoutType.PROPOSAL} />
+            )}
+          </Flex>
         </Flex>
-
-        {contract.account.accountId === proposal?.proposer && (
-          <RemovePayout payoutId={id} payoutType={PayoutType.PROPOSAL} />
-        )}
-      </Flex>
-      {isLoading ? (
-        <Center>
-          <Spinner />
-        </Center>
-      ) : (
         <Box mt="8">
           <PayoutItemDescription
             description={proposal.description}
@@ -102,9 +86,17 @@ const ProposalItem: NextPage<WithContractChildProps> = ({
             payoutType={PayoutType.PROPOSAL}
           />
         </Box>
-      )}
-    </>
-  );
+      </>
+    );
+  } else if (proposal === undefined && !loading) {
+    return <Text>Not Found</Text>;
+  } else {
+    return (
+      <Center height="full">
+        <Spinner />
+      </Center>
+    );
+  }
 };
 
 const ProposalItemPage = withContract(ProposalItem) as LayoutPage;

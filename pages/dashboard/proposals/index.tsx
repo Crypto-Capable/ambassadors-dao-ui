@@ -1,40 +1,63 @@
-import { Box, Button, Center, Flex, Heading, Spinner } from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Spinner, Text } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { CreateNewButton } from '../../../components/dashboard/create-new-button';
 import { PayoutListItem } from '../../../components/dashboard/payout-list-item';
 import withContract from '../../../hoc/with-contract';
+import { useProposals } from '../../../hooks/payout-hooks';
 import { Layouts } from '../../../layouts';
+import { pageItemsLimit as limit } from '../../../util/constants';
 import {
   WithContractChildProps,
   LayoutPage,
-  Payout,
-  ProposalType,
   Tabs,
+  CustomContract,
 } from '../../../types';
 
-const limit = 12;
+type PayoutListProps = {
+  contract: CustomContract;
+  from: number;
+  limit: number;
+};
 
-const ProposalsList: NextPage<WithContractChildProps> = ({ contract }) => {
+const ProposalsList: React.FC<PayoutListProps> = ({
+  contract,
+  from,
+  limit,
+}) => {
+  const { data, loading, error } = useProposals({ contract, from, limit });
+
+  if (data !== undefined) {
+    return data.length === 0 ? (
+      <Text>No proposals to view!</Text>
+    ) : (
+      <Box experimental_spaceY="4" mt="8">
+        {data.map((p) => (
+          <PayoutListItem
+            key={p.id}
+            description={p.description}
+            status={p.status}
+            proposer={p.proposer}
+            id={p.id}
+            link={`/dashboard/${Tabs.PROPOSALS}/${p.id}`}
+          />
+        ))}
+      </Box>
+    );
+  } else if (!loading && error) {
+    return <Text>Not Found</Text>;
+  } else {
+    return (
+      <Center>
+        <Spinner />
+      </Center>
+    );
+  }
+};
+
+const ProposalsPage: NextPage<WithContractChildProps> = ({ contract }) => {
   const [page, setPage] = useState(1);
-  const [proposals, setProposals] = useState<Payout<ProposalType>[] | null>(
-    null
-  );
-
-  useEffect(() => {
-    contract
-      .get_all_proposals({
-        from_index: (page - 1) * limit,
-        limit: limit,
-      })
-      .then(setProposals)
-      .catch(console.log);
-
-    return () => {
-      setProposals(null);
-    };
-  }, [contract, page]);
 
   return (
     <>
@@ -47,39 +70,24 @@ const ProposalsList: NextPage<WithContractChildProps> = ({ contract }) => {
         </Heading>
         <CreateNewButton href={`/dashboard/${Tabs.PROPOSALS}/new`} />
       </Flex>
-      <Box mt="8" experimental_spaceY="4">
-        {proposals === null ? (
-          <Center>
-            <Spinner />
-          </Center>
-        ) : proposals.length === 0 ? (
-          'No proposals to see!'
-        ) : (
-          proposals.map((p) => (
-            <PayoutListItem
-              key={p.id}
-              description={p.description}
-              status={p.status}
-              proposer={p.proposer}
-              id={p.id}
-              link={`/dashboard/${Tabs.PROPOSALS}/${p.id}`}
-            />
-          ))
-        )}
-      </Box>
-      {proposals?.length == limit && (
+      <ProposalsList
+        contract={contract}
+        from={(page - 1) * limit + 1}
+        limit={limit}
+      />
+      {/* {proposals?.length == limit && (
         <Flex alignItems="center" justifyContent="space-between">
           {page > 1 && (
             <Button onClick={() => setPage((p) => p + 1)}>Show Next</Button>
           )}
           <Button onClick={() => setPage((p) => p + 1)}>Show Next</Button>
         </Flex>
-      )}
+      )} */}
     </>
   );
 };
 
-const ProposalsListPage = withContract(ProposalsList) as LayoutPage;
+const ProposalsListPage = withContract(ProposalsPage) as LayoutPage;
 
 ProposalsListPage.layout = Layouts.DASHBOARD;
 

@@ -17,6 +17,8 @@
     "@types/jsonwebtoken": "^8.5.8",
     "axios": "^0.26.0",
     "framer-motion": "^6",
+    "immer": "^9.0.12",
+    "jotai": "^1.6.2",
     "jsonwebtoken": "^8.5.1",
     "near-api-js": "^0.44.2",
     "next": "12.1.0",

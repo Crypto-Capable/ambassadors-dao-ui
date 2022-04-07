@@ -6,6 +6,7 @@ import { CreateNewButton } from '../../../components/dashboard/create-new-button
 import { PayoutListItem } from '../../../components/dashboard/payout-list-item';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
+import { pageItemsLimit as limit } from '../../../util/constants';
 import {
   LayoutPage,
   Payout,
@@ -14,13 +15,17 @@ import {
   WithContractChildProps,
 } from '../../../types';
 
-const limit = 12;
-
+/**
+ * This is a list of referrals
+ *
+ * The component makes use of useReferrals hook
+ */
 const ReferralsList: NextPage<WithContractChildProps> = ({ contract }) => {
   const [page, setPage] = useState(1);
   const [referrals, setReferrals] = useState<Payout<ReferralType>[] | null>(
     null
   );
+
   useEffect(() => {
     contract
       .get_all_referrals({

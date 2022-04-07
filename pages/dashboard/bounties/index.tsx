@@ -6,6 +6,7 @@ import { CreateNewButton } from '../../../components/dashboard/create-new-button
 import { PayoutListItem } from '../../../components/dashboard/payout-list-item';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
+import { pageItemsLimit as limit } from '../../../util/constants';
 import {
   BountyType,
   LayoutPage,
@@ -13,8 +14,6 @@ import {
   Tabs,
   WithContractChildProps,
 } from '../../../types';
-
-const limit = 12;
 
 const BountiesList: NextPage<WithContractChildProps> = ({ contract }) => {
   const [page, setPage] = useState(1);
