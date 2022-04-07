@@ -195,6 +195,12 @@ export type PayoutInput<T> = {
   information: T;
 };
 
+export type PayoutListProps = {
+  contract: CustomContract;
+  from: number;
+  limit: number;
+};
+
 export type getAllPayoutsFnArgs = {
   from_index: number;
   limit: number;

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Center, Flex, Heading, Spinner, Text } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
@@ -27,9 +26,7 @@ const ProposalItem: NextPage<WithContractChildProps> = ({
   isCouncilMember,
 }) => {
   const { id } = useRouter().query as { id: string };
-
   const { data: proposal, loading } = useProposal({ contract, id: Number(id) });
-
   if (proposal !== undefined) {
     return (
       <>
@@ -37,7 +34,7 @@ const ProposalItem: NextPage<WithContractChildProps> = ({
           <title>All Proposals</title>
         </Head>
         <Flex alignItems="center" justifyContent="space-between">
-          <Flex>
+          <Flex flexDir="column">
             <Heading as="h2" fontSize="1.75rem">
               Viewing proposal {id}
             </Heading>
@@ -46,10 +43,10 @@ const ProposalItem: NextPage<WithContractChildProps> = ({
                 <StatusBadge status={proposal.status} />{' '}
               </Box>
             )}
-            {contract.account.accountId === proposal?.proposer && (
-              <RemovePayout payoutId={id} payoutType={PayoutType.PROPOSAL} />
-            )}
           </Flex>
+          {contract.account.accountId === proposal?.proposer && (
+            <RemovePayout payoutId={id} payoutType={PayoutType.PROPOSAL} />
+          )}
         </Flex>
         <Box mt="8">
           <PayoutItemDescription

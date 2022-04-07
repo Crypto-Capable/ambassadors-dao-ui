@@ -1,4 +1,12 @@
-import { Box, Button, Center, Flex, Heading, Spinner } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  Heading,
+  Spinner,
+  Text,
+} from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
@@ -9,37 +17,54 @@ import { Layouts } from '../../../layouts';
 import { pageItemsLimit as limit } from '../../../util/constants';
 import {
   LayoutPage,
-  Payout,
-  ReferralType,
+  PayoutListProps,
   Tabs,
   WithContractChildProps,
 } from '../../../types';
+import { useReferrals } from '../../../hooks/payout-hooks';
 
 /**
  * This is a list of referrals
  *
  * The component makes use of useReferrals hook
  */
-const ReferralsList: NextPage<WithContractChildProps> = ({ contract }) => {
+const ReferralsList: React.FC<PayoutListProps> = ({
+  contract,
+  from,
+  limit,
+}) => {
+  const { data, loading, error } = useReferrals({ contract, from, limit });
+  console.log(data);
+  if (data !== undefined) {
+    return data.length === 0 ? (
+      <Text>No proposals to view!</Text>
+    ) : (
+      <Box experimental_spaceY="4" mt="8">
+        {data.map((p) => (
+          <PayoutListItem
+            key={p.id}
+            description={p.description}
+            status={p.status}
+            proposer={p.proposer}
+            id={p.id}
+            link={`/dashboard/${Tabs.REFERRALS}/${p.id}`}
+          />
+        ))}
+      </Box>
+    );
+  } else if (!loading && error) {
+    return <Text>Not Found</Text>;
+  } else {
+    return (
+      <Center>
+        <Spinner />
+      </Center>
+    );
+  }
+};
+
+const ReferralsPage: NextPage<WithContractChildProps> = ({ contract }) => {
   const [page, setPage] = useState(1);
-  const [referrals, setReferrals] = useState<Payout<ReferralType>[] | null>(
-    null
-  );
-
-  useEffect(() => {
-    contract
-      .get_all_referrals({
-        from_index: (page - 1) * limit,
-        limit: limit,
-      })
-      .then(setReferrals)
-      .catch(console.log);
-
-    return () => {
-      setReferrals(null);
-    };
-  }, [contract, page]);
-
   return (
     <>
       <Head>
@@ -51,39 +76,24 @@ const ReferralsList: NextPage<WithContractChildProps> = ({ contract }) => {
         </Heading>
         <CreateNewButton href={`/dashboard/${Tabs.REFERRALS}/new`} />
       </Flex>
-      <Box mt="8" experimental_spaceY="4">
-        {referrals === null ? (
-          <Center>
-            <Spinner />
-          </Center>
-        ) : referrals.length === 0 ? (
-          'No referrals to see!'
-        ) : (
-          referrals.map((p) => (
-            <PayoutListItem
-              key={p.id}
-              description={p.description}
-              status={p.status}
-              proposer={p.proposer}
-              id={p.id}
-              link={`/dashboard/${Tabs.REFERRALS}/${p.id}`}
-            />
-          ))
-        )}
-      </Box>
-      {referrals?.length == limit && (
+      <ReferralsList
+        contract={contract}
+        from={(page - 1) * limit + 1}
+        limit={limit}
+      />
+      {/*referrals?.length == limit && (
         <Flex alignItems="center" justifyContent="space-between">
           {page > 1 && (
             <Button onClick={() => setPage((p) => p + 1)}>Show Next</Button>
           )}
           <Button onClick={() => setPage((p) => p + 1)}>Show Next</Button>
         </Flex>
-      )}
+      )} */}
     </>
   );
 };
 
-const ProposalsListPage = withContract(ReferralsList) as LayoutPage;
+const ProposalsListPage = withContract(ReferralsPage) as LayoutPage;
 
 ProposalsListPage.layout = Layouts.DASHBOARD;
 

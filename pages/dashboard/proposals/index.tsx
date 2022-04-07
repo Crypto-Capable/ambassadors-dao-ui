@@ -12,14 +12,8 @@ import {
   WithContractChildProps,
   LayoutPage,
   Tabs,
-  CustomContract,
+  PayoutListProps,
 } from '../../../types';
-
-type PayoutListProps = {
-  contract: CustomContract;
-  from: number;
-  limit: number;
-};
 
 const ProposalsList: React.FC<PayoutListProps> = ({
   contract,

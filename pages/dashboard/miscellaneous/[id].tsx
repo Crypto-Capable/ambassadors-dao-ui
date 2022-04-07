@@ -1,8 +1,7 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
-import { Box, Center, Flex, Heading, Spinner } from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Spinner, Text } from '@chakra-ui/react';
 import StatusBadge from '../../../components/status-badge';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
@@ -14,55 +13,39 @@ import VotesDisplay from '../../../components/dashboard/voting';
 import RemovePayout from '../../../components/dashboard/remove-payout';
 import {
   LayoutPage,
-  MiscellaneousType,
-  Payout,
   PayoutType,
   TypesOfMiscellaneous,
   WithContractChildProps,
 } from '../../../types';
+import { useMiscellanea } from '../../../hooks/payout-hooks';
 
 const MiscellaneousItem: NextPage<WithContractChildProps> = ({
   contract,
   isCouncilMember,
 }) => {
   const { id } = useRouter().query as { id: string };
-  const [misc, setMisc] = useState<Payout<MiscellaneousType> | null>(null);
-
-  useEffect(() => {
-    contract.get_miscellaneous({ id: Number(id) }).then(setMisc);
-
-    return () => {
-      setMisc(null);
-    };
-  }, [contract, id, setMisc]);
-
-  const isLoading = misc === null;
-
-  return (
-    <>
-      <Head>
-        <title>All Proposals</title>
-      </Head>
-      <Flex alignItems="center" justifyContent="space-between">
-        <Flex flexDir={'column'}>
-          <Heading mr={2} as="h2" fontSize="1.75rem">
-            Viewing miscellaneous payout {id}
-          </Heading>
-          {misc && (
-            <Box>
-              <StatusBadge status={misc.status} />
-            </Box>
+  const { data: misc, loading } = useMiscellanea({ contract, id: Number(id) });
+  if (misc !== undefined)
+    return (
+      <>
+        <Head>
+          <title>All Proposals</title>
+        </Head>
+        <Flex alignItems="center" justifyContent="space-between">
+          <Flex flexDir={'column'}>
+            <Heading mr={2} as="h2" fontSize="1.75rem">
+              Viewing miscellaneous payout {id}
+            </Heading>
+            {misc && (
+              <Box>
+                <StatusBadge status={misc.status} />
+              </Box>
+            )}
+          </Flex>
+          {contract.account.accountId === misc?.proposer && (
+            <RemovePayout payoutId={id} payoutType={PayoutType.MISCELLANEOUS} />
           )}
         </Flex>
-        {contract.account.accountId === misc?.proposer && (
-          <RemovePayout payoutId={id} payoutType={PayoutType.MISCELLANEOUS} />
-        )}
-      </Flex>
-      {isLoading ? (
-        <Center>
-          <Spinner />
-        </Center>
-      ) : (
         <Box mt="8">
           <PayoutItemDescription
             proposer={misc.proposer}
@@ -100,9 +83,17 @@ const MiscellaneousItem: NextPage<WithContractChildProps> = ({
             payoutType={PayoutType.MISCELLANEOUS}
           />
         </Box>
-      )}
-    </>
-  );
+      </>
+    );
+  else if (misc === undefined && !loading) {
+    return <Text>Not Found</Text>;
+  } else {
+    return (
+      <Center height="full">
+        <Spinner />
+      </Center>
+    );
+  }
 };
 
 const MiscellaneousItemPage = withContract(MiscellaneousItem) as LayoutPage;

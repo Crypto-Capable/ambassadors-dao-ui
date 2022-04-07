@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Heading, Spinner } from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Spinner, Text } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -23,51 +23,35 @@ import {
   TypesOfBounties,
   WithContractChildProps,
 } from '../../../types';
+import { useBounty } from '../../../hooks/payout-hooks';
 
 const BountyItem: NextPage<WithContractChildProps> = ({
   contract,
   isCouncilMember,
 }) => {
   const { id } = useRouter().query as { id: string };
-  const [bounty, setBounty] = useState<Payout<BountyType> | null>(null);
-
-  useEffect(() => {
-    contract.get_bounty({ id: Number(id) }).then(setBounty);
-
-    return () => {
-      // whenever the contract or id changes, it sets the proposal to null
-      // hence it will show a spinner
-      setBounty(null);
-    };
-  }, [contract, id, setBounty]);
-
-  const isLoading = bounty === null;
-
-  return (
-    <>
-      <Head>
-        <title>All Proposals</title>
-      </Head>
-      <Flex alignItems="center" justifyContent="space-between">
-        <Flex flexDirection={'column'}>
-          <Heading mr={2} as="h2" fontSize="1.75rem">
-            Viewing bounty {id}
-          </Heading>
-          {bounty && (
-            <Box>
-              <StatusBadge status={bounty.status} />
-            </Box>
+  const { data: bounty, loading } = useBounty({ contract, id: Number(id) });
+  if (bounty !== undefined)
+    return (
+      <>
+        <Head>
+          <title>All Proposals</title>
+        </Head>
+        <Flex alignItems="center" justifyContent="space-between">
+          <Flex flexDirection={'column'}>
+            <Heading mr={2} as="h2" fontSize="1.75rem">
+              Viewing bounty {id}
+            </Heading>
+            {bounty && (
+              <Box>
+                <StatusBadge status={bounty.status} />
+              </Box>
+            )}
+          </Flex>
+          {contract.account.accountId === bounty?.proposer && (
+            <RemovePayout payoutId={id} payoutType={PayoutType.BOUNTY} />
           )}
         </Flex>
-        {contract.account.accountId === bounty?.proposer && (
-          <RemovePayout payoutId={id} payoutType={PayoutType.BOUNTY} />
-        )}
-      </Flex>
-      {isLoading ? (
-        <Center>
-          <Spinner />
-        </Center>
-      ) : (
         <Box mt="8">
           <PayoutItemDescription
             description={bounty.description}
@@ -109,9 +93,16 @@ const BountyItem: NextPage<WithContractChildProps> = ({
             payoutType={PayoutType.BOUNTY}
           />
         </Box>
-      )}
-    </>
-  );
+      </>
+    );
+  else if (bounty === undefined && !loading) return <Text>Not Found</Text>;
+  else {
+    return (
+      <Center height="full">
+        <Spinner />
+      </Center>
+    );
+  }
 };
 
 const BountyItemPage = withContract(BountyItem) as LayoutPage;
