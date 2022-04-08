@@ -2,7 +2,6 @@ import { Box, Center, Flex, Heading, Spinner, Text } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
 import { PayoutItemDescription } from '../../../components/dashboard/payout-item-description';
 import {
   AmbassadorReferralItem,
@@ -18,8 +17,6 @@ import { Layouts } from '../../../layouts';
 import {
   WithContractChildProps,
   LayoutPage,
-  Payout,
-  ReferralType,
   TypesOfReferrals,
   PayoutType,
 } from '../../../types';

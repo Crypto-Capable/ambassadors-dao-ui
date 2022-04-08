@@ -2,7 +2,6 @@ import { Box, Center, Flex, Heading, Spinner, Text } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
 import StatusBadge from '../../../components/status-badge';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
@@ -16,9 +15,7 @@ import { PayoutItemDescription } from '../../../components/dashboard/payout-item
 import VotesDisplay from '../../../components/dashboard/voting';
 import RemovePayout from '../../../components/dashboard/remove-payout';
 import {
-  BountyType,
   LayoutPage,
-  Payout,
   PayoutType,
   TypesOfBounties,
   WithContractChildProps,

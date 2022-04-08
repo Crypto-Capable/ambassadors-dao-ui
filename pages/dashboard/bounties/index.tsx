@@ -1,24 +1,14 @@
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  Spinner,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Spinner, Text } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { CreateNewButton } from '../../../components/dashboard/create-new-button';
 import { PayoutListItem } from '../../../components/dashboard/payout-list-item';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
 import { pageItemsLimit as limit } from '../../../util/constants';
 import {
-  BountyType,
   LayoutPage,
-  Payout,
   PayoutListProps,
   Tabs,
   WithContractChildProps,

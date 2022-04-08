@@ -1,15 +1,7 @@
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  Spinner,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Spinner, Text } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { CreateNewButton } from '../../../components/dashboard/create-new-button';
 import { PayoutListItem } from '../../../components/dashboard/payout-list-item';
 import withContract from '../../../hoc/with-contract';
@@ -37,7 +29,7 @@ const ReferralsList: React.FC<PayoutListProps> = ({
   console.log(data);
   if (data !== undefined) {
     return data.length === 0 ? (
-      <Text>No proposals to view!</Text>
+      <Text>No referrals to view!</Text>
     ) : (
       <Box experimental_spaceY="4" mt="8">
         {data.map((p) => (
