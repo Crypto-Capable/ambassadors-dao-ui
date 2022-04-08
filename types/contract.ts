@@ -197,8 +197,6 @@ export type PayoutInput<T> = {
 
 export type PayoutListProps = {
   contract: CustomContract;
-  from: number;
-  limit: number;
 };
 
 export type getAllPayoutsFnArgs = {

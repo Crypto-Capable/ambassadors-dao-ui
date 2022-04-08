@@ -21,31 +21,39 @@ import {
   Tabs,
   WithContractChildProps,
 } from '../../../types';
-import { useMiscellaneous } from '../../../hooks/payout-hooks';
+import { useMiscellanea } from '../../../hooks/payout-hooks';
 
-const MiscellaneousList: React.FC<PayoutListProps> = ({
-  contract,
-  from,
-  limit,
-}) => {
-  const { data, loading, error } = useMiscellaneous({ contract, from, limit });
+const MiscellaneousList: React.FC<PayoutListProps> = ({ contract }) => {
+  const [page, setPage] = useState(1);
+  const from = (page - 1) * limit + 1;
+  const { data, loading, error } = useMiscellanea({ contract, from, limit });
 
   if (data !== undefined) {
     return data.length === 0 ? (
       <Text>No miscellaneous payouts to view!</Text>
     ) : (
-      <Box experimental_spaceY="4" mt="8">
-        {data.map((p) => (
-          <PayoutListItem
-            key={p.id}
-            description={p.description}
-            status={p.status}
-            proposer={p.proposer}
-            id={p.id}
-            link={`/dashboard/${Tabs.MISCELLANEOUS}/${p.id}`}
-          />
-        ))}
-      </Box>
+      <>
+        <Box experimental_spaceY="4" mt="8">
+          {data.map((p) => (
+            <PayoutListItem
+              key={p.id}
+              description={p.description}
+              status={p.status}
+              proposer={p.proposer}
+              id={p.id}
+              link={`/dashboard/${Tabs.MISCELLANEOUS}/${p.id}`}
+            />
+          ))}
+        </Box>
+        {data?.length == limit && (
+          <Flex alignItems="center" justifyContent="space-between">
+            {page > 1 && (
+              <Button onClick={() => setPage((p) => p - 1)}>Show Prev</Button>
+            )}
+            <Button onClick={() => setPage((p) => p + 1)}>Show Next</Button>
+          </Flex>
+        )}
+      </>
     );
   } else if (!loading && error) {
     return <Text>Not Found</Text>;
@@ -71,11 +79,7 @@ const MiscellaneousPage: NextPage<WithContractChildProps> = ({ contract }) => {
         </Heading>
         <CreateNewButton href={`/dashboard/${Tabs.MISCELLANEOUS}/new`} />
       </Flex>
-      <MiscellaneousList
-        contract={contract}
-        from={(page - 1) * limit + 1}
-        limit={limit}
-      />
+      <MiscellaneousList contract={contract} />
     </>
   );
 };

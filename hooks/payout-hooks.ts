@@ -14,6 +14,9 @@ import {
   BountyType,
   MiscellaneousType,
   ReferralType,
+  usePayoutHookArgs,
+  usePayoutsHookArgs,
+  getAllPayoutsFn,
 } from '../types';
 import getSeconds from '../util/get-seconds';
 
@@ -232,7 +235,7 @@ export const useBounty: usePayoutHook<BountyType> = ({ contract, id }) => {
   } as const;
 };
 
-export const useMiscellaneous: usePayoutsHook<MiscellaneousType> = ({
+export const useMiscellanea: usePayoutsHook<MiscellaneousType> = ({
   contract,
   from,
   limit,
@@ -285,7 +288,7 @@ export const useMiscellaneous: usePayoutsHook<MiscellaneousType> = ({
   } as const;
 };
 
-export const useMiscellanea: usePayoutHook<MiscellaneousType> = ({
+export const useMiscellaneous: usePayoutHook<MiscellaneousType> = ({
   contract,
   id,
 }) => {
@@ -317,6 +320,7 @@ export const useMiscellanea: usePayoutHook<MiscellaneousType> = ({
 
     loadMiscellaneous();
   }, [setMiscellaneous, contract, id]);
+
   const data = useMemo(() => {
     if (miscellaneous[id]) {
       return miscellaneous[id].data;

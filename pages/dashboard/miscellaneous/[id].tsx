@@ -17,14 +17,17 @@ import {
   TypesOfMiscellaneous,
   WithContractChildProps,
 } from '../../../types';
-import { useMiscellanea } from '../../../hooks/payout-hooks';
+import { useMiscellaneous } from '../../../hooks/payout-hooks';
 
 const MiscellaneousItem: NextPage<WithContractChildProps> = ({
   contract,
   isCouncilMember,
 }) => {
   const { id } = useRouter().query as { id: string };
-  const { data: misc, loading } = useMiscellanea({ contract, id: Number(id) });
+  const { data: misc, loading } = useMiscellaneous({
+    contract,
+    id: Number(id),
+  });
   if (misc !== undefined)
     return (
       <>
