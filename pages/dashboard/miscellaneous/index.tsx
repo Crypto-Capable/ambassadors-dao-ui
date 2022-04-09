@@ -27,7 +27,6 @@ const MiscellaneousList: React.FC<PayoutListProps> = ({ contract }) => {
   const [page, setPage] = useState(1);
   const from = (page - 1) * limit + 1;
   const { data, loading, error } = useMiscellanea({ contract, from, limit });
-
   if (data !== undefined) {
     return data.length === 0 ? (
       <Text>No miscellaneous payouts to view!</Text>
@@ -45,12 +44,14 @@ const MiscellaneousList: React.FC<PayoutListProps> = ({ contract }) => {
             />
           ))}
         </Box>
-        {data?.length == limit && (
+        {(data?.length == limit || page > 1) && (
           <Flex alignItems="center" justifyContent="space-between">
             {page > 1 && (
               <Button onClick={() => setPage((p) => p - 1)}>Show Prev</Button>
             )}
-            <Button onClick={() => setPage((p) => p + 1)}>Show Next</Button>
+            {data?.length == limit && (
+              <Button onClick={() => setPage((p) => p + 1)}>Show Next</Button>
+            )}
           </Flex>
         )}
       </>

@@ -1,4 +1,7 @@
 import { captureException } from '@sentry/nextjs';
+import { addScaleCorrector } from 'framer-motion';
+import { WritableDraft } from 'immer/dist/internal';
+import { Atom } from 'jotai';
 import { useImmerAtom } from 'jotai/immer';
 import { useState, useEffect, useMemo } from 'react';
 import {
@@ -14,9 +17,6 @@ import {
   BountyType,
   MiscellaneousType,
   ReferralType,
-  usePayoutHookArgs,
-  usePayoutsHookArgs,
-  getAllPayoutsFn,
 } from '../types';
 import getSeconds from '../util/get-seconds';
 
@@ -33,13 +33,50 @@ function extractRangeOfItems<T>(
   limit: number
 ) {
   const result: T[] = [];
-  for (let i = from; i <= limit; i += 1) {
+  for (let i = from; i < from + limit; i += 1) {
     const o = cache[i];
     if (o !== undefined) result.push(o);
     else if (i > from) break;
   }
   return result;
 }
+
+// export type usePayoutsHook<T> = (
+//   args: usePayoutsHookArgs
+// ) => usePayoutsHookReturnType<T>;
+
+// type parentArgs = {
+//   limit: number;
+//   from: number;
+//   fn:
+//     | viewFunctionsType['get_all_bounties']
+//     | viewFunctionsType['get_all_miscellaneous']
+//     | viewFunctionsType['get_all_proposals']
+//     | viewFunctionsType['get_all_referrals'];
+//   payoutType: PayoutType;
+// };
+
+// export type ParentHook = (args: parentArgs) => Function;
+// const parentFn: ParentHook = ({ from, limit, fn, payoutType }) => {
+//   return function useHook() {
+//     const [loading, setLoading] = useState(true);
+//     const [error, setError] = useState<unknown>();
+
+//     useEffect(() => {
+//       const loadPayoutItem = async () => {
+//         setLoading(true);
+//         setError(undefined);
+//         try {
+//           const res = fn({ from_index: from, limit });
+//         } catch (error) {
+//           captureException(error);
+//           setError(error);
+//         }
+//       };
+//     });
+//     return 1;
+//   };
+// };
 
 export const useProposals: usePayoutsHook<ProposalType> = ({
   contract,
@@ -86,7 +123,6 @@ export const useProposals: usePayoutsHook<ProposalType> = ({
       return slice.map(({ data }) => data);
     }
   }, [proposals, from, limit]);
-
   return {
     data,
     loading,
