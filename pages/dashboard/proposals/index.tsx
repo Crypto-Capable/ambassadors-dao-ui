@@ -45,16 +45,17 @@ const ProposalsList: React.FC<PayoutListProps> = ({ contract }) => {
             />
           ))}
         </Box>
-        {(data?.length == limit || page > 1) && (
-          <Flex alignItems="center" mt={4} justifyContent="space-between">
-            {page > 1 && (
-              <Button onClick={() => setPage((p) => p - 1)}>Show Prev</Button>
-            )}
-            {data?.length == limit && (
-              <Button onClick={() => setPage((p) => p + 1)}>Show Next</Button>
-            )}
-          </Flex>
-        )}
+        <Flex alignItems="center" mt={4} justifyContent="space-between">
+          <Button disabled={page < 2} onClick={() => setPage((p) => p - 1)}>
+            Show Prev
+          </Button>
+          <Button
+            disabled={data?.length !== limit}
+            onClick={() => setPage((p) => p + 1)}
+          >
+            Show Next
+          </Button>
+        </Flex>
       </>
     );
   } else if (!loading && error) {

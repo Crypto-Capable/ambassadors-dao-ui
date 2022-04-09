@@ -1,7 +1,4 @@
 import { captureException } from '@sentry/nextjs';
-import { addScaleCorrector } from 'framer-motion';
-import { WritableDraft } from 'immer/dist/internal';
-import { Atom } from 'jotai';
 import { useImmerAtom } from 'jotai/immer';
 import { useState, useEffect, useMemo } from 'react';
 import {
