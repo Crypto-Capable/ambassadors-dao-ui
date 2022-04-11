@@ -1,8 +1,7 @@
-import { Box, Center, Flex, Heading, Spinner } from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Spinner, Text } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
 import { PayoutItemDescription } from '../../../components/dashboard/payout-item-description';
 import {
   AmbassadorReferralItem,
@@ -13,12 +12,11 @@ import RemovePayout from '../../../components/dashboard/remove-payout';
 import VotesDisplay from '../../../components/dashboard/voting';
 import StatusBadge from '../../../components/status-badge';
 import withContract from '../../../hoc/with-contract';
+import { useReferral } from '../../../hooks/payout-hooks';
 import { Layouts } from '../../../layouts';
 import {
   WithContractChildProps,
   LayoutPage,
-  Payout,
-  ReferralType,
   TypesOfReferrals,
   PayoutType,
 } from '../../../types';
@@ -28,45 +26,28 @@ const ReferralItem: NextPage<WithContractChildProps> = ({
   isCouncilMember,
 }) => {
   const { id } = useRouter().query as { id: string };
-  const [referral, setReferral] = useState<Payout<ReferralType> | null>(null);
-
-  useEffect(() => {
-    contract.get_referral({ id: Number(id) }).then(setReferral);
-
-    return () => {
-      // whenever the contract or id changes, it sets the proposal to null
-      // hence it will show a spinner
-      setReferral(null);
-    };
-  }, [contract, id, setReferral]);
-
-  const isLoading = referral === null;
-
-  return (
-    <>
-      <Head>
-        <title>All Referrals</title>
-      </Head>
-      <Flex alignItems="center" justifyContent="space-between">
-        <Flex flexDir={'column'}>
-          <Heading as="h2" fontSize="1.75rem">
-            Viewing Referral {id}
-          </Heading>
-          {referral && (
-            <Box>
-              <StatusBadge status={referral.status} />
-            </Box>
+  const { data: referral, loading } = useReferral({ contract, id: Number(id) });
+  if (referral !== undefined)
+    return (
+      <>
+        <Head>
+          <title>All Referrals</title>
+        </Head>
+        <Flex alignItems="center" justifyContent="space-between">
+          <Flex flexDir={'column'}>
+            <Heading as="h2" fontSize="1.75rem">
+              Viewing Referral {id}
+            </Heading>
+            {referral && (
+              <Box>
+                <StatusBadge status={referral.status} />
+              </Box>
+            )}
+          </Flex>
+          {contract.account.accountId === referral?.proposer && (
+            <RemovePayout payoutId={id} payoutType={PayoutType.REFERRAL} />
           )}
         </Flex>
-        {contract.account.accountId === referral?.proposer && (
-          <RemovePayout payoutId={id} payoutType={PayoutType.REFERRAL} />
-        )}
-      </Flex>
-      {isLoading ? (
-        <Center>
-          <Spinner />
-        </Center>
-      ) : (
         <Box mt="8">
           <PayoutItemDescription
             description={referral.description}
@@ -106,9 +87,17 @@ const ReferralItem: NextPage<WithContractChildProps> = ({
             payoutType={PayoutType.REFERRAL}
           />
         </Box>
-      )}
-    </>
-  );
+      </>
+    );
+  else if (referral === undefined && !loading) {
+    return <Text>Not Found</Text>;
+  } else {
+    return (
+      <Center height="full">
+        <Spinner />
+      </Center>
+    );
+  }
 };
 
 const ProposalItemPage = withContract(ReferralItem) as LayoutPage;

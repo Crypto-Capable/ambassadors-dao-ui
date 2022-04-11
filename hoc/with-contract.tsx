@@ -1,6 +1,6 @@
 import { Center, Spinner } from '@chakra-ui/react';
 import { useContractContext } from '../context/contract-context';
-import { CustomContract, WithContractChildProps } from '../types';
+import { WithContractChildProps } from '../types';
 
 const withContract = (Component: React.FC<WithContractChildProps>) => {
   const ContractWrapperComponent: React.FC = (props) => {

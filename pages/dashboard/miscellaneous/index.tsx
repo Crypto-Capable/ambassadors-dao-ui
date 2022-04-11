@@ -1,61 +1,42 @@
-import { Box, Button, Center, Flex, Heading, Spinner } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  Heading,
+  IconButton,
+  Spinner,
+  Text,
+  Tooltip,
+} from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { CreateNewButton } from '../../../components/dashboard/create-new-button';
 import { PayoutListItem } from '../../../components/dashboard/payout-list-item';
 import withContract from '../../../hoc/with-contract';
 import { Layouts } from '../../../layouts';
+import { pageItemsLimit as limit } from '../../../util/constants';
 import {
   LayoutPage,
-  MiscellaneousType,
-  Payout,
+  PayoutListProps,
   Tabs,
   WithContractChildProps,
 } from '../../../types';
+import { useMiscellanea } from '../../../hooks/payout-hooks';
+import { CaretLeft, CaretRight } from 'phosphor-react';
 
-const limit = 12;
-
-const MiscellaneousList: NextPage<WithContractChildProps> = ({ contract }) => {
+const MiscellaneousList: React.FC<PayoutListProps> = ({ contract }) => {
   const [page, setPage] = useState(1);
-  const [miscellaneous, setMiscellaneous] = useState<
-    Payout<MiscellaneousType>[] | null
-  >(null);
-
-  useEffect(() => {
-    contract
-      .get_all_miscellaneous({
-        from_index: (page - 1) * limit,
-        limit: limit,
-      })
-      .then(setMiscellaneous)
-      .catch(console.log);
-
-    return () => {
-      setMiscellaneous(null);
-    };
-  }, [contract, page]);
-
-  return (
-    <>
-      <Head>
-        <title>All Miscellaneous Payouts</title>
-      </Head>
-      <Flex alignItems="center" justifyContent="space-between">
-        <Heading as="h2" fontSize="1.75rem">
-          Viewing all miscellaneous payouts
-        </Heading>
-        <CreateNewButton href={`/dashboard/${Tabs.MISCELLANEOUS}/new`} />
-      </Flex>
-      <Box mt="8" experimental_spaceY="4">
-        {miscellaneous === null ? (
-          <Center>
-            <Spinner />
-          </Center>
-        ) : miscellaneous.length === 0 ? (
-          'No referrals to see!'
-        ) : (
-          miscellaneous.map((p) => (
+  const from = (page - 1) * limit + 1;
+  const { data, loading, error } = useMiscellanea({ contract, from, limit });
+  if (data !== undefined) {
+    return data.length === 0 ? (
+      <Text>No miscellaneous payouts to view!</Text>
+    ) : (
+      <>
+        <Box experimental_spaceY="4" mt="8">
+          {data.map((p) => (
             <PayoutListItem
               key={p.id}
               description={p.description}
@@ -64,22 +45,57 @@ const MiscellaneousList: NextPage<WithContractChildProps> = ({ contract }) => {
               id={p.id}
               link={`/dashboard/${Tabs.MISCELLANEOUS}/${p.id}`}
             />
-          ))
-        )}
-      </Box>
-      {miscellaneous?.length == limit && (
-        <Flex alignItems="center" justifyContent="space-between">
-          {page > 1 && (
-            <Button onClick={() => setPage((p) => p + 1)}>Show Next</Button>
-          )}
-          <Button onClick={() => setPage((p) => p + 1)}>Show Next</Button>
+          ))}
+        </Box>
+        <Flex alignItems="center" mt={8} justifyContent="space-between">
+          <Tooltip label="Show previous page">
+            <IconButton
+              variant="outline"
+              icon={<CaretLeft />}
+              disabled={page < 2}
+              onClick={() => setPage((p) => p - 1)}
+              aria-label="Show previous page"
+            />
+          </Tooltip>
+          <Tooltip label="Show next page">
+            <IconButton
+              variant="outline"
+              icon={<CaretRight />}
+              disabled={data?.length !== limit}
+              onClick={() => setPage((p) => p + 1)}
+              aria-label="Show next page"
+            />
+          </Tooltip>
         </Flex>
-      )}
-    </>
-  );
+      </>
+    );
+  } else if (!loading && error) {
+    return <Text>Not Found</Text>;
+  } else {
+    return (
+      <Center>
+        <Spinner />
+      </Center>
+    );
+  }
 };
 
-const ProposalsListPage = withContract(MiscellaneousList) as LayoutPage;
+const MiscellaneousPage: NextPage<WithContractChildProps> = ({ contract }) => (
+  <>
+    <Head>
+      <title>All Miscellaneous Payouts</title>
+    </Head>
+    <Flex alignItems="center" justifyContent="space-between">
+      <Heading as="h2" fontSize="1.75rem">
+        Viewing all miscellaneous payouts
+      </Heading>
+      <CreateNewButton href={`/dashboard/${Tabs.MISCELLANEOUS}/new`} />
+    </Flex>
+    <MiscellaneousList contract={contract} />
+  </>
+);
+
+const ProposalsListPage = withContract(MiscellaneousPage) as LayoutPage;
 
 ProposalsListPage.layout = Layouts.DASHBOARD;
 

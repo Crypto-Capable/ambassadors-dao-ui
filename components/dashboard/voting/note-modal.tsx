@@ -26,7 +26,7 @@ import {
 } from '../../../types';
 
 export type NoteModalProps = {
-  id: string;
+  id: string | number;
   payoutType: PayoutType;
   action: Action.VOTE_APPROVE | Action.VOTE_REJECT | null;
 } & Pick<UseModalProps, 'isOpen' | 'onClose'>;
