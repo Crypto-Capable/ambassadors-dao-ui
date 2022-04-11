@@ -29,6 +29,12 @@ export type SubmissionInfo = {
   submission_link: string;
 };
 
+export type TypesofPayouts =
+  | ProposalType
+  | BountyType
+  | ReferralType
+  | MiscellaneousType;
+
 export enum TypesOfProposals {
   HACKATHON = 'Hackathon',
   MEME_CONTEST = 'MemeContest',
@@ -193,10 +199,6 @@ export type Payout<T> = {
 export type PayoutInput<T> = {
   description: string;
   information: T;
-};
-
-export type PayoutListProps = {
-  contract: CustomContract;
 };
 
 export type getAllPayoutsFnArgs = {

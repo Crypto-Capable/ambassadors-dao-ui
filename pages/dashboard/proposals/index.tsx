@@ -4,8 +4,10 @@ import {
   Center,
   Flex,
   Heading,
+  IconButton,
   Spinner,
   Text,
+  Tooltip,
 } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
@@ -22,6 +24,7 @@ import {
   Tabs,
   PayoutListProps,
 } from '../../../types';
+import { CaretLeft, CaretRight } from 'phosphor-react';
 
 const ProposalsList: React.FC<PayoutListProps> = ({ contract }) => {
   const [page, setPage] = useState(1);
@@ -45,16 +48,25 @@ const ProposalsList: React.FC<PayoutListProps> = ({ contract }) => {
             />
           ))}
         </Box>
-        <Flex alignItems="center" mt={4} justifyContent="space-between">
-          <Button disabled={page < 2} onClick={() => setPage((p) => p - 1)}>
-            Show Prev
-          </Button>
-          <Button
-            disabled={data?.length !== limit}
-            onClick={() => setPage((p) => p + 1)}
-          >
-            Show Next
-          </Button>
+        <Flex alignItems="center" mt={8} justifyContent="space-between">
+          <Tooltip label="Show previous page">
+            <IconButton
+              variant="outline"
+              icon={<CaretLeft />}
+              disabled={page < 2}
+              onClick={() => setPage((p) => p - 1)}
+              aria-label="Show previous page"
+            />
+          </Tooltip>
+          <Tooltip label="Show next page">
+            <IconButton
+              variant="outline"
+              icon={<CaretRight />}
+              disabled={data?.length !== limit}
+              onClick={() => setPage((p) => p + 1)}
+              aria-label="Show next page"
+            />
+          </Tooltip>
         </Flex>
       </>
     );
@@ -69,32 +81,20 @@ const ProposalsList: React.FC<PayoutListProps> = ({ contract }) => {
   }
 };
 
-const ProposalsPage: NextPage<WithContractChildProps> = ({ contract }) => {
-  const [page, setPage] = useState(1);
-
-  return (
-    <>
-      <Head>
-        <title>All Proposals</title>
-      </Head>
-      <Flex alignItems="center" justifyContent="space-between">
-        <Heading as="h2" fontSize="1.75rem">
-          Viewing all proposals
-        </Heading>
-        <CreateNewButton href={`/dashboard/${Tabs.PROPOSALS}/new`} />
-      </Flex>
-      <ProposalsList contract={contract} />
-      {/* {proposals?.length == limit && (
-        <Flex alignItems="center" justifyContent="space-between">
-          {page > 1 && (
-            <Button onClick={() => setPage((p) => p + 1)}>Show Next</Button>
-          )}
-          <Button onClick={() => setPage((p) => p + 1)}>Show Next</Button>
-        </Flex>
-      )} */}
-    </>
-  );
-};
+const ProposalsPage: NextPage<WithContractChildProps> = ({ contract }) => (
+  <>
+    <Head>
+      <title>All Proposals</title>
+    </Head>
+    <Flex alignItems="center" justifyContent="space-between">
+      <Heading as="h2" fontSize="1.75rem">
+        Viewing all proposals
+      </Heading>
+      <CreateNewButton href={`/dashboard/${Tabs.PROPOSALS}/new`} />
+    </Flex>
+    <ProposalsList contract={contract} />
+  </>
+);
 
 const ProposalsListPage = withContract(ProposalsPage) as LayoutPage;
 

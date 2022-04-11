@@ -1,4 +1,5 @@
 import { captureException } from '@sentry/nextjs';
+import { PrimitiveAtom } from 'jotai';
 import { useImmerAtom } from 'jotai/immer';
 import { useState, useEffect, useMemo } from 'react';
 import {
@@ -9,11 +10,10 @@ import {
 } from '../atoms';
 import {
   usePayoutsHook,
-  ProposalType,
   usePayoutHook,
-  BountyType,
-  MiscellaneousType,
-  ReferralType,
+  CacheEntry,
+  Payout,
+  TypesofPayouts,
 } from '../types';
 import getSeconds from '../util/get-seconds';
 
@@ -38,424 +38,144 @@ function extractRangeOfItems<T>(
   return result;
 }
 
-// export type usePayoutsHook<T> = (
-//   args: usePayoutsHookArgs
-// ) => usePayoutsHookReturnType<T>;
+function createUsePayoutsHook<T extends TypesofPayouts>(
+  atom: PrimitiveAtom<Record<number, CacheEntry<Payout<T>>>>,
+  fnName:
+    | 'get_all_proposals'
+    | 'get_all_referrals'
+    | 'get_all_bounties'
+    | 'get_all_miscellaneous'
+): usePayoutsHook<T> {
+  const usePayouts: usePayoutsHook<T> = ({ contract, from, limit }) => {
+    const [payouts, setPayouts] = useImmerAtom(atom);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<unknown>();
 
-// type parentArgs = {
-//   limit: number;
-//   from: number;
-//   fn:
-//     | viewFunctionsType['get_all_bounties']
-//     | viewFunctionsType['get_all_miscellaneous']
-//     | viewFunctionsType['get_all_proposals']
-//     | viewFunctionsType['get_all_referrals'];
-//   payoutType: PayoutType;
-// };
+    useEffect(() => {
+      const loadProposals = async () => {
+        setLoading(true);
+        setError(undefined);
+        try {
+          const res = await contract[fnName]({
+            from_index: from,
+            limit,
+          });
+          setPayouts((draft) => {
+            res.forEach((payout) => {
+              draft[payout.id] = {
+                data: payout as any,
+                updatedAt: getSeconds(),
+              };
+            });
+          });
+        } catch (error) {
+          captureException(error);
+          setError(error);
+        } finally {
+          setLoading(false);
+        }
+      };
 
-// export type ParentHook = (args: parentArgs) => Function;
-// const parentFn: ParentHook = ({ from, limit, fn, payoutType }) => {
-//   return function useHook() {
-//     const [loading, setLoading] = useState(true);
-//     const [error, setError] = useState<unknown>();
+      loadProposals();
+    }, [contract, setPayouts, from, limit]);
 
-//     useEffect(() => {
-//       const loadPayoutItem = async () => {
-//         setLoading(true);
-//         setError(undefined);
-//         try {
-//           const res = fn({ from_index: from, limit });
-//         } catch (error) {
-//           captureException(error);
-//           setError(error);
-//         }
-//       };
-//     });
-//     return 1;
-//   };
-// };
+    const data = useMemo(() => {
+      const slice = extractRangeOfItems(payouts, from, limit);
+      if (slice.length === 0) {
+        return undefined;
+      } else {
+        return slice.map(({ data }) => data);
+      }
+    }, [payouts, from, limit]);
 
-export const useProposals: usePayoutsHook<ProposalType> = ({
-  contract,
-  from,
-  limit,
-}) => {
-  const [proposals, setProposals] = useImmerAtom(proposalsAtom);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<unknown>();
+    return {
+      data,
+      loading,
+      error,
+    } as const;
+  };
 
-  useEffect(() => {
-    const loadProposals = async () => {
-      setLoading(true);
-      setError(undefined);
-      try {
-        const res = await contract.get_all_proposals({
-          from_index: from,
-          limit,
-        });
-        setProposals((draft) => {
-          res.forEach((payout) => {
-            draft[payout.id] = {
-              data: payout,
+  return usePayouts;
+}
+
+export const useProposals = createUsePayoutsHook(
+  proposalsAtom,
+  'get_all_proposals'
+);
+
+export const useBounties = createUsePayoutsHook(
+  bountiesAtom,
+  'get_all_bounties'
+);
+
+export const useReferrals = createUsePayoutsHook(
+  referralsAtom,
+  'get_all_referrals'
+);
+
+export const useMiscellanea = createUsePayoutsHook(
+  miscellaneousAtom,
+  'get_all_miscellaneous'
+);
+
+function createUsePayoutHook<T extends TypesofPayouts>(
+  atom: PrimitiveAtom<Record<number, CacheEntry<Payout<T>>>>,
+  fnName: 'get_proposal' | 'get_referral' | 'get_bounty' | 'get_miscellaneous'
+): usePayoutHook<T> {
+  const usePayout: usePayoutHook<T> = ({ contract, id }) => {
+    const [payouts, setPayouts] = useImmerAtom(atom);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<unknown>();
+
+    useEffect(() => {
+      const loadProposals = async () => {
+        setLoading(true);
+        setError(undefined);
+        try {
+          const res = await contract[fnName]({
+            id,
+          });
+          setPayouts((draft) => {
+            draft[res.id] = {
+              data: res as any,
               updatedAt: getSeconds(),
             };
           });
-        });
-      } catch (error) {
-        captureException(error);
-        setError(error);
-      } finally {
-        setLoading(false);
+        } catch (error) {
+          captureException(error);
+          setError(error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      loadProposals();
+    }, [contract, setPayouts, id]);
+
+    const data = useMemo(() => {
+      if (payouts[id]) {
+        return payouts[id].data;
       }
-    };
-
-    loadProposals();
-  }, [contract, setProposals, from, limit]);
-
-  const data = useMemo(() => {
-    const slice = extractRangeOfItems(proposals, from, limit);
-    if (slice.length === 0) {
       return undefined;
-    } else {
-      return slice.map(({ data }) => data);
-    }
-  }, [proposals, from, limit]);
-  return {
-    data,
-    loading,
-    error,
-  } as const;
-};
+    }, [payouts, id]);
 
-export const useProposal: usePayoutHook<ProposalType> = ({ contract, id }) => {
-  const [proposals, setProposals] = useImmerAtom(proposalsAtom);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<unknown>();
+    return {
+      data,
+      loading,
+      error,
+    } as const;
+  };
 
-  useEffect(() => {
-    const loadProposals = async () => {
-      setLoading(true);
-      setError(undefined);
-      try {
-        const res = await contract.get_proposal({
-          id,
-        });
-        setProposals((draft) => {
-          draft[res.id] = {
-            data: res,
-            updatedAt: getSeconds(),
-          };
-        });
-      } catch (error) {
-        captureException(error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  return usePayout;
+}
 
-    loadProposals();
-  }, [contract, setProposals, id]);
+export const useProposal = createUsePayoutHook(proposalsAtom, 'get_proposal');
 
-  const data = useMemo(() => {
-    if (proposals[id]) {
-      return proposals[id].data;
-    }
-    return undefined;
-  }, [proposals, id]);
+export const useBounty = createUsePayoutHook(bountiesAtom, 'get_bounty');
 
-  return {
-    data,
-    loading,
-    error,
-  } as const;
-};
+export const useReferral = createUsePayoutHook(referralsAtom, 'get_referral');
 
-export const useBounties: usePayoutsHook<BountyType> = ({
-  contract,
-  from,
-  limit,
-}) => {
-  const [bounties, setBounties] = useImmerAtom(bountiesAtom);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<unknown>();
-
-  useEffect(() => {
-    const loadBounties = async () => {
-      setLoading(true);
-      setError(undefined);
-      try {
-        const res = await contract.get_all_bounties({
-          from_index: from,
-          limit,
-        });
-        setBounties((draft) => {
-          res.forEach((payout) => {
-            draft[payout.id] = {
-              data: payout,
-              updatedAt: getSeconds(),
-            };
-          });
-        });
-      } catch (error) {
-        captureException(error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadBounties();
-  }, [contract, setBounties, from, limit]);
-
-  const data = useMemo(() => {
-    const slice = extractRangeOfItems(bounties, from, limit);
-    if (slice.length === 0) {
-      return undefined;
-    } else {
-      return slice.map(({ data }) => data);
-    }
-  }, [bounties, from, limit]);
-
-  return {
-    data,
-    loading,
-    error,
-  } as const;
-};
-
-export const useBounty: usePayoutHook<BountyType> = ({ contract, id }) => {
-  const [bounty, setBounty] = useImmerAtom(bountiesAtom);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<unknown>();
-
-  useEffect(() => {
-    const loadBounty = async () => {
-      setLoading(true);
-      setError(undefined);
-      try {
-        const res = await contract.get_bounty({
-          id,
-        });
-        setBounty((draft) => {
-          draft[res.id] = {
-            data: res,
-            updatedAt: getSeconds(),
-          };
-        });
-      } catch (error) {
-        captureException(error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadBounty();
-  }, [setBounty, contract, id]);
-
-  const data = useMemo(() => {
-    if (bounty[id]) {
-      return bounty[id].data;
-    }
-    return undefined;
-  }, [bounty, id]);
-
-  return {
-    data,
-    loading,
-    error,
-  } as const;
-};
-
-export const useMiscellanea: usePayoutsHook<MiscellaneousType> = ({
-  contract,
-  from,
-  limit,
-}) => {
-  const [miscellaneous, setMiscellaneous] = useImmerAtom(miscellaneousAtom);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<unknown>();
-
-  useEffect(() => {
-    const loadMiscellaneous = async () => {
-      setLoading(true);
-      setError(undefined);
-      try {
-        const res = await contract.get_all_miscellaneous({
-          from_index: from,
-          limit,
-        });
-        setMiscellaneous((draft) => {
-          res.forEach((payout) => {
-            draft[payout.id] = {
-              data: payout,
-              updatedAt: getSeconds(),
-            };
-          });
-        });
-      } catch (error) {
-        captureException(error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadMiscellaneous();
-  }, [contract, setMiscellaneous, from, limit]);
-
-  const data = useMemo(() => {
-    const slice = extractRangeOfItems(miscellaneous, from, limit);
-    if (slice.length === 0) {
-      return undefined;
-    } else {
-      return slice.map(({ data }) => data);
-    }
-  }, [miscellaneous, from, limit]);
-
-  return {
-    data,
-    loading,
-    error,
-  } as const;
-};
-
-export const useMiscellaneous: usePayoutHook<MiscellaneousType> = ({
-  contract,
-  id,
-}) => {
-  const [miscellaneous, setMiscellaneous] = useImmerAtom(miscellaneousAtom);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<unknown>();
-
-  useEffect(() => {
-    const loadMiscellaneous = async () => {
-      setLoading(true);
-      setError(undefined);
-      try {
-        const res = await contract.get_miscellaneous({
-          id,
-        });
-        setMiscellaneous((draft) => {
-          draft[res.id] = {
-            data: res,
-            updatedAt: getSeconds(),
-          };
-        });
-      } catch (error) {
-        captureException(error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadMiscellaneous();
-  }, [setMiscellaneous, contract, id]);
-
-  const data = useMemo(() => {
-    if (miscellaneous[id]) {
-      return miscellaneous[id].data;
-    }
-    return undefined;
-  }, [miscellaneous, id]);
-
-  return {
-    data,
-    loading,
-    error,
-  } as const;
-};
-
-export const useReferrals: usePayoutsHook<ReferralType> = ({
-  contract,
-  from,
-  limit,
-}) => {
-  const [referrals, setReferrals] = useImmerAtom(referralsAtom);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<unknown>();
-
-  useEffect(() => {
-    const loadReferrals = async () => {
-      setLoading(false);
-      setError(undefined);
-      try {
-        const res = await contract.get_all_referrals({
-          from_index: from,
-          limit,
-        });
-        setReferrals((draft) => {
-          res.forEach((payout) => {
-            draft[payout.id] = {
-              data: payout,
-              updatedAt: getSeconds(),
-            };
-          });
-        });
-      } catch (error) {
-        captureException(error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadReferrals();
-  }, [contract, setReferrals, from, limit]);
-
-  const data = useMemo(() => {
-    const slice = extractRangeOfItems(referrals, from, limit);
-    if (slice.length === 0) {
-      return undefined;
-    } else {
-      return slice.map(({ data }) => data);
-    }
-  }, [referrals, from, limit]);
-
-  return {
-    data,
-    loading,
-    error,
-  } as const;
-};
-
-export const useReferral: usePayoutHook<ReferralType> = ({ contract, id }) => {
-  const [referral, setReferral] = useImmerAtom(referralsAtom);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<unknown>();
-
-  useEffect(() => {
-    const loadReferral = async () => {
-      setLoading(true);
-      setError(undefined);
-      try {
-        const res = await contract.get_referral({ id });
-        setReferral((draft) => {
-          draft[res.id] = {
-            data: res,
-            updatedAt: getSeconds(),
-          };
-        });
-      } catch (error) {
-        captureException(error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadReferral();
-  }, [contract, setReferral, id]);
-
-  const data = useMemo(() => {
-    if (referral[id]) return referral[id].data;
-    return undefined;
-  }, [referral, id]);
-
-  return {
-    data,
-    loading,
-    error,
-  } as const;
-};
+export const useMiscellaneous = createUsePayoutHook(
+  miscellaneousAtom,
+  'get_miscellaneous'
+);

@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { Layouts } from '../layouts';
-import { CustomContract, Payout } from './contract';
+import { CustomContract, Payout, TypesofPayouts } from './contract';
 
 export type LayoutPage<T = {}> = NextPage<T> & {
   layout: Layouts;
@@ -38,7 +38,7 @@ export type usePayoutsHookArgs = {
 
 export type usePayoutsHookReturnType<T> = useEntityHookReturnType<Payout<T>[]>;
 
-export type usePayoutsHook<T> = (
+export type usePayoutsHook<T extends TypesofPayouts> = (
   args: usePayoutsHookArgs
 ) => usePayoutsHookReturnType<T>;
 
@@ -52,3 +52,5 @@ export type usePayoutHookReturnType<T> = useEntityHookReturnType<Payout<T>>;
 export type usePayoutHook<T> = (
   args: usePayoutHookArgs
 ) => usePayoutHookReturnType<T>;
+
+export type PayoutListProps = { contract: CustomContract };
