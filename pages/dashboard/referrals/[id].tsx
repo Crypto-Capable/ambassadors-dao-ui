@@ -27,14 +27,19 @@ const ReferralItem: NextPage<WithContractChildProps> = ({
 }) => {
   const { id } = useRouter().query as { id: string };
   const { data: referral, loading } = useReferral({ contract, id: Number(id) });
-  if (referral !== undefined)
+
+  if (referral !== undefined) {
+    const displayRemovePayoutBtn =
+      contract.account.accountId === referral.proposer &&
+      referral.status !== 'UnderConsideration';
+
     return (
       <>
         <Head>
           <title>All Referrals</title>
         </Head>
         <Flex alignItems="center" justifyContent="space-between">
-          <Flex flexDir={'column'}>
+          <Flex flexDir="column">
             <Heading as="h2" fontSize="1.75rem">
               Viewing Referral {id}
             </Heading>
@@ -44,7 +49,7 @@ const ReferralItem: NextPage<WithContractChildProps> = ({
               </Box>
             )}
           </Flex>
-          {contract.account.accountId === referral?.proposer && (
+          {displayRemovePayoutBtn && (
             <RemovePayout payoutId={id} payoutType={PayoutType.REFERRAL} />
           )}
         </Flex>
@@ -89,7 +94,7 @@ const ReferralItem: NextPage<WithContractChildProps> = ({
         </Box>
       </>
     );
-  else if (referral === undefined && !loading) {
+  } else if (referral === undefined && !loading) {
     return <Text>Not Found</Text>;
   } else {
     return (

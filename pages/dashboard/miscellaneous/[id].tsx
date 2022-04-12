@@ -28,7 +28,12 @@ const MiscellaneousItem: NextPage<WithContractChildProps> = ({
     contract,
     id: Number(id),
   });
-  if (misc !== undefined)
+
+  if (misc !== undefined) {
+    const displayRemovePayoutBtn =
+      contract.account.accountId === misc.proposer &&
+      misc.status !== 'UnderConsideration';
+
     return (
       <>
         <Head>
@@ -45,7 +50,7 @@ const MiscellaneousItem: NextPage<WithContractChildProps> = ({
               </Box>
             )}
           </Flex>
-          {contract.account.accountId === misc?.proposer && (
+          {displayRemovePayoutBtn && (
             <RemovePayout payoutId={id} payoutType={PayoutType.MISCELLANEOUS} />
           )}
         </Flex>
@@ -88,7 +93,7 @@ const MiscellaneousItem: NextPage<WithContractChildProps> = ({
         </Box>
       </>
     );
-  else if (misc === undefined && !loading) {
+  } else if (misc === undefined && !loading) {
     return <Text>Not Found</Text>;
   } else {
     return (

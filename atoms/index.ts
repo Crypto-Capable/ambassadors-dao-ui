@@ -1,5 +1,6 @@
 import { atom } from 'jotai';
 import {
+  AmbassadorProfile,
   BountyType,
   CacheEntry,
   MiscellaneousType,
@@ -8,18 +9,20 @@ import {
   ReferralType,
 } from '../types';
 
-export const proposalsAtom = atom(
-  {} as Record<number, CacheEntry<Payout<ProposalType>>>
-);
+export const proposalsAtom = atom<
+  Record<number, CacheEntry<Payout<ProposalType>>>
+>({});
 
-export const bountiesAtom = atom(
-  {} as Record<number, CacheEntry<Payout<BountyType>>>
-);
+export const bountiesAtom = atom<
+  Record<number, CacheEntry<Payout<BountyType>>>
+>({});
 
-export const referralsAtom = atom(
-  {} as Record<number, CacheEntry<Payout<ReferralType>>>
-);
+export const referralsAtom = atom<
+  Record<number, CacheEntry<Payout<ReferralType>>>
+>({});
 
-export const miscellaneousAtom = atom(
-  {} as Record<number, CacheEntry<Payout<MiscellaneousType>>>
-);
+export const miscellaneousAtom = atom<
+  Record<number, CacheEntry<Payout<MiscellaneousType>>>
+>({});
+
+export const ambassadorProfileAtom = atom<AmbassadorProfile | null>(null);

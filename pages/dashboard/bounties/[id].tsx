@@ -28,7 +28,12 @@ const BountyItem: NextPage<WithContractChildProps> = ({
 }) => {
   const { id } = useRouter().query as { id: string };
   const { data: bounty, loading } = useBounty({ contract, id: Number(id) });
-  if (bounty !== undefined)
+
+  if (bounty !== undefined) {
+    const displayRemovePayoutBtn =
+      contract.account.accountId === bounty.proposer &&
+      bounty.status !== 'UnderConsideration';
+
     return (
       <>
         <Head>
@@ -45,7 +50,7 @@ const BountyItem: NextPage<WithContractChildProps> = ({
               </Box>
             )}
           </Flex>
-          {contract.account.accountId === bounty?.proposer && (
+          {displayRemovePayoutBtn && (
             <RemovePayout payoutId={id} payoutType={PayoutType.BOUNTY} />
           )}
         </Flex>
@@ -92,8 +97,9 @@ const BountyItem: NextPage<WithContractChildProps> = ({
         </Box>
       </>
     );
-  else if (bounty === undefined && !loading) return <Text>Not Found</Text>;
-  else {
+  } else if (bounty === undefined && !loading) {
+    return <Text>Not Found</Text>;
+  } else {
     return (
       <Center height="full">
         <Spinner />
