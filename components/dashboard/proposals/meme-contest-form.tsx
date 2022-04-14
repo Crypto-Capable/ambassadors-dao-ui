@@ -93,7 +93,7 @@ export const MemeContestForm: React.FC<MemeContestFormProps> = ({
       </FormControl>
       <FormControl isRequired>
         <FormLabel htmlFor="estimatedBudget">
-          Estimated Budget (Value in NEAR)
+          Estimated Budget (Value in USD)
         </FormLabel>
         <Input
           id="estimatedBudget"
@@ -104,7 +104,7 @@ export const MemeContestForm: React.FC<MemeContestFormProps> = ({
           }
         />
         <FormHelperText>
-          The amount of money you will require, in Near tokens.
+          The amount of money you will require, in USD.
         </FormHelperText>
       </FormControl>
       <FormControl isRequired>

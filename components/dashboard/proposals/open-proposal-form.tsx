@@ -73,7 +73,7 @@ export const OpenProposalForm: React.FC<OpenProposalFormProps> = ({
       </FormControl>
       <FormControl isRequired>
         <FormLabel htmlFor="estimatedBudget">
-          Estimated Budget (Value in NEAR)
+          Estimated Budget (Value in USD)
         </FormLabel>
         <Input
           id="estimatedBudget"
@@ -84,7 +84,7 @@ export const OpenProposalForm: React.FC<OpenProposalFormProps> = ({
           }
         />
         <FormHelperText>
-          The amount of money you will require, in Near tokens.
+          The amount of money you will require, in USD.
         </FormHelperText>
       </FormControl>
       <FormControl isRequired>
