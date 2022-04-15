@@ -23,6 +23,12 @@ export type VotesCount = {
   reject_count: number;
 };
 
+export type AmbassadorProfile = {
+  id: number;
+  referral_token: string;
+  registration_referral_used: boolean;
+};
+
 export type SubmissionInfo = {
   name: string;
   account_id: string;
@@ -220,11 +226,12 @@ export type AccountIdArgs = { account_id: string };
 
 export type viewFunctionsType = {
   version: () => Promise<string>;
-  get_config: () => Promise<any>;
   get_policy: () => Promise<any>;
 
+  get_council: () => Promise<string[]>;
   is_council_member: (args: AccountIdArgs) => Promise<boolean>;
   is_registered_ambassador: (args: AccountIdArgs) => Promise<boolean>;
+  get_ambassador_profile: (args: AccountIdArgs) => Promise<AmbassadorProfile>;
 
   get_all_proposals: getAllPayoutsFn<ProposalType>;
   get_proposal: getPayoutFn<ProposalType>;
@@ -259,10 +266,6 @@ export type actPayoutFn = (args: actPayoutFnArgs) => Promise<void>;
 
 export type changeFunctionsType = {
   register_ambassador: (args: { token: String | null }) => Promise<boolean>;
-
-  get_council_referral_token: (args: AccountIdArgs) => Promise<string>;
-  get_ambassador_referral_token: (args: AccountIdArgs) => Promise<string>;
-  get_council: () => Promise<string[]>;
 
   add_payout_proposal: addPayoutFn<ProposalType>;
   add_payout_bounty: addPayoutFn<BountyType>;

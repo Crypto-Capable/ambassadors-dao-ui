@@ -27,7 +27,12 @@ const ProposalItem: NextPage<WithContractChildProps> = ({
 }) => {
   const { id } = useRouter().query as { id: string };
   const { data: proposal, loading } = useProposal({ contract, id: Number(id) });
+
   if (proposal !== undefined) {
+    const displayRemovePayoutBtn =
+      contract.account.accountId === proposal.proposer &&
+      proposal.status !== 'UnderConsideration';
+
     return (
       <>
         <Head>
@@ -44,7 +49,7 @@ const ProposalItem: NextPage<WithContractChildProps> = ({
               </Box>
             )}
           </Flex>
-          {contract.account.accountId === proposal?.proposer && (
+          {displayRemovePayoutBtn && (
             <RemovePayout payoutId={id} payoutType={PayoutType.PROPOSAL} />
           )}
         </Flex>

@@ -2,6 +2,9 @@ import { Contract } from 'near-api-js';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useAuthContext } from './auth-context';
 import { CustomContract } from '../types';
+import { captureException } from '@sentry/nextjs';
+import { ambassadorProfileAtom } from '../atoms';
+import { useAtom } from 'jotai';
 
 type ContractContextType = {
   contract: CustomContract;
@@ -12,10 +15,10 @@ export const ContractContext = createContext<ContractContextType>(null);
 
 const viewMethods = [
   'version',
-  'get_config',
-  'get_policy',
+  'get_council',
   'is_council_member',
   'is_registered_ambassador',
+  'get_ambassador_profile',
   'get_all_proposals',
   'get_proposal',
   'get_last_proposal_id',
@@ -40,16 +43,15 @@ const changeMethods = [
   'act_payout_referral',
   'act_payout_miscellaneous',
   'register_ambassador',
-  'get_council_referral_token',
-  'get_ambassador_referral_token',
 ];
 
 export const ContractProvider: React.FC = ({ children }) => {
-  const [contract, setContract] = useState<{
+  const [contractContext, setContractContext] = useState<{
     contract: CustomContract;
     isCouncilMember: boolean;
   } | null>(null);
   const { wallet } = useAuthContext();
+  const [, setProfile] = useAtom(ambassadorProfileAtom);
 
   useEffect(() => {
     if (!wallet) return;
@@ -57,10 +59,7 @@ export const ContractProvider: React.FC = ({ children }) => {
     const contract = new Contract(
       wallet.account(),
       process.env.NEXT_PUBLIC_CONTRACT_NAME,
-      {
-        viewMethods: viewMethods,
-        changeMethods: changeMethods,
-      }
+      { viewMethods, changeMethods }
     ) as CustomContract;
 
     const accountId = wallet.getAccountId();
@@ -70,15 +69,33 @@ export const ContractProvider: React.FC = ({ children }) => {
     contract
       .is_council_member({ account_id: accountId })
       .then((isCouncilMember) => {
-        setContract({
+        setContractContext({
           contract,
           isCouncilMember,
         });
-      });
+      })
+      .catch(captureException);
   }, [wallet]);
 
+  useEffect(() => {
+    if (!contractContext) {
+      setProfile(null);
+      return;
+    }
+
+    const { contract, isCouncilMember } = contractContext;
+    if (!isCouncilMember) {
+      contract
+        .get_ambassador_profile({
+          account_id: contract.account.accountId,
+        })
+        .then(setProfile)
+        .catch(captureException);
+    }
+  }, [contractContext, setProfile]);
+
   return (
-    <ContractContext.Provider value={contract}>
+    <ContractContext.Provider value={contractContext}>
       {children}
     </ContractContext.Provider>
   );

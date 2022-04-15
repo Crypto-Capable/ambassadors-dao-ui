@@ -93,7 +93,7 @@ export const ContentCreationForm: React.FC<ContentCreationBountyFormProps> = ({
         </FormHelperText>
       </FormControl>
       <FormControl isRequired>
-        <FormLabel htmlFor="expectedAmount">Content Links</FormLabel>
+        <FormLabel htmlFor="expectedAmount">Estimated Budget</FormLabel>
         <Input
           id="expectedAmount"
           type="number"
@@ -102,7 +102,7 @@ export const ContentCreationForm: React.FC<ContentCreationBountyFormProps> = ({
           placeholder={linksPlaceholder}
         />
         <FormHelperText>
-          The expected amount of NEAR tokens for the content produced.
+          The expected amount of USD for the content produced.
         </FormHelperText>
       </FormControl>
       <FormControl isRequired>

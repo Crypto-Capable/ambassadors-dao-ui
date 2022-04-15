@@ -90,7 +90,7 @@ export const HackathonForm: React.FC<HackathonFormProps> = ({
       </FormControl>
       <FormControl isRequired>
         <FormLabel htmlFor="estimatedBudget">
-          Estimated Budget (Value in NEAR)
+          Estimated Budget (Value in USD)
         </FormLabel>
         <Input
           id="estimatedBudget"
@@ -101,7 +101,7 @@ export const HackathonForm: React.FC<HackathonFormProps> = ({
           }
         />
         <FormHelperText>
-          The amount of money you will require, in Near tokens.
+          The amount of money you will require, in USD.
         </FormHelperText>
       </FormControl>
       <FormControl isRequired>

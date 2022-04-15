@@ -2,12 +2,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
 import { withSentry } from '@sentry/nextjs';
 
-const privateKey = process.env.NEARAMP_PRIVATE_KEY; // RSA Private Key
+const PRIVATE_KEY = JSON.parse(process.env.NEARAMP_PRIVATE_KEY).privateKey; // RSA Private Key
 
 function generateJWT() {
   // valid for 10 minutes = 600 seconds
   const exp = Math.floor(Date.now() / 1000) + 600; // token expiry window
-  const token = jwt.sign({ exp }, privateKey, { algorithm: 'RS256' });
+  const token = jwt.sign({ exp }, PRIVATE_KEY, { algorithm: 'RS256' });
   return token;
 }
 

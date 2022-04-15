@@ -15,7 +15,7 @@ export const ItemDetailContainer: React.FC<ItemContainerProps> = ({
   <Flex mt={2} gap="6px">
     <Text>{text}</Text>
     <Text pl="2" pr="2" bg="gray.100">
-      {value} {denomination && 'Near'}
+      {value} {denomination && 'USD'}
     </Text>
   </Flex>
 );
