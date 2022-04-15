@@ -34,8 +34,8 @@ export const AuthProvider: React.FC = ({ children }) => {
       wallet!.requestSignIn(
         process.env.NEXT_PUBLIC_CONTRACT_NAME,
         'Crypto Capable Ambassadors DAO',
-        `${process.env.NEXT_PUBLIC_HOST}/register/success`,
-        `${process.env.NEXT_PUBLIC_HOST}/register/failure`
+        `${process.env.NEXT_PUBLIC_VERCEL_URL}/register/success`,
+        `${process.env.NEXT_PUBLIC_VERCEL_URL}/register/failure`
       );
     } catch (error) {
       console.log(error);
