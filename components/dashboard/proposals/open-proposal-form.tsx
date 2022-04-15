@@ -9,10 +9,11 @@ import {
 import React, { useState } from 'react';
 import { useContractContext } from '../../../context/contract-context';
 import { placeholderDropboxLink } from '../../../util/constants';
+import { handlePayoutCreationError } from '../../../util/errors';
 
 export type OpenProposalFormProps = {
   onSubmitStart: () => void;
-  onSubmitEnd: (v: number) => void;
+  onSubmitEnd: (v: number, msg?: string) => void;
 };
 
 export const OpenProposalForm: React.FC<OpenProposalFormProps> = ({
@@ -50,8 +51,8 @@ export const OpenProposalForm: React.FC<OpenProposalFormProps> = ({
       });
       onSubmitEnd(v);
     } catch (err) {
-      console.log(err);
-      onSubmitEnd(-1);
+      const msg = handlePayoutCreationError(err);
+      onSubmitEnd(-1, msg);
     } finally {
       setSubmitting(false);
     }

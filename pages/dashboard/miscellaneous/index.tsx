@@ -30,6 +30,7 @@ const MiscellaneousList: React.FC<PayoutListProps> = ({ contract }) => {
   const [page, setPage] = useState(1);
   const from = (page - 1) * limit + 1;
   const { data, loading, error } = useMiscellanea({ contract, from, limit });
+
   if (data !== undefined) {
     return data.length === 0 ? (
       <Text>No miscellaneous payouts to view!</Text>
@@ -85,7 +86,7 @@ const MiscellaneousPage: NextPage<WithContractChildProps> = ({ contract }) => (
     <Head>
       <title>All Miscellaneous Payouts</title>
     </Head>
-    <Flex alignItems="center" justifyContent="space-between">
+    <Flex alignItems="center" justifyContent="space-between" mb="4">
       <Heading as="h2" fontSize="1.75rem">
         Viewing all miscellaneous payouts
       </Heading>

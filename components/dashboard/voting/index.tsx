@@ -80,7 +80,7 @@ const VotesDisplay: React.FC<VotesDisplayProps> = ({
       )}
 
       {votesArray.length === 0 ? (
-        <Text>No votes to show yet</Text>
+        <Text mt="2">No votes to show yet</Text>
       ) : (
         <TableContainer mt="4">
           <Table variant="simple">
@@ -105,7 +105,8 @@ const VotesDisplay: React.FC<VotesDisplayProps> = ({
       {isCouncilMember &&
         (alreadyVoted ? (
           <Text mt="4">
-            You have {alreadyVoted![1]}ed the {payoutType}
+            You have {alreadyVoted[1] === 'Approve' ? 'Approved' : 'Rejected'}{' '}
+            the {payoutType} {alreadyVoted[1] === 'Approve' ? '🥳' : '🤧'}
           </Text>
         ) : (
           <Ballot id={payoutId} payoutType={payoutType} />

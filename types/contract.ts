@@ -35,7 +35,7 @@ export type SubmissionInfo = {
   submission_link: string;
 };
 
-export type TypesofPayouts =
+export type TypesOfPayouts =
   | ProposalType
   | BountyType
   | ReferralType

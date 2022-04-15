@@ -14,10 +14,11 @@ import {
   placeholderDropboxLink,
   placeholderInstagramLink,
 } from '../../../util/constants';
+import { handlePayoutCreationError } from '../../../util/errors';
 
 export type ContentCreationBountyFormProps = {
   onSubmitStart: () => void;
-  onSubmitEnd: (v: number) => void;
+  onSubmitEnd: (v: number, msg?: string) => void;
 };
 
 const linksPlaceholder = `${placeholderDriveLink}\n${placeholderDropboxLink}\n${placeholderInstagramLink}`;
@@ -60,8 +61,8 @@ export const ContentCreationForm: React.FC<ContentCreationBountyFormProps> = ({
       });
       onSubmitEnd(v);
     } catch (err) {
-      console.log(err);
-      onSubmitEnd(-1);
+      const msg = handlePayoutCreationError(err);
+      onSubmitEnd(-1, msg);
     } finally {
       setSubmitting(false);
     }

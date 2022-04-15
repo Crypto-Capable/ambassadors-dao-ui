@@ -47,7 +47,7 @@ const BountiesList: React.FC<PayoutListProps> = ({ contract }) => {
             />
           ))}
         </Box>
-        <Flex alignItems="center" mt={8} justifyContent="space-between">
+        <Flex alignItems="center" mt="8" justifyContent="space-between">
           <Tooltip label="Show previous page">
             <IconButton
               variant="outline"
@@ -85,7 +85,7 @@ const BountiesPage: NextPage<WithContractChildProps> = ({ contract }) => (
     <Head>
       <title>All Bounties</title>
     </Head>
-    <Flex alignItems="center" justifyContent="space-between">
+    <Flex alignItems="center" justifyContent="space-between" mb="4">
       <Heading as="h2" fontSize="1.75rem">
         Viewing all bounties
       </Heading>

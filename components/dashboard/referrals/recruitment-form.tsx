@@ -9,10 +9,11 @@ import {
 import React, { useState } from 'react';
 import { useContractContext } from '../../../context/contract-context';
 import { placeholderAccountId } from '../../../util/constants';
+import { handlePayoutCreationError } from '../../../util/errors';
 
 export type RecruitmentFormProps = {
   onSubmitStart: () => void;
-  onSubmitEnd: (v: number) => void;
+  onSubmitEnd: (v: number, msg?: string) => void;
 };
 
 export const RecruitmentForm: React.FC<RecruitmentFormProps> = ({
@@ -49,8 +50,8 @@ export const RecruitmentForm: React.FC<RecruitmentFormProps> = ({
       });
       onSubmitEnd(v);
     } catch (err) {
-      console.log(err);
-      onSubmitEnd(-1);
+      const msg = handlePayoutCreationError(err);
+      onSubmitEnd(-1, msg);
     } finally {
       setSubmitting(false);
     }

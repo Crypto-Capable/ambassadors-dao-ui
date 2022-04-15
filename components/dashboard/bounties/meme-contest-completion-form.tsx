@@ -11,11 +11,12 @@ import {
 import React, { useState } from 'react';
 import { useContractContext } from '../../../context/contract-context';
 import { SubmissionInfo } from '../../../types';
+import { handlePayoutCreationError } from '../../../util/errors';
 import SubmissionInfoInput from './submission-info-input';
 
 export type MemeContestCompletionFormProps = {
   onSubmitStart: () => void;
-  onSubmitEnd: (v: number) => void;
+  onSubmitEnd: (v: number, msg?: string) => void;
 };
 
 const dummySubmissionInfo: SubmissionInfo = {
@@ -42,7 +43,6 @@ export const MemeContestCompletionForm: React.FC<
   const handleOnDone = (n: number) => (s: SubmissionInfo) => {
     setWinnersInfo((i) => {
       i[n] = s;
-      console.log(i);
       return i;
     });
   };
@@ -71,8 +71,8 @@ export const MemeContestCompletionForm: React.FC<
       });
       onSubmitEnd(v);
     } catch (err) {
-      console.log(err);
-      onSubmitEnd(-1);
+      const msg = handlePayoutCreationError(err);
+      onSubmitEnd(-1, msg);
     } finally {
       setSubmitting(false);
     }

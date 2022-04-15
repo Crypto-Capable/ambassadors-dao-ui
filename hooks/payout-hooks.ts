@@ -13,7 +13,7 @@ import {
   usePayoutHook,
   CacheEntry,
   Payout,
-  TypesofPayouts,
+  TypesOfPayouts,
 } from '../types';
 import getSeconds from '../util/get-seconds';
 
@@ -21,7 +21,7 @@ import getSeconds from '../util/get-seconds';
  * It extracts objects from the cache based on their keys
  *
  * If the key is in the range (from, from + limit) inclusive
- * the returning array will containt that value
+ * the returning array will contain that value
  *
  */
 function extractRangeOfItems<T>(
@@ -38,7 +38,7 @@ function extractRangeOfItems<T>(
   return result;
 }
 
-function createUsePayoutsHook<T extends TypesofPayouts>(
+function createUsePayoutsHook<T extends TypesOfPayouts>(
   atom: PrimitiveAtom<Record<number, CacheEntry<Payout<T>>>>,
   fnName:
     | 'get_all_proposals'
@@ -81,12 +81,15 @@ function createUsePayoutsHook<T extends TypesofPayouts>(
 
     const data = useMemo(() => {
       const slice = extractRangeOfItems(payouts, from, limit);
-      if (slice.length === 0) {
-        return undefined;
+      if (slice.length === 0 && loading) {
+        if (loading) {
+          return undefined;
+        }
+        return [];
       } else {
         return slice.map(({ data }) => data);
       }
-    }, [payouts, from, limit]);
+    }, [payouts, from, limit, loading]);
 
     return {
       data,
@@ -118,7 +121,7 @@ export const useMiscellanea = createUsePayoutsHook(
   'get_all_miscellaneous'
 );
 
-function createUsePayoutHook<T extends TypesofPayouts>(
+function createUsePayoutHook<T extends TypesOfPayouts>(
   atom: PrimitiveAtom<Record<number, CacheEntry<Payout<T>>>>,
   fnName: 'get_proposal' | 'get_referral' | 'get_bounty' | 'get_miscellaneous'
 ): usePayoutHook<T> {

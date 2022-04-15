@@ -25,7 +25,7 @@ const NewMiscellaneous: LayoutPage = () => {
   };
 
   const handleSubmitStart = () => setSubmitting(true);
-  const handleSubmitEnd = (v: number) => {
+  const handleSubmitEnd = (v: number, msg?: string) => {
     setSubmitting(false);
     if (v > 0) {
       toast({
@@ -35,7 +35,7 @@ const NewMiscellaneous: LayoutPage = () => {
       router.push(`/dashboard/${Tabs.MISCELLANEOUS}/${v}`);
     } else {
       toast({
-        description: 'Miscellaneous payout creation failed, try again',
+        description: msg,
         status: 'error',
       });
     }

@@ -1,4 +1,5 @@
 import { Center, Heading, Spinner } from '@chakra-ui/react';
+import { captureException } from '@sentry/nextjs';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -27,7 +28,7 @@ const SuccessPage = () => {
             setDisplayReferralInput(true);
           }
         })
-        .catch(console.log);
+        .catch(captureException);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contractContext]);

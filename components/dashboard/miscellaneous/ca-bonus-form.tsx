@@ -9,10 +9,11 @@ import {
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useContractContext } from '../../../context/contract-context';
+import { handlePayoutCreationError } from '../../../util/errors';
 
 export type CABonusFormProps = {
   onSubmitStart: () => void;
-  onSubmitEnd: (v: number) => void;
+  onSubmitEnd: (v: number, msg?: string) => void;
 };
 
 export const CABonusForm: React.FC<CABonusFormProps> = ({
@@ -48,8 +49,8 @@ export const CABonusForm: React.FC<CABonusFormProps> = ({
       });
       onSubmitEnd(v);
     } catch (err) {
-      console.log(err);
-      onSubmitEnd(-1);
+      const msg = handlePayoutCreationError(err);
+      onSubmitEnd(-1, msg);
     } finally {
       setSubmitting(false);
     }

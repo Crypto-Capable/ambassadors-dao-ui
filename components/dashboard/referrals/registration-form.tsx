@@ -9,10 +9,11 @@ import {
 import React, { useState } from 'react';
 import { useContractContext } from '../../../context/contract-context';
 import { placeholderReferralToken } from '../../../util/constants';
+import { handlePayoutCreationError } from '../../../util/errors';
 
 export type RegistrationFormProps = {
   onSubmitStart: () => void;
-  onSubmitEnd: (v: number) => void;
+  onSubmitEnd: (v: number, msg?: string) => void;
 };
 
 export const RegistrationForm: React.FC<RegistrationFormProps> = ({
@@ -39,8 +40,8 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
       await contract.contract.register_ambassador({ token: referralToken });
       onSubmitEnd(0);
     } catch (err) {
-      console.log(err);
-      onSubmitEnd(-1);
+      const msg = handlePayoutCreationError(err);
+      onSubmitEnd(-1, msg);
     } finally {
       setSubmitting(false);
     }

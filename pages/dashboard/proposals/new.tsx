@@ -26,7 +26,7 @@ const NewProposal: LayoutPage = () => {
   };
 
   const handleSubmitStart = () => setSubmitting(true);
-  const handleSubmitEnd = (v: number) => {
+  const handleSubmitEnd = (v: number, msg?: string) => {
     setSubmitting(false);
     if (v > 0) {
       toast({
@@ -36,7 +36,7 @@ const NewProposal: LayoutPage = () => {
       router.push(`/dashboard/${Tabs.PROPOSALS}/${v}`);
     } else {
       toast({
-        description: 'Proposal creation failed, try again',
+        description: msg,
         status: 'error',
       });
     }
