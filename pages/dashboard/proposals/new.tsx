@@ -30,14 +30,16 @@ const NewProposal: LayoutPage = () => {
     setSubmitting(false);
     if (v > 0) {
       toast({
-        description: 'Proposal created',
+        title: 'Proposal created',
         status: 'success',
       });
       router.push(`/dashboard/${Tabs.PROPOSALS}/${v}`);
     } else {
       toast({
+        title: 'Proposal creation failed',
         description: msg,
         status: 'error',
+        duration: 10000,
       });
     }
   };

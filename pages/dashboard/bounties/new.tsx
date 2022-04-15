@@ -31,14 +31,16 @@ const NewBounty: LayoutPage = () => {
 
     if (v > 0) {
       toast({
-        description: 'Bounty created',
+        title: 'Bounty created',
         status: 'success',
       });
       router.push(`/dashboard/${Tabs.BOUNTIES}/${v}`);
     } else {
       toast({
+        title: 'Bounty creation failed',
         description: msg,
         status: 'error',
+        duration: 10000,
       });
     }
   };
