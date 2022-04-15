@@ -98,7 +98,7 @@ export const HackathonCompletionForm: React.FC<
         <Input
           id="numOfRegistrations"
           type="number"
-          value={numOfRegistrations}
+          value={numOfRegistrations === 0 ? '' : numOfRegistrations}
           onChange={({ target: { value } }) =>
             setNumOfRegistrations(Number(value))
           }
@@ -112,7 +112,7 @@ export const HackathonCompletionForm: React.FC<
         <Input
           id="numOfSubmissions"
           type="number"
-          value={numOfSubmissions}
+          value={numOfSubmissions === 0 ? '' : numOfSubmissions}
           onChange={({ target: { value } }) =>
             setNumOfSubmissions(Number(value))
           }

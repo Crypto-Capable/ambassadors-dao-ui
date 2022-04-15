@@ -79,7 +79,7 @@ export const OpenProposalForm: React.FC<OpenProposalFormProps> = ({
         <Input
           id="estimatedBudget"
           type="number"
-          value={estimatedBudget}
+          value={estimatedBudget === 0 ? '' : estimatedBudget}
           onChange={({ target: { value } }) =>
             setEstimatedBudget(Number(value))
           }

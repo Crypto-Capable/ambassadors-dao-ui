@@ -80,7 +80,7 @@ export const HackathonForm: React.FC<HackathonFormProps> = ({
         <Input
           id="expectedRegistrations"
           type="number"
-          value={expectedRegistrations}
+          value={expectedRegistrations === 0 ? '' : expectedRegistrations}
           onChange={({ target: { value } }) =>
             setExpectedRegistrations(Number(value))
           }
@@ -96,7 +96,7 @@ export const HackathonForm: React.FC<HackathonFormProps> = ({
         <Input
           id="estimatedBudget"
           type="number"
-          value={estimatedBudget}
+          value={estimatedBudget === 0 ? '' : estimatedBudget}
           onChange={({ target: { value } }) =>
             setEstimatedBudget(Number(value))
           }

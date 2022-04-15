@@ -95,7 +95,7 @@ export const MemeContestCompletionForm: React.FC<
         <Input
           id="numOfSubmissions"
           type="number"
-          value={numOfSubmissions}
+          value={numOfSubmissions === 0 ? '' : numOfSubmissions}
           onChange={({ target: { value } }) =>
             setNumOfSubmissions(Number(value))
           }
