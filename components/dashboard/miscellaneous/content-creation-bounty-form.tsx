@@ -7,6 +7,7 @@ import {
   Button,
   Textarea,
 } from '@chakra-ui/react';
+import exp from 'constants';
 import React, { useState } from 'react';
 import { useContractContext } from '../../../context/contract-context';
 import {
@@ -97,7 +98,7 @@ export const ContentCreationForm: React.FC<ContentCreationBountyFormProps> = ({
         <Input
           id="expectedAmount"
           type="number"
-          value={expectedAmount}
+          value={expectedAmount === 0 ? '' : expectedAmount}
           onChange={({ target: { value } }) => setExpectedAmount(Number(value))}
           placeholder={linksPlaceholder}
         />

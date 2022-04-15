@@ -79,7 +79,7 @@ export const WebinarForm: React.FC<WebinarFormProps> = ({
         <Input
           id="numOfRegistrations"
           type="number"
-          value={numOfRegistrations}
+          value={numOfRegistrations === 0 ? '' : numOfRegistrations}
           onChange={({ target: { value } }) =>
             setNumOfRegistrations(Number(value))
           }
@@ -93,7 +93,7 @@ export const WebinarForm: React.FC<WebinarFormProps> = ({
         <Input
           id="numOfAttendees"
           type="number"
-          value={numOfAttendees}
+          value={numOfAttendees === 0 ? '' : numOfAttendees}
           onChange={({ target: { value } }) => setNumOfAttendees(Number(value))}
         />
         <FormHelperText>
