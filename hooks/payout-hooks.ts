@@ -87,7 +87,6 @@ function createUsePayoutsHook<T extends TypesofPayouts>(
         return slice.map(({ data }) => data);
       }
     }, [payouts, from, limit]);
-
     return {
       data,
       loading,

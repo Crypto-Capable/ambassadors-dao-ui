@@ -31,9 +31,7 @@ const MiscellaneousList: React.FC<PayoutListProps> = ({ contract }) => {
   const from = (page - 1) * limit + 1;
   const { data, loading, error } = useMiscellanea({ contract, from, limit });
   if (data !== undefined) {
-    return data.length === 0 ? (
-      <Text>No miscellaneous payouts to view!</Text>
-    ) : (
+    return (
       <>
         <Box experimental_spaceY="4" mt="8">
           {data.map((p) => (
@@ -71,6 +69,8 @@ const MiscellaneousList: React.FC<PayoutListProps> = ({ contract }) => {
     );
   } else if (!loading && error) {
     return <Text>Not Found</Text>;
+  } else if (loading === false && data === undefined) {
+    return <Text mt="2">No miscellaneous payouts to view!</Text>;
   } else {
     return (
       <Center>

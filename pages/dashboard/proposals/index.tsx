@@ -32,9 +32,7 @@ const ProposalsList: React.FC<PayoutListProps> = ({ contract }) => {
   const { data, loading, error } = useProposals({ contract, from, limit });
 
   if (data !== undefined) {
-    return data.length === 0 ? (
-      <Text>No proposals to view!</Text>
-    ) : (
+    return (
       <>
         <Box experimental_spaceY="4" mt="8">
           {data.map((p) => (
@@ -72,6 +70,8 @@ const ProposalsList: React.FC<PayoutListProps> = ({ contract }) => {
     );
   } else if (!loading && error) {
     return <Text>Not Found</Text>;
+  } else if (loading === false && data === undefined) {
+    return <Text mt="2">No proposals to view!</Text>;
   } else {
     return (
       <Center>

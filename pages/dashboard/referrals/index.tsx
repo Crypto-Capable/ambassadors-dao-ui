@@ -77,6 +77,8 @@ const ReferralsList: React.FC<PayoutListProps> = ({ contract }) => {
     );
   } else if (!loading && error) {
     return <Text>Not Found</Text>;
+  } else if (loading === false && data === undefined) {
+    return <Text mt="2">No referrals to view!</Text>;
   } else {
     return (
       <Center>
