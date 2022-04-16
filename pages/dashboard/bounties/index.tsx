@@ -31,9 +31,7 @@ const BountiesList: React.FC<PayoutListProps> = ({ contract }) => {
   const from = (page - 1) * limit + 1;
   const { data, loading, error } = useBounties({ contract, from, limit });
   if (data !== undefined) {
-    return data.length === 0 ? (
-      <Text>No bounties to view!</Text>
-    ) : (
+    return (
       <>
         <Box experimental_spaceY="4" mt="8">
           {data.map((p) => (
@@ -47,7 +45,7 @@ const BountiesList: React.FC<PayoutListProps> = ({ contract }) => {
             />
           ))}
         </Box>
-        <Flex alignItems="center" mt={8} justifyContent="space-between">
+        <Flex alignItems="center" mt="8" justifyContent="space-between">
           <Tooltip label="Show previous page">
             <IconButton
               variant="outline"
@@ -71,13 +69,14 @@ const BountiesList: React.FC<PayoutListProps> = ({ contract }) => {
     );
   } else if (!loading && error) {
     return <Text>Not Found</Text>;
-  } else {
-    return (
-      <Center>
-        <Spinner />
-      </Center>
-    );
+  } else if (loading === false && data === undefined) {
+    return <Text mt="2"> No bounties to view</Text>;
   }
+  return (
+    <Center>
+      <Spinner />
+    </Center>
+  );
 };
 
 const BountiesPage: NextPage<WithContractChildProps> = ({ contract }) => (
@@ -85,7 +84,7 @@ const BountiesPage: NextPage<WithContractChildProps> = ({ contract }) => (
     <Head>
       <title>All Bounties</title>
     </Head>
-    <Flex alignItems="center" justifyContent="space-between">
+    <Flex alignItems="center" justifyContent="space-between" mb="4">
       <Heading as="h2" fontSize="1.75rem">
         Viewing all bounties
       </Heading>

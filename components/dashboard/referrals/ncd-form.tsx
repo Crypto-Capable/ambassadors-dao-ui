@@ -14,10 +14,11 @@ import {
   placeholderAccountId,
   placeholderDropboxLink,
 } from '../../../util/constants';
+import { handlePayoutCreationError } from '../../../util/errors';
 
 export type NCDFormProps = {
   onSubmitStart: () => void;
-  onSubmitEnd: (v: number) => void;
+  onSubmitEnd: (v: number, msg?: string) => void;
 };
 
 export const NCDForm: React.FC<NCDFormProps> = ({
@@ -62,8 +63,8 @@ export const NCDForm: React.FC<NCDFormProps> = ({
       });
       onSubmitEnd(v);
     } catch (err) {
-      console.log(err);
-      onSubmitEnd(-1);
+      const msg = handlePayoutCreationError(err);
+      onSubmitEnd(-1, msg);
     } finally {
       setSubmitting(false);
     }

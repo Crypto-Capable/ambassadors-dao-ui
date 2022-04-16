@@ -3,27 +3,20 @@ const { withSentryConfig } = require('@sentry/nextjs');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-let nearampPrivateKey;
+const env = {};
 
-if (isProduction) {
-  try {
-    const syncDataBuffer = fs.readFileSync('.env.private_key', 'utf8');
-    if (syncDataBuffer) {
-      nearampPrivateKey = syncDataBuffer.replace(/_/g, '\n');
-    }
-  } catch (e) {
-    console.log(`Warning reading file .env.private_key`);
-  }
+if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview') {
+  env.NEXT_PUBLIC_HOST = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
+}
+
+if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'production') {
+  env.NEXT_PUBLIC_HOST = `https://${process.env.HOST}`;
 }
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  env: isProduction
-    ? {
-        NEARAMP_PRIVATE_KEY: nearampPrivateKey,
-      }
-    : {},
+  env,
 };
 
 const sentryWebpackPluginOptions = {

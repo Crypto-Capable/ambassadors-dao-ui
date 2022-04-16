@@ -37,53 +37,50 @@ const ReferralsList: React.FC<PayoutListProps> = ({ contract }) => {
   const { data, loading, error } = useReferrals({ contract, from, limit });
 
   if (data !== undefined) {
-    return data.length === 0 ? (
-      <Text>No referrals to view!</Text>
-    ) : (
-      <>
-        <Box experimental_spaceY="4" mt="8">
-          {data.map((p) => (
-            <PayoutListItem
-              key={p.id}
-              description={p.description}
-              status={p.status}
-              proposer={p.proposer}
-              id={p.id}
-              link={`/dashboard/${Tabs.REFERRALS}/${p.id}`}
-            />
-          ))}
-        </Box>
-        <Flex alignItems="center" mt={8} justifyContent="space-between">
-          <Tooltip label="Show previous page">
-            <IconButton
-              variant="outline"
-              icon={<CaretLeft />}
-              disabled={page < 2}
-              onClick={() => setPage((p) => p - 1)}
-              aria-label="Show previous page"
-            />
-          </Tooltip>
-          <Tooltip label="Show next page">
-            <IconButton
-              variant="outline"
-              icon={<CaretRight />}
-              disabled={data?.length !== limit}
-              onClick={() => setPage((p) => p + 1)}
-              aria-label="Show next page"
-            />
-          </Tooltip>
-        </Flex>
-      </>
-    );
+    <>
+      <Box experimental_spaceY="4" mt="8">
+        {data.map((p) => (
+          <PayoutListItem
+            key={p.id}
+            description={p.description}
+            status={p.status}
+            proposer={p.proposer}
+            id={p.id}
+            link={`/dashboard/${Tabs.REFERRALS}/${p.id}`}
+          />
+        ))}
+      </Box>
+      <Flex alignItems="center" mt="8" justifyContent="space-between">
+        <Tooltip label="Show previous page">
+          <IconButton
+            variant="outline"
+            icon={<CaretLeft />}
+            disabled={page < 2}
+            onClick={() => setPage((p) => p - 1)}
+            aria-label="Show previous page"
+          />
+        </Tooltip>
+        <Tooltip label="Show next page">
+          <IconButton
+            variant="outline"
+            icon={<CaretRight />}
+            disabled={data?.length !== limit}
+            onClick={() => setPage((p) => p + 1)}
+            aria-label="Show next page"
+          />
+        </Tooltip>
+      </Flex>
+    </>;
   } else if (!loading && error) {
     return <Text>Not Found</Text>;
-  } else {
-    return (
-      <Center>
-        <Spinner />
-      </Center>
-    );
+  } else if (loading === false && data === undefined) {
+    return <Text mt="2">No referrals to view!</Text>;
   }
+  return (
+    <Center>
+      <Spinner />
+    </Center>
+  );
 };
 
 const ReferralsPage: NextPage<WithContractChildProps> = ({ contract }) => (
@@ -91,7 +88,7 @@ const ReferralsPage: NextPage<WithContractChildProps> = ({ contract }) => (
     <Head>
       <title>All Referrals</title>
     </Head>
-    <Flex alignItems="center" justifyContent="space-between">
+    <Flex alignItems="center" justifyContent="space-between" mb="4">
       <Heading as="h2" fontSize="1.75rem">
         Viewing all referrals
       </Heading>

@@ -11,11 +11,12 @@ import {
 import React, { useState } from 'react';
 import { useContractContext } from '../../../context/contract-context';
 import { SubmissionInfo } from '../../../types';
+import { handlePayoutCreationError } from '../../../util/errors';
 import SubmissionInfoInput from './submission-info-input';
 
 export type HackathonCompletionFormProps = {
   onSubmitStart: () => void;
-  onSubmitEnd: (v: number) => void;
+  onSubmitEnd: (v: number, msg?: string) => void;
 };
 
 const dummySubmissionInfo: SubmissionInfo = {
@@ -42,7 +43,6 @@ export const HackathonCompletionForm: React.FC<
   const handleOnDone = (n: number) => (s: SubmissionInfo) => {
     setWinnersInfo((i) => {
       i[n] = s;
-      console.log(i);
       return i;
     });
   };
@@ -72,8 +72,8 @@ export const HackathonCompletionForm: React.FC<
       });
       onSubmitEnd(v);
     } catch (err) {
-      console.log(err);
-      onSubmitEnd(-1);
+      const msg = handlePayoutCreationError(err);
+      onSubmitEnd(-1, msg);
     } finally {
       setSubmitting(false);
     }
@@ -98,7 +98,7 @@ export const HackathonCompletionForm: React.FC<
         <Input
           id="numOfRegistrations"
           type="number"
-          value={numOfRegistrations}
+          value={numOfRegistrations === 0 ? '' : numOfRegistrations}
           onChange={({ target: { value } }) =>
             setNumOfRegistrations(Number(value))
           }
@@ -112,7 +112,7 @@ export const HackathonCompletionForm: React.FC<
         <Input
           id="numOfSubmissions"
           type="number"
-          value={numOfSubmissions}
+          value={numOfSubmissions === 0 ? '' : numOfSubmissions}
           onChange={({ target: { value } }) =>
             setNumOfSubmissions(Number(value))
           }

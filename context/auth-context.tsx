@@ -6,6 +6,7 @@ import {
   useState,
 } from 'react';
 import { keyStores, connect, WalletConnection } from 'near-api-js';
+import { captureException } from '@sentry/nextjs';
 
 const config = {
   nodeUrl: process.env.NEXT_PUBLIC_NODE_URL,
@@ -41,7 +42,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         `${hostPrefix}${process.env.NEXT_PUBLIC_VERCEL_URL}/register/failure`
       );
     } catch (error) {
-      console.log(error);
+      captureException(error);
     }
   }, [wallet]);
 
@@ -86,7 +87,7 @@ export const AuthProvider: React.FC = ({ children }) => {
       setWallet(walletConnection);
     };
 
-    loadNearWallet().catch(console.log);
+    loadNearWallet().catch(captureException);
   }, []);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

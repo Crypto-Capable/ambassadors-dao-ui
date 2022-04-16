@@ -12,10 +12,11 @@ import {
   placeholderDescription,
   placeholderDropboxLink,
 } from '../../../util/constants';
+import { handlePayoutCreationError } from '../../../util/errors';
 
 export type MemeContestFormProps = {
   onSubmitStart: () => void;
-  onSubmitEnd: (v: number) => void;
+  onSubmitEnd: (v: number, msg?: string) => void;
 };
 
 export const MemeContestForm: React.FC<MemeContestFormProps> = ({
@@ -55,8 +56,8 @@ export const MemeContestForm: React.FC<MemeContestFormProps> = ({
       });
       onSubmitEnd(v);
     } catch (err) {
-      console.log(err);
-      onSubmitEnd(-1);
+      const msg = handlePayoutCreationError(err);
+      onSubmitEnd(-1, msg);
     } finally {
       setSubmitting(false);
     }
@@ -82,7 +83,7 @@ export const MemeContestForm: React.FC<MemeContestFormProps> = ({
         <Input
           id="expectedRegistrations"
           type="number"
-          value={expectedRegistrations}
+          value={expectedRegistrations === 0 ? '' : expectedRegistrations}
           onChange={({ target: { value } }) =>
             setExpectedRegistrations(Number(value))
           }
@@ -98,7 +99,7 @@ export const MemeContestForm: React.FC<MemeContestFormProps> = ({
         <Input
           id="estimatedBudget"
           type="number"
-          value={estimatedBudget}
+          value={estimatedBudget === 0 ? '' : estimatedBudget}
           onChange={({ target: { value } }) =>
             setEstimatedBudget(Number(value))
           }

@@ -9,10 +9,11 @@ import {
 import React, { useState } from 'react';
 import { useContractContext } from '../../../context/contract-context';
 import { placeholderDropboxLink } from '../../../util/constants';
+import { handlePayoutCreationError } from '../../../util/errors';
 
 export type HackathonFormProps = {
   onSubmitStart: () => void;
-  onSubmitEnd: (v: number) => void;
+  onSubmitEnd: (v: number, msg?: string) => void;
 };
 
 export const HackathonForm: React.FC<HackathonFormProps> = ({
@@ -52,8 +53,8 @@ export const HackathonForm: React.FC<HackathonFormProps> = ({
       });
       onSubmitEnd(v);
     } catch (err) {
-      console.log(err);
-      onSubmitEnd(-1);
+      const msg = handlePayoutCreationError(err);
+      onSubmitEnd(-1, msg);
     } finally {
       setSubmitting(false);
     }
@@ -79,7 +80,7 @@ export const HackathonForm: React.FC<HackathonFormProps> = ({
         <Input
           id="expectedRegistrations"
           type="number"
-          value={expectedRegistrations}
+          value={expectedRegistrations === 0 ? '' : expectedRegistrations}
           onChange={({ target: { value } }) =>
             setExpectedRegistrations(Number(value))
           }
@@ -95,7 +96,7 @@ export const HackathonForm: React.FC<HackathonFormProps> = ({
         <Input
           id="estimatedBudget"
           type="number"
-          value={estimatedBudget}
+          value={estimatedBudget === 0 ? '' : estimatedBudget}
           onChange={({ target: { value } }) =>
             setEstimatedBudget(Number(value))
           }

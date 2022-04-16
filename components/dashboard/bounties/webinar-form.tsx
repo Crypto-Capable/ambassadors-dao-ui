@@ -10,10 +10,11 @@ import {
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useContractContext } from '../../../context/contract-context';
+import { handlePayoutCreationError } from '../../../util/errors';
 
 export type WebinarFormProps = {
   onSubmitStart: () => void;
-  onSubmitEnd: (v: number) => void;
+  onSubmitEnd: (v: number, msg?: string) => void;
 };
 
 export const WebinarForm: React.FC<WebinarFormProps> = ({
@@ -53,8 +54,8 @@ export const WebinarForm: React.FC<WebinarFormProps> = ({
       });
       onSubmitEnd(v);
     } catch (err) {
-      console.log(err);
-      onSubmitEnd(-1);
+      const msg = handlePayoutCreationError(err);
+      onSubmitEnd(-1, msg);
     } finally {
       setSubmitting(false);
     }
@@ -79,7 +80,7 @@ export const WebinarForm: React.FC<WebinarFormProps> = ({
         <Input
           id="numOfRegistrations"
           type="number"
-          value={numOfRegistrations}
+          value={numOfRegistrations === 0 ? '' : numOfRegistrations}
           onChange={({ target: { value } }) =>
             setNumOfRegistrations(Number(value))
           }
@@ -93,7 +94,7 @@ export const WebinarForm: React.FC<WebinarFormProps> = ({
         <Input
           id="numOfAttendees"
           type="number"
-          value={numOfAttendees}
+          value={numOfAttendees === 0 ? '' : numOfAttendees}
           onChange={({ target: { value } }) => setNumOfAttendees(Number(value))}
         />
         <FormHelperText>

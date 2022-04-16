@@ -32,9 +32,7 @@ const ProposalsList: React.FC<PayoutListProps> = ({ contract }) => {
   const { data, loading, error } = useProposals({ contract, from, limit });
 
   if (data !== undefined) {
-    return data.length === 0 ? (
-      <Text>No proposals to view!</Text>
-    ) : (
+    return (
       <>
         <Box experimental_spaceY="4" mt="8">
           {data.map((p) => (
@@ -48,7 +46,7 @@ const ProposalsList: React.FC<PayoutListProps> = ({ contract }) => {
             />
           ))}
         </Box>
-        <Flex alignItems="center" mt={8} justifyContent="space-between">
+        <Flex alignItems="center" mt="8" justifyContent="space-between">
           <Tooltip label="Show previous page">
             <IconButton
               variant="outline"
@@ -72,13 +70,14 @@ const ProposalsList: React.FC<PayoutListProps> = ({ contract }) => {
     );
   } else if (!loading && error) {
     return <Text>Not Found</Text>;
-  } else {
-    return (
-      <Center>
-        <Spinner />
-      </Center>
-    );
+  } else if (loading === false && data === undefined) {
+    return <Text mt="2">No proposals to view!</Text>;
   }
+  return (
+    <Center>
+      <Spinner />
+    </Center>
+  );
 };
 
 const ProposalsPage: NextPage<WithContractChildProps> = ({ contract }) => (
@@ -86,7 +85,7 @@ const ProposalsPage: NextPage<WithContractChildProps> = ({ contract }) => (
     <Head>
       <title>All Proposals</title>
     </Head>
-    <Flex alignItems="center" justifyContent="space-between">
+    <Flex alignItems="center" justifyContent="space-between" mb="4">
       <Heading as="h2" fontSize="1.75rem">
         Viewing all proposals
       </Heading>

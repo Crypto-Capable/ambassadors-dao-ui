@@ -26,19 +26,21 @@ const NewBounty: LayoutPage = () => {
   };
 
   const handleSubmitStart = () => setSubmitting(true);
-  const handleSubmitEnd = (v: number) => {
+  const handleSubmitEnd = (v: number, msg?: string) => {
     setSubmitting(false);
 
     if (v > 0) {
       toast({
-        description: 'Bounty created',
+        title: 'Bounty created',
         status: 'success',
       });
       router.push(`/dashboard/${Tabs.BOUNTIES}/${v}`);
     } else {
       toast({
-        description: 'Bounty creation failed, try again',
+        title: 'Bounty creation failed',
+        description: msg,
         status: 'error',
+        duration: 10000,
       });
     }
   };

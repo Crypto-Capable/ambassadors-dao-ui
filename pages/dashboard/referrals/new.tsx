@@ -25,18 +25,20 @@ const NewReferral: LayoutPage = () => {
   };
 
   const handleSubmitStart = () => setSubmitting(true);
-  const handleSubmitEnd = (v: number) => {
+  const handleSubmitEnd = (v: number, msg?: string) => {
     setSubmitting(false);
     if (v > 0) {
       toast({
-        description: 'Referral created',
+        title: 'Referral created',
         status: 'success',
       });
       router.push(`/dashboard/${Tabs.REFERRALS}/${v}`);
     } else {
       toast({
-        description: 'Referral creation failed, try again',
+        title: 'Referral creation failed',
+        description: msg,
         status: 'error',
+        duration: 10000,
       });
     }
   };

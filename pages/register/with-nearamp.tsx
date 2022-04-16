@@ -7,6 +7,7 @@ import loadNearamp from '../../util/load-nearamp';
 import { useAuthContext } from '../../context/auth-context';
 import { useRouter } from 'next/router';
 import { Tabs } from '../../types';
+import { captureException } from '@sentry/nextjs';
 
 const RegisterWithNearamp: NextPage = () => {
   const { wallet } = useAuthContext();
@@ -30,7 +31,7 @@ const RegisterWithNearamp: NextPage = () => {
           },
         })
       )
-      .catch(console.log);
+      .catch(captureException);
   }, []);
 
   const handleClick = useCallback(() => {

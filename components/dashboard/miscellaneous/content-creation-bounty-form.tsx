@@ -7,6 +7,7 @@ import {
   Button,
   Textarea,
 } from '@chakra-ui/react';
+import exp from 'constants';
 import React, { useState } from 'react';
 import { useContractContext } from '../../../context/contract-context';
 import {
@@ -14,10 +15,11 @@ import {
   placeholderDropboxLink,
   placeholderInstagramLink,
 } from '../../../util/constants';
+import { handlePayoutCreationError } from '../../../util/errors';
 
 export type ContentCreationBountyFormProps = {
   onSubmitStart: () => void;
-  onSubmitEnd: (v: number) => void;
+  onSubmitEnd: (v: number, msg?: string) => void;
 };
 
 const linksPlaceholder = `${placeholderDriveLink}\n${placeholderDropboxLink}\n${placeholderInstagramLink}`;
@@ -60,8 +62,8 @@ export const ContentCreationForm: React.FC<ContentCreationBountyFormProps> = ({
       });
       onSubmitEnd(v);
     } catch (err) {
-      console.log(err);
-      onSubmitEnd(-1);
+      const msg = handlePayoutCreationError(err);
+      onSubmitEnd(-1, msg);
     } finally {
       setSubmitting(false);
     }
@@ -97,7 +99,7 @@ export const ContentCreationForm: React.FC<ContentCreationBountyFormProps> = ({
         <Input
           id="expectedAmount"
           type="number"
-          value={expectedAmount}
+          value={expectedAmount === 0 ? '' : expectedAmount}
           onChange={({ target: { value } }) => setExpectedAmount(Number(value))}
           placeholder={linksPlaceholder}
         />
