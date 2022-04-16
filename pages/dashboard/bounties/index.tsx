@@ -71,13 +71,12 @@ const BountiesList: React.FC<PayoutListProps> = ({ contract }) => {
     return <Text>Not Found</Text>;
   } else if (loading === false && data === undefined) {
     return <Text mt="2"> No bounties to view</Text>;
-  } else {
-    return (
-      <Center>
-        <Spinner />
-      </Center>
-    );
   }
+  return (
+    <Center>
+      <Spinner />
+    </Center>
+  );
 };
 
 const BountiesPage: NextPage<WithContractChildProps> = ({ contract }) => (

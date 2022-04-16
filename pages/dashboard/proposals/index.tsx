@@ -72,13 +72,12 @@ const ProposalsList: React.FC<PayoutListProps> = ({ contract }) => {
     return <Text>Not Found</Text>;
   } else if (loading === false && data === undefined) {
     return <Text mt="2">No proposals to view!</Text>;
-  } else {
-    return (
-      <Center>
-        <Spinner />
-      </Center>
-    );
   }
+  return (
+    <Center>
+      <Spinner />
+    </Center>
+  );
 };
 
 const ProposalsPage: NextPage<WithContractChildProps> = ({ contract }) => (
