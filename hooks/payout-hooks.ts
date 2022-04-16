@@ -81,7 +81,7 @@ function createUsePayoutsHook<T extends TypesOfPayouts>(
 
     const data = useMemo(() => {
       const slice = extractRangeOfItems(payouts, from, limit);
-      if (slice.length === 0 && loading) {
+      if (slice.length === 0) {
         if (loading) {
           return undefined;
         }
