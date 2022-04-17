@@ -264,8 +264,15 @@ export type actPayoutFnArgs = {
 
 export type actPayoutFn = (args: actPayoutFnArgs) => Promise<void>;
 
+export type RegistrationResult = {
+  status: boolean;
+  message: string;
+};
+
+export type RegistrationArgs = { token: string | null };
+
 export type changeFunctionsType = {
-  register_ambassador: (args: { token: String | null }) => Promise<boolean>;
+  register_ambassador: (args: RegistrationArgs) => Promise<RegistrationResult>;
 
   add_payout_proposal: addPayoutFn<ProposalType>;
   add_payout_bounty: addPayoutFn<BountyType>;

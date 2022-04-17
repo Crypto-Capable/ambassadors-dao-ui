@@ -80,7 +80,7 @@ export const NCDForm: React.FC<NCDFormProps> = ({
           value={description}
           onChange={({ target: { value } }) => setDescription(value)}
         />
-        <FormHelperText>A short decription for this referral.</FormHelperText>
+        <FormHelperText>A short description for this referral.</FormHelperText>
       </FormControl>
       <Select
         mt="4"

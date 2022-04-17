@@ -67,7 +67,7 @@ export const RecruitmentForm: React.FC<RecruitmentFormProps> = ({
           value={description}
           onChange={({ target: { value } }) => setDescription(value)}
         />
-        <FormHelperText>A short decription for this referral.</FormHelperText>
+        <FormHelperText>A short description for this referral.</FormHelperText>
       </FormControl>
       <FormControl isRequired>
         <FormLabel htmlFor="referredId">Referred person</FormLabel>

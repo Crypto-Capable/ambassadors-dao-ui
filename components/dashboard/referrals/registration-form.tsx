@@ -24,7 +24,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
   const [description, setDescription] = useState<string>('');
   const [submitting, setSubmitting] = useState<boolean>(false);
 
-  const contract = useContractContext();
+  const { contract } = useContractContext()!;
 
   const handleProposalSubmit: React.FormEventHandler<HTMLFormElement> = async (
     e
@@ -32,13 +32,10 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
     e.preventDefault();
     onSubmitStart();
     setSubmitting(true);
-    if (!contract) {
-      return;
-    }
 
     try {
-      await contract.contract.register_ambassador({ token: referralToken });
-      onSubmitEnd(0);
+      const res = await contract.register_ambassador({ token: referralToken });
+      onSubmitEnd(0, res.message);
     } catch (err) {
       const msg = handlePayoutCreationError(err);
       onSubmitEnd(-1, msg);
@@ -57,7 +54,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
           value={description}
           onChange={({ target: { value } }) => setDescription(value)}
         />
-        <FormHelperText>A short decription for this referral.</FormHelperText>
+        <FormHelperText>A short description for this referral.</FormHelperText>
       </FormControl>
       <FormControl isRequired>
         <FormLabel htmlFor="referralToken">Referral Token</FormLabel>
