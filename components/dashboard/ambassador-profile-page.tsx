@@ -23,7 +23,7 @@ const ReferralTokenView: React.FC<{ token: string }> = ({ token }) => {
           />
         </Flex>
       </Flex>
-      <Text color="gray.500" fontSize="0.9rem" mt="2">
+      <Text color="gray.500" fontSize="0.9rem">
         Share your referral token and earn 0.5 Near when a Campus Ambassador
         registers using your referral token.
       </Text>
@@ -45,7 +45,9 @@ const AmbassadorProfilePage = () => {
 
   return (
     <Box>
-      <Text>You are ambassador #{profile.id}</Text>
+      <Text mt="4">
+        You are ambassador <strong>#{profile.id}</strong>
+      </Text>
       <ReferralTokenView token={profile.referral_token} />
     </Box>
   );

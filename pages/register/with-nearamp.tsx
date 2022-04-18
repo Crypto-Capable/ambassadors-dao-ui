@@ -2,16 +2,16 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Heading, Box, Button, Center } from '@chakra-ui/react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { captureException } from '@sentry/nextjs';
 
 import loadNearamp from '../../util/load-nearamp';
 import { useAuthContext } from '../../context/auth-context';
-import { useRouter } from 'next/router';
 import { Tabs } from '../../types';
-import { captureException } from '@sentry/nextjs';
 
 const RegisterWithNearamp: NextPage = () => {
   const { wallet } = useAuthContext();
-  const { replace, query } = useRouter();
+  const { replace } = useRouter();
   const [started, setStarted] = useState<boolean>(false);
 
   const startRegistration = useCallback(() => {
@@ -28,6 +28,7 @@ const RegisterWithNearamp: NextPage = () => {
           targetElement: 'nearamp-widget',
           loginConfig: {
             contractId: process.env.NEXT_PUBLIC_CONTRACT_NAME,
+            redirectUrl: `${process.env.NEXT_PUBLIC_HOST}/register/success`,
           },
         })
       )
@@ -43,15 +44,9 @@ const RegisterWithNearamp: NextPage = () => {
     if (!wallet) return;
 
     if (wallet.isSignedIn()) {
-      // if the URL has query params including the account_id, it means this
-      // is a new account and hence needs to be registered with the smart
-      if ((query as any).account_id) {
-        replace('/register/success');
-      } else {
-        replace(`/dashboard/${Tabs.PROFILE}`);
-      }
+      replace(`/dashboard/${Tabs.PROFILE}`);
     }
-  }, [wallet, replace, query]);
+  }, [wallet, replace]);
 
   useEffect(() => {
     if (!(window as any).NR) {
@@ -94,7 +89,7 @@ const RegisterWithNearamp: NextPage = () => {
             <Box marginTop="8" id="nearamp-widget"></Box>
           ) : (
             <Center height="full">
-              <Button onClick={handleClick}>Begin Registration</Button>
+              <Button onClick={handleClick}>Create Wallet</Button>
             </Center>
           )}
         </Box>
