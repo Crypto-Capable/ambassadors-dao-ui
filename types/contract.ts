@@ -216,11 +216,11 @@ export type getAllPayoutsFn<T> = (
   args: getAllPayoutsFnArgs
 ) => Promise<Payout<T>[]>;
 
-export type getPayoutFnArgs = { id: Number };
+export type getPayoutFnArgs = { id: number };
 
 export type getPayoutFn<T> = (args: getPayoutFnArgs) => Promise<Payout<T>>;
 
-export type getLastPayoutIdFn = () => Promise<Number>;
+export type getLastPayoutIdFn = () => Promise<number>;
 
 export type AccountIdArgs = { account_id: string };
 
@@ -267,6 +267,7 @@ export type actPayoutFn = (args: actPayoutFnArgs) => Promise<void>;
 export type RegistrationResult = {
   status: boolean;
   message: string;
+  payout_referral_id: number | null;
 };
 
 export type RegistrationArgs = { token: string | null };
