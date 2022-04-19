@@ -36,7 +36,7 @@ const AmbassadorProfilePage = () => {
 
   if (!profile) {
     return (
-      <Center height="full" width="full">
+      <Center flexDirection="column" height="full" width="full">
         <Text>Loading your profile</Text>
         <Spinner mt="4" />
       </Center>

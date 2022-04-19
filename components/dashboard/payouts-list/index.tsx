@@ -1,17 +1,17 @@
 import {
-  Box,
   Flex,
   Tooltip,
   IconButton,
   Center,
   Text,
   Spinner,
+  UnorderedList,
 } from '@chakra-ui/react';
 import { CaretLeft, CaretRight } from 'phosphor-react';
 import { useState } from 'react';
-import { PayoutsListProps, TypesOfPayouts } from '../../types';
-import { PayoutListItem } from './payout-list-item';
-import { pageItemsLimit as limit } from '../../util/constants';
+import { PayoutsListProps, TypesOfPayouts } from '../../../types';
+import { PayoutListItem } from './payouts-list-item';
+import { pageItemsLimit as limit } from '../../../util/constants';
 
 function PayoutsList<T extends TypesOfPayouts>({
   contract,
@@ -26,7 +26,12 @@ function PayoutsList<T extends TypesOfPayouts>({
   if (data !== undefined && data.length > 0) {
     return (
       <>
-        <Box experimental_spaceY="4" mt="8">
+        <UnorderedList
+          experimental_spaceY="4"
+          mt="8"
+          listStyleType="none"
+          ml="0"
+        >
           {data.map((p) => (
             <PayoutListItem
               key={p.id}
@@ -37,7 +42,7 @@ function PayoutsList<T extends TypesOfPayouts>({
               link={`/dashboard/${tab}/${p.id}`}
             />
           ))}
-        </Box>
+        </UnorderedList>
         <Flex alignItems="center" mt="8" justifyContent="space-between">
           <Tooltip label="Show previous page">
             <IconButton
