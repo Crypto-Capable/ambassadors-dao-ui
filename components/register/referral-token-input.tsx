@@ -70,7 +70,15 @@ const ReferralTokenInput: React.FC<ReferralTokenInputProps> = ({
     setLoading(true);
     contract.contract
       .register_ambassador({ token: null })
-      .then(() => replace(`/dashboard/${Tabs.PROFILE}`))
+      .then(() => {
+        toast({
+          status: 'success',
+          title: 'Registered successfully',
+          description:
+            'Registration complete, you can add a referral token later',
+        });
+        setTimeout(() => replace(`/dashboard/${Tabs.PROFILE}`), 2000);
+      })
       .finally(() => setLoading(false));
   };
 
