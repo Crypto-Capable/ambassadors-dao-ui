@@ -60,7 +60,7 @@ function PayoutsList<T extends TypesOfPayouts>({
         </Flex>
       </>
     );
-  } else if (!loading && !data) {
+  } else if (!loading && data && data.length === 0) {
     return <Text mt="2">No {label} payouts to view!</Text>;
   } else if (!loading && error) {
     return <Text>Not Found</Text>;
