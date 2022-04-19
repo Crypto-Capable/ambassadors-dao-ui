@@ -2,7 +2,7 @@ import { captureException } from '@sentry/nextjs';
 const panickedAtRegex = new RegExp(/panicked at.*,/g);
 const errorLabelRegex = new RegExp(/'\w*'/g);
 
-const extractPanicMessage = (error: Error) =>
+export const extractPanicMessage = (error: Error) =>
   error.message
     .matchAll(panickedAtRegex)
     .next()

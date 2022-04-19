@@ -15,6 +15,7 @@ import { useContractContext } from '../../context/contract-context';
 import { useRouter } from 'next/router';
 import { Tabs } from '../../types';
 import { placeholderReferralToken } from '../../util/constants';
+import { extractPanicMessage } from '../../util/errors';
 
 export type ReferralTokenInputProps = {
   mustHaveToken?: boolean;
@@ -35,12 +36,32 @@ const ReferralTokenInput: React.FC<ReferralTokenInputProps> = ({
     setLoading(true);
     contract.contract
       .register_ambassador({ token: referralToken })
-      .then(() => replace(`/dashboard/${Tabs.PROPOSALS}`))
-      .catch(() => {
+      .then((res) => {
         toast({
-          status: 'error',
-          description: 'Incorrect referral token',
+          status: 'success',
+          title: 'Registered successfully',
+          description:
+            'SuccessWithReferral' in res
+              ? 'You registration is complete'
+              : res.SuccessWithoutReferral[1],
         });
+        setTimeout(() => replace(`/dashboard/${Tabs.PROFILE}`), 2000);
+      })
+      .catch((err) => {
+        let msg = extractPanicMessage(err as Error);
+        if (msg === 'ERR_AMBASSADOR_ALREADY_REGISTERED') {
+          toast({
+            status: 'error',
+            title: 'Registration Failed',
+            description: 'You are already registered',
+          });
+        } else {
+          toast({
+            status: 'error',
+            title: 'Registration Failed',
+            description: 'Something went wrong, please try again later',
+          });
+        }
       })
       .finally(() => setLoading(false));
   };
@@ -49,7 +70,7 @@ const ReferralTokenInput: React.FC<ReferralTokenInputProps> = ({
     setLoading(true);
     contract.contract
       .register_ambassador({ token: null })
-      .then(() => replace(`/dashboard/${Tabs.PROPOSALS}`))
+      .then(() => replace(`/dashboard/${Tabs.PROFILE}`))
       .finally(() => setLoading(false));
   };
 

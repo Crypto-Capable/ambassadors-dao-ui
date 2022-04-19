@@ -264,11 +264,9 @@ export type actPayoutFnArgs = {
 
 export type actPayoutFn = (args: actPayoutFnArgs) => Promise<void>;
 
-export type RegistrationResult = {
-  status: boolean;
-  message: string;
-  payout_referral_id: number | null;
-};
+export type RegistrationResult =
+  | { SuccessWithReferral: number }
+  | { SuccessWithoutReferral: [number, string] };
 
 export type RegistrationArgs = { token: string | null };
 
@@ -279,6 +277,10 @@ export type changeFunctionsType = {
   add_payout_bounty: addPayoutFn<BountyType>;
   add_payout_referral: addPayoutFn<ReferralType>;
   add_payout_miscellaneous: addPayoutFn<MiscellaneousType>;
+
+  add_registration_referral_with_token: (args: {
+    token: string;
+  }) => Promise<number>;
 
   act_payout_proposal: actPayoutFn;
   act_payout_bounty: actPayoutFn;

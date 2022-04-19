@@ -43,6 +43,7 @@ const changeMethods = [
   'act_payout_referral',
   'act_payout_miscellaneous',
   'register_ambassador',
+  'add_registration_referral_with_token',
 ];
 
 export const ContractProvider: React.FC = ({ children }) => {

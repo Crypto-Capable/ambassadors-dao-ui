@@ -34,8 +34,10 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
     setSubmitting(true);
 
     try {
-      const res = await contract.register_ambassador({ token: referralToken });
-      onSubmitEnd(res.payout_referral_id!, res.message);
+      const res = await contract.add_registration_referral_with_token({
+        token: referralToken,
+      });
+      onSubmitEnd(res);
     } catch (err) {
       const msg = handlePayoutCreationError(err);
       onSubmitEnd(-1, msg);
