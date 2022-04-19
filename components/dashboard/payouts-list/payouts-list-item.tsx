@@ -25,7 +25,7 @@ export const PayoutListItem: React.FC<PayoutListItemProps> = ({
   status,
   proposer,
 }) => {
-  const [isLargerThan480] = useMediaQuery('(min-width: 520px)');
+  const [isLargerThan1024] = useMediaQuery('(min-width: 1024px)');
 
   const proposedBy = useMemo(() => {
     if (proposer.endsWith('.near') || proposer.endsWith('.testnet')) {
@@ -39,9 +39,9 @@ export const PayoutListItem: React.FC<PayoutListItemProps> = ({
       <Link href={link} passHref>
         <ChakraLink
           display="flex"
-          alignItems={isLargerThan480 ? 'center' : 'start'}
+          alignItems={isLargerThan1024 ? 'center' : 'start'}
           justifyContent="space-between"
-          flexDirection={isLargerThan480 ? 'row' : 'column'}
+          flexDirection={isLargerThan1024 ? 'row' : 'column'}
         >
           <Box>
             <Text display="inline-block">
@@ -49,9 +49,9 @@ export const PayoutListItem: React.FC<PayoutListItemProps> = ({
             </Text>
           </Box>
           <Flex
-            alignItems={isLargerThan480 ? 'center' : 'start'}
+            alignItems={isLargerThan1024 ? 'center' : 'start'}
             gap="2"
-            flexDir={isLargerThan480 ? 'row' : 'column'}
+            flexDir={isLargerThan1024 ? 'row' : 'column'}
           >
             <Text>By {proposedBy}</Text>
             <StatusBadge status={status} />
