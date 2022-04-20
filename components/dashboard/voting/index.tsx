@@ -16,6 +16,7 @@ import {
   Box,
   Text,
   Flex,
+  Tooltip,
 } from '@chakra-ui/react';
 import { Payout, PayoutType, Vote } from '../../../types';
 import { Check, X } from 'phosphor-react';
@@ -71,13 +72,15 @@ const VotesDisplay: React.FC<VotesDisplayProps> = ({
           backgroundColor={votesArray.length === 0 ? 'gray.200' : 'red.600'}
           flex="1"
         />
+
+        {votesValue !== 0 && (
+          <Tooltip label={`${votesValue}% approvals till now`} placement="left">
+            <Text ml="4">
+              {approve_count} / {reject_count}
+            </Text>
+          </Tooltip>
+        )}
       </Flex>
-      {votesValue !== 0 && (
-        <Flex justifyContent="space-between" flexWrap="wrap">
-          <ItemDetailContainer label="Approved by" value={approve_count} />
-          <ItemDetailContainer label="Rejected by" value={reject_count} />
-        </Flex>
-      )}
 
       {votesArray.length === 0 ? (
         <Text mt="2">No votes to show yet</Text>

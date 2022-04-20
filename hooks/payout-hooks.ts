@@ -1,7 +1,8 @@
+import { getAllPayoutsFnArgs, PayoutType } from './../types/contract';
 import { captureException } from '@sentry/nextjs';
 import { PrimitiveAtom } from 'jotai';
 import { useImmerAtom } from 'jotai/immer';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   bountiesAtom,
   miscellaneousAtom,
@@ -38,18 +39,45 @@ function extractRangeOfItems<T>(
   return result;
 }
 
-function createUsePayoutsHook<T extends TypesOfPayouts>(
+function createUsePayoutsHook<
+  T extends TypesOfPayouts,
+  K extends getAllPayoutsFnArgs
+>(
   atom: PrimitiveAtom<Record<number, CacheEntry<Payout<T>>>>,
   fnName:
     | 'get_all_proposals'
     | 'get_all_referrals'
     | 'get_all_bounties'
     | 'get_all_miscellaneous'
-): usePayoutsHook<T> {
-  const usePayouts: usePayoutsHook<T> = ({ contract, from, limit }) => {
+): usePayoutsHook<T, K> {
+  const usePayouts: usePayoutsHook<T, K> = ({ contract, from, limit }) => {
     const [payouts, setPayouts] = useImmerAtom(atom);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<unknown>();
+
+    const refetch = useCallback(async () => {
+      setLoading(true);
+      setError(undefined);
+      try {
+        const res = await contract[fnName]({
+          from_index: from,
+          limit,
+        });
+        setPayouts((draft) => {
+          res.forEach((payout) => {
+            draft[payout.id] = {
+              data: payout as any,
+              updatedAt: getSeconds(),
+            };
+          });
+        });
+      } catch (error) {
+        captureException(error);
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    }, [contract, from, limit, setPayouts]);
 
     useEffect(() => {
       const loadProposals = async () => {
@@ -95,6 +123,7 @@ function createUsePayoutsHook<T extends TypesOfPayouts>(
       data,
       loading,
       error,
+      refetch,
     } as const;
   };
 
@@ -121,14 +150,41 @@ export const useMiscellanea = createUsePayoutsHook(
   'get_all_miscellaneous'
 );
 
-function createUsePayoutHook<T extends TypesOfPayouts>(
+function createUsePayoutHook<
+  T extends TypesOfPayouts,
+  K extends { id: number }
+>(
   atom: PrimitiveAtom<Record<number, CacheEntry<Payout<T>>>>,
   fnName: 'get_proposal' | 'get_referral' | 'get_bounty' | 'get_miscellaneous'
-): usePayoutHook<T> {
-  const usePayout: usePayoutHook<T> = ({ contract, id }) => {
+): usePayoutHook<T, K> {
+  const usePayout: usePayoutHook<T, K> = ({ contract, id }) => {
     const [payouts, setPayouts] = useImmerAtom(atom);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<unknown>();
+
+    const refetch = useCallback(
+      async ({ id }: K) => {
+        setLoading(true);
+        setError(undefined);
+        try {
+          const res = await contract[fnName]({
+            id,
+          });
+          setPayouts((draft) => {
+            draft[res.id] = {
+              data: res as any,
+              updatedAt: getSeconds(),
+            };
+          });
+        } catch (error) {
+          captureException(error);
+          setError(error);
+        } finally {
+          setLoading(false);
+        }
+      },
+      [setPayouts, contract]
+    );
 
     useEffect(() => {
       const loadProposals = async () => {
@@ -166,6 +222,7 @@ function createUsePayoutHook<T extends TypesOfPayouts>(
       data,
       loading,
       error,
+      refetch,
     } as const;
   };
 
@@ -182,3 +239,16 @@ export const useMiscellaneous = createUsePayoutHook(
   miscellaneousAtom,
   'get_miscellaneous'
 );
+
+export const useUsePayoutByType = (payoutType: PayoutType) => {
+  switch (payoutType) {
+    case PayoutType.BOUNTY:
+      return useBounty;
+    case PayoutType.PROPOSAL:
+      return useProposal;
+    case PayoutType.MISCELLANEOUS:
+      return useMiscellaneous;
+    case PayoutType.REFERRAL:
+      return useReferral;
+  }
+};

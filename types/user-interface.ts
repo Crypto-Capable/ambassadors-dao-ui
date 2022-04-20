@@ -24,10 +24,11 @@ export type CacheEntry<T> = {
   data: T;
 };
 
-export type useEntityHookReturnType<T> = {
+export type useEntityHookReturnType<T, K> = {
   data: T | undefined;
   loading: boolean;
   error: unknown;
+  refetch: (args: K) => Promise<void>;
 };
 
 export type usePayoutsHookArgs = {
@@ -36,26 +37,32 @@ export type usePayoutsHookArgs = {
   limit: number;
 };
 
-export type usePayoutsHookReturnType<T> = useEntityHookReturnType<Payout<T>[]>;
+export type usePayoutsHookReturnType<T, K> = useEntityHookReturnType<
+  Payout<T>[],
+  K
+>;
 
-export type usePayoutsHook<T extends TypesOfPayouts> = (
+export type usePayoutsHook<T extends TypesOfPayouts, K> = (
   args: usePayoutsHookArgs
-) => usePayoutsHookReturnType<T>;
+) => usePayoutsHookReturnType<T, K>;
 
 export type usePayoutHookArgs = {
   contract: CustomContract;
   id: number;
 };
 
-export type usePayoutHookReturnType<T> = useEntityHookReturnType<Payout<T>>;
+export type usePayoutHookReturnType<T, K> = useEntityHookReturnType<
+  Payout<T>,
+  K
+>;
 
-export type usePayoutHook<T> = (
+export type usePayoutHook<T, K> = (
   args: usePayoutHookArgs
-) => usePayoutHookReturnType<T>;
+) => usePayoutHookReturnType<T, K>;
 
 export type PayoutsListProps<T extends TypesOfPayouts> = {
   contract: CustomContract;
-  usePayoutData: usePayoutsHook<T>;
+  usePayoutData: usePayoutsHook<T, unknown>;
   tab: Tabs;
   label: PayoutType;
 };
