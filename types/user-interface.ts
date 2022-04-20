@@ -62,7 +62,7 @@ export type usePayoutHook<T, K> = (
 
 export type PayoutsListProps<T extends TypesOfPayouts> = {
   contract: CustomContract;
-  usePayoutData: usePayoutsHook<T, unknown>;
+  usePayoutData: usePayoutsHook<T, any>;
   tab: Tabs;
   label: PayoutType;
 };
