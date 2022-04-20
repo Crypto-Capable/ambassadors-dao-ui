@@ -27,8 +27,8 @@ const BountiesPage: NextPage<WithContractChildProps> = ({ contract }) => (
     </Flex>
     <PayoutsList<BountyType>
       contract={contract}
-      label={PayoutType.PROPOSAL}
-      tab={Tabs.PROPOSALS}
+      label={PayoutType.BOUNTY}
+      tab={Tabs.BOUNTIES}
       usePayoutData={useBounties}
     />
   </>

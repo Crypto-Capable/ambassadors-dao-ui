@@ -27,8 +27,8 @@ const MiscellaneousPage: NextPage<WithContractChildProps> = ({ contract }) => (
     </Flex>
     <PayoutsList<MiscellaneousType>
       contract={contract}
-      label={PayoutType.PROPOSAL}
-      tab={Tabs.PROPOSALS}
+      label={PayoutType.MISCELLANEOUS}
+      tab={Tabs.MISCELLANEOUS}
       usePayoutData={useMiscellanea}
     />
   </>

@@ -27,8 +27,8 @@ const ReferralsPage: NextPage<WithContractChildProps> = ({ contract }) => (
     </Flex>
     <PayoutsList<ReferralType>
       contract={contract}
-      label={PayoutType.PROPOSAL}
-      tab={Tabs.PROPOSALS}
+      label={PayoutType.REFERRAL}
+      tab={Tabs.REFERRALS}
       usePayoutData={useReferrals}
     />
   </>
