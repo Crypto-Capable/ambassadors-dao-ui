@@ -14,7 +14,7 @@ const isProductionContext = process.env.CONTEXT === 'production';
 
 if (isProductionContext) {
   // URL corresponds to the main url of the project
-  env.NEXT_PUBLIC_HOST = `https://${process.env.URL}`;
+  env.NEXT_PUBLIC_HOST = process.env.URL;
 }
 
 // for dev env, set the NEXT_PUBLIC_HOST in the .env.development.local file itself
