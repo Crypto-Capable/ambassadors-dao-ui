@@ -1,5 +1,5 @@
-import { Badge, useMediaQuery } from '@chakra-ui/react';
 import React from 'react';
+import { Badge } from '@chakra-ui/react';
 import { PayoutStatus } from '../types';
 
 type StatusBadgeProps = {
@@ -7,11 +7,6 @@ type StatusBadgeProps = {
 };
 
 const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
-  const [isLargerThan480] = useMediaQuery('(min-width: 480px)');
-  const position = !isLargerThan480 ? 'fixed' : 'static';
-  const left = !isLargerThan480 ? '5' : '';
-  const bottom = !isLargerThan480 ? '5' : '';
-  const properties = [position, left, bottom];
   switch (status) {
     case 'Approved':
       return <Badge colorScheme="green">APPROVED</Badge>;
