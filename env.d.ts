@@ -10,8 +10,8 @@ declare global {
       NEXT_PUBLIC_WALLET_URL: string;
       NEXT_PUBLIC_HELPER_URL: string;
       NEXT_PUBLIC_SENTRY_DSN: string;
-      // vercel's systems reserved env variable
-      NEXT_PUBLIC_VERCEL_ENV: 'production' | 'preview' | 'development';
+      NEXT_PUBLIC_NETWORK_ID: 'testnet' | 'mainnet' | 'betanet' | 'localnet';
+      NEXT_PUBLIC_NEARAMP_SDK_URL: string;
 
       // the domain where the website is hosted
       HOST: string;

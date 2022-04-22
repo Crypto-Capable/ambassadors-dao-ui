@@ -70,10 +70,10 @@ export const AuthProvider: React.FC = ({ children }) => {
       // which is located in the browser local storage after user logs in
       const keyStore = new keyStores.BrowserLocalStorageKeyStore(localStorage);
 
-      // Initializing connection to the NEAR testnet
+      // Initializing connection to the NEAR network
       const near = await connect({
         keyStore,
-        networkId: 'testnet',
+        networkId: process.env.NEXT_PUBLIC_NETWORK_ID,
         headers: {},
         ...config,
       });

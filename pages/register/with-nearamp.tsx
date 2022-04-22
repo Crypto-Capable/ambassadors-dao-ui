@@ -25,6 +25,7 @@ const RegisterWithNearamp: NextPage = () => {
         (window as any).NR('init', {
           developerID: process.env.NEXT_PUBLIC_CONTRACT_NAME,
           grantToken: token,
+          networkId: process.env.NEXT_PUBLIC_NETWORK_ID,
           targetElement: 'nearamp-widget',
           loginConfig: {
             contractId: process.env.NEXT_PUBLIC_CONTRACT_NAME,
@@ -55,7 +56,7 @@ const RegisterWithNearamp: NextPage = () => {
         document,
         'script',
         'NR',
-        'https://sdk.testnet.nearamp.dev/nearamp.js'
+        process.env.NEXT_PUBLIC_NEARAMP_SDK_URL
       );
     }
   }, []);
