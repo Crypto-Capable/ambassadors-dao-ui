@@ -19,7 +19,6 @@ const ProfilePage: NextPage = () => {
   const [edit, setEdit] = useState(false);
 
   const Show = edit === false ? ProfileDisplay : ProfileEdit;
-  console.log(edit);
   return (
     // <Show>
     //   <Button onClick={() => setEdit((s) => !s)}>

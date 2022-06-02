@@ -56,7 +56,6 @@ const ProfileTags: React.FC = () => {
     } else {
       setActiveTags((s) => [...s, tag]);
     }
-    console.log(tag, tags[tag]);
   };
 
   return (
