@@ -30,7 +30,6 @@ export default function JoinOurTeam() {
       alignItems="start"
       justifyContent="space-around"
       h="100vh"
-      // overflow="hidden"
     >
       <Stack maxW="30%" spacing={4}>
         <Heading
