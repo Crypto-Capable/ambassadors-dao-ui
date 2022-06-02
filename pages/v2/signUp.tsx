@@ -1,25 +1,14 @@
 import {
   Box,
-  Flex,
   Stack,
   Heading,
   Text,
-  Container,
   Input,
   Button,
-  SimpleGrid,
-  Avatar,
-  AvatarGroup,
-  useBreakpointValue,
-  IconProps,
-  Icon,
-  InputGroup,
-  InputLeftAddon,
   FormControl,
   FormLabel,
   Select,
   FormHelperText,
-  VStack,
   HStack,
 } from '@chakra-ui/react';
 
@@ -32,67 +21,57 @@ const colleges = [
 ];
 
 export default function JoinOurTeam() {
-  const BPL = useBreakpointValue({ base: 'md', md: 'lg' });
   return (
     <HStack
-      bg={'gray.50'}
-      rounded={'xl'}
+      bg="gray.50"
+      rounded="xl"
       p={{ base: 4, sm: 6, md: 8 }}
       spacing={{ base: 8 }}
-      alignItems={'start'}
+      alignItems="start"
       justifyContent="space-around"
-      // h="100vh"
+      h="100vh"
       // overflow="hidden"
     >
       <Stack maxW="30%" spacing={4}>
         <Heading
-          color={'gray.800'}
+          color="gray.800"
           lineHeight={1.1}
           fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
         >
           Become a voyager / crew member
           <Text
-            as={'span'}
+            as="span"
             bgGradient="linear(to-r, red.400,pink.400)"
             bgClip="text"
           >
             !
           </Text>
         </Heading>
-        <Text color={'gray.500'} fontSize={{ base: 'sm', sm: 'md' }}>
+        <Text color="gray.500" fontSize={{ base: 'sm', sm: 'md' }}>
           We’re looking for amazing crew-members just like you! Become a part of
           our rockstar team and help make an impact!
         </Text>
       </Stack>
-      <Box as={'form'} height="80vh" overflow={'scroll'} mt={10}>
+      <Box as="form" height="100%" overflow="scroll" mt={10}>
         <Stack spacing={4}>
-          <InputGroup>
-            <InputLeftAddon w="100px"> Name </InputLeftAddon>
-            <Input placeholder="John Doe" />
-          </InputGroup>
-          <InputGroup>
-            <InputLeftAddon w="100px">Email</InputLeftAddon>
-            <Input placeholder="john@doe.com" />
-          </InputGroup>
-          <Input placeholder="Name" bg={'gray.100'} color={'gray.500'} />
           <FormControl isRequired>
-            <FormLabel htmlFor="name"> Name</FormLabel>
+            <FormLabel htmlFor="name">Name</FormLabel>
             <Input
               placeholder="John Doe"
               id="name"
               type="text"
-              bg={'gray.100'}
-              color={'gray.500'}
+              bg="gray.100"
+              color="gray.500"
             />
           </FormControl>
           <FormControl isRequired>
-            <FormLabel htmlFor="email"> Email</FormLabel>
+            <FormLabel htmlFor="email">Email</FormLabel>
             <Input
               placeholder="John Doe"
               type="email"
               id="email"
-              bg={'gray.100'}
-              color={'gray.500'}
+              bg="gray.100"
+              color="gray.500"
             />
           </FormControl>
           <FormControl isRequired>
@@ -116,6 +95,20 @@ export default function JoinOurTeam() {
             </FormHelperText>
           </FormControl>
           <FormControl>
+            <FormLabel htmlFor="near-wallet">Near Wallet Address</FormLabel>
+            <Input id="near-wallet" placeholder="johndoe.near" />
+            <FormHelperText>
+              Please provide a valid near wallet address
+            </FormHelperText>
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="near-wallet">Near Wallet Address</FormLabel>
+            <Input id="near-wallet" placeholder="johndoe.near" />
+            <FormHelperText>
+              Please provide a valid near wallet address
+            </FormHelperText>
+          </FormControl>
+          <FormControl>
             <FormLabel htmlFor="referral">Referral Code</FormLabel>
             <Input id="referral" placeholder="1234abcd" />
             <FormHelperText>
@@ -125,11 +118,11 @@ export default function JoinOurTeam() {
           </FormControl>
         </Stack>
         <Button
-          fontFamily={'heading'}
+          fontFamily="heading"
           mt={8}
-          w={'full'}
+          w="full"
           bgGradient="linear(to-r, red.400,pink.400)"
-          color={'white'}
+          color="white"
           _hover={{
             bgGradient: 'linear(to-r, red.400,pink.400)',
             boxShadow: 'xl',
