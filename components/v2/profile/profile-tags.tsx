@@ -2,7 +2,7 @@ import { Flex, Tag, TagLabel, Text } from '@chakra-ui/react';
 import { useAtom } from 'jotai';
 import { X } from 'phosphor-react';
 import { useState } from 'react';
-import { tagsAtom } from '../../atoms/tags';
+import { tagsAtom } from '../../../atoms/tags';
 
 const ProfileTags: React.FC = () => {
   const [tags, setTags] = useAtom(tagsAtom);
