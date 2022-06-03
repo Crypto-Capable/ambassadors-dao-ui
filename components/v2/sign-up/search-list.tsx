@@ -6,6 +6,7 @@ import {
   Input,
   InputGroup,
   InputRightAddon,
+  InputRightElement,
   Text,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
@@ -34,7 +35,7 @@ const startAsync = async () => {
 const SearchList: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [inputText, setInputText] = useState<string>('');
-  const [apiColleges, setApiColleges] = useState<college[]>([]);
+  const [apiColleges, setApiColleges] = useState<college[] | null>([]);
   useEffect(() => {
     if (inputText != '') {
       const timer = setTimeout(async () => {
@@ -44,7 +45,7 @@ const SearchList: React.FC = () => {
         setLoading(false);
       }, 500);
       return () => clearTimeout(timer);
-    }
+    } else setApiColleges(null);
   }, [inputText]);
 
   return (
@@ -56,28 +57,26 @@ const SearchList: React.FC = () => {
             type="text"
             id="college"
             placeholder="Select your college..."
-            borderRight="0px"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
           />
-          <InputRightAddon pr="30px" bgColor="white">
-            {loading && <ButtonSpinner />}
-          </InputRightAddon>
+          <InputRightElement>{loading && <ButtonSpinner />}</InputRightElement>
         </InputGroup>
 
-        {apiColleges.map((college) => (
-          <Text
-            marginTop="0px"
-            bgColor={'gray.100'}
-            _hover={{
-              bgColor: 'gray.300',
-              cursor: 'pointer',
-            }}
-            key={college.name}
-          >
-            {college.name}
-          </Text>
-        ))}
+        {apiColleges !== null &&
+          apiColleges.map((college) => (
+            <Text
+              marginTop="0px"
+              bgColor={'gray.100'}
+              _hover={{
+                bgColor: 'gray.300',
+                cursor: 'pointer',
+              }}
+              key={college.name}
+            >
+              {college.name}
+            </Text>
+          ))}
       </FormControl>
     </>
   );
