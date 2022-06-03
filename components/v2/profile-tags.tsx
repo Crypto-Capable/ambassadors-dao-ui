@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { tagsAtom } from '../../atoms/tags';
 
 const ProfileTags: React.FC = () => {
-  console.log('Rendered!');
   const [tags, setTags] = useAtom(tagsAtom);
   const [tagData, setTagData] = useState<string[]>([
     'Bug Bounties',
@@ -30,7 +29,6 @@ const ProfileTags: React.FC = () => {
   ]);
 
   const handleClick = (tag: string) => {
-    console.log('Clicked!');
     tags[tag] = !tags[tag];
     setTags({ ...tags });
     if (!tags[tag]) {
@@ -44,22 +42,29 @@ const ProfileTags: React.FC = () => {
 
   return (
     <>
-      <Text> Active tags</Text>
+      <Text>Active tags</Text>
       <Flex gap="10px" flexWrap="wrap" width="100%">
         {activeTags.map((tag) => (
-          <Tag
-            key={tag}
-            _hover={{
-              cursor: 'pointer',
-            }}
-            onClick={() => handleClick(tag)}
-          >
+          <Tag key={tag} pr="1">
             <TagLabel mr="3px">{tag}</TagLabel>
-            {tags[tag] && <X size="15" />}
+
+            {tags[tag] && (
+              <Text
+                onClick={() => handleClick(tag)}
+                borderRadius={'10px'}
+                bg="red.200"
+                p="2px"
+                _hover={{
+                  cursor: 'pointer',
+                }}
+              >
+                <X size="15" />
+              </Text>
+            )}
           </Tag>
         ))}
       </Flex>
-      <Text> All tags</Text>
+      <Text>All tags</Text>
       <Flex flexWrap="wrap" gap="10px" width="100%">
         {tagData.map((tag) => (
           <Tag
