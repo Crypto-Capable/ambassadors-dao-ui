@@ -20,16 +20,11 @@ const ProfilePage: NextPage = () => {
 
   const Show = edit === false ? ProfileDisplay : ProfileEdit;
   return (
-    // <Show>
-    //   <Button onClick={() => setEdit((s) => !s)}>
-    //     {edit === true ? 'Save Profile' : 'Edit Profile'}
-    //   </Button>
-    // </Show>
-    <ProfileEdit>
+    <Show>
       <Button onClick={() => setEdit((s) => !s)}>
         {edit === true ? 'Save Profile' : 'Edit Profile'}
       </Button>
-    </ProfileEdit>
+    </Show>
   );
 };
 

@@ -14,12 +14,15 @@ import { Envelope, GithubLogo, Info } from 'phosphor-react';
 
 const ProfileDisplay: React.FC = ({ children }) => {
   return (
-    <HStack m="100px" gap="10" align="strech">
-      <Image src="https://picsum.photos/300/200/?blur" alt="Profile Image" />
+    <HStack my="100px" mx="200px" gap="10" align="strech">
+      <Image src="https://picsum.photos/200/200/?blur" alt="Profile Image" />
       <VStack align="strech" justify={'space-between'}>
-        <HStack width="95%" justifyContent={'space-between'}>
-          <HStack gap="10">
-            <Heading as="h3">John Doe </Heading>
+        <HStack justifyContent={'space-between'}>
+          <HStack gap="2" align="end">
+            <VStack>
+              <Heading as="h3">John Doe </Heading>
+            </VStack>
+            <Text color="gray.500"> Machine General ID</Text>
 
             <HStack gap="3">
               <Tag fontSize="1.5em" colorScheme={'blue'}>
@@ -44,8 +47,6 @@ const ProfileDisplay: React.FC = ({ children }) => {
             <Envelope size="20px" />
             <Text> john.doe@gmail.com</Text>
           </HStack>
-
-          <Text>id.crew_001</Text>
           <HStack>
             <GithubLogo size="20px" />
             <Text> github-username</Text>

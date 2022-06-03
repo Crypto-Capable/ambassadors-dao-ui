@@ -4,26 +4,6 @@ import { Check, X } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { tagsAtom } from '../../atoms/tags';
 
-export type TagItemProps = {
-  label: string;
-};
-// export const TagItem: React.FC<TagItemProps> = ({ label }) => {
-//   const [tags, setTags] = useAtom(tagsAtom);
-//   tags[label] = !tags[label];
-
-//   return (
-//     <Tag
-//       _hover={{
-//         cursor: 'pointer',
-//       }}
-//       onClick={handleClick}
-//     >
-//       <TagLabel>{label}</TagLabel>
-//       <X size="20" />
-//     </Tag>
-//   );
-// };
-
 const tagData: string[] = [
   'Bug Bounties',
   'Game Design',
@@ -47,6 +27,7 @@ const tagData: string[] = [
 const ProfileTags: React.FC = () => {
   console.log('Rendered!');
   const [tags, setTags] = useAtom(tagsAtom);
+
   const [tagData, setTagData] = useState<string[]>([
     'Bug Bounties',
     'Game Design',
@@ -66,9 +47,18 @@ const ProfileTags: React.FC = () => {
     'AssemblyScript',
     'Solidity',
   ]);
-  const [activeTags, setActiveTags] = useState<string[]>([]);
+  const [activeTags, setActiveTags] = useState<string[]>([
+    'Blockchain',
+    'Back-end development',
+    'Game Design',
+  ]);
+
+  useEffect(() => {
+    console.log('UseEffect Called!');
+  }, [tags]);
 
   const handleClick = (tag: string) => {
+    console.log('Clicked!');
     tags[tag] = !tags[tag];
     setTags(tags);
     if (tags[tag] === false) {
@@ -93,7 +83,7 @@ const ProfileTags: React.FC = () => {
             onClick={() => handleClick(tag)}
           >
             <TagLabel mr="3px">{tag}</TagLabel>
-            {tags[tag] ? <X size="15" /> : <Check size="15" />}
+            {tags[tag] && <X size="15" />}
           </Tag>
         ))}
       </Flex>
@@ -108,7 +98,7 @@ const ProfileTags: React.FC = () => {
             onClick={() => handleClick(tag)}
           >
             <TagLabel mr="3px">{tag}</TagLabel>
-            {tags[tag] ? <X size="15" /> : <Check size="15" />}
+            {/* {!tags[tag] && <X size="15" />} */}
           </Tag>
         ))}
       </Flex>

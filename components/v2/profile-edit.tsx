@@ -22,7 +22,7 @@ const ProfileEdit: React.FC = ({ children }) => {
             src="https://picsum.photos/300/200/?blur"
             alt="Profile Image"
           />
-          <Button>Edit Image</Button>
+          <Input type="file" />
         </HStack>
         <FormControl isRequired>
           <FormLabel htmlFor="name">Name</FormLabel>
@@ -48,6 +48,10 @@ const ProfileEdit: React.FC = ({ children }) => {
         <FormControl>
           <FormLabel htmlFor="discord-username">Discord Username</FormLabel>
           <Input id="discord-username" placeholder="JohnDoe#1234" />
+        </FormControl>
+        <FormControl>
+          <FormLabel htmlFor="other">Other Media Username</FormLabel>
+          <Input id="other" placeholder="OtherMediaUsername" />
         </FormControl>
         <ProfileTags />
         {children}

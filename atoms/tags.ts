@@ -2,10 +2,10 @@ import { atom } from 'jotai';
 
 export const tagsAtom = atom<Record<string, boolean>>({
   'Bug Bounties': false,
-  'Game Design': false,
+  'Game Design': true,
   'Front-end development': false,
-  'Back-end development': false,
-  Blockchain: false,
+  'Back-end development': true,
+  Blockchain: true,
   'Smart Contracts': false,
   DBMS: false,
   Python: false,
