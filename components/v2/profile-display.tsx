@@ -1,15 +1,4 @@
-import {
-  Tag,
-  Box,
-  Flex,
-  Heading,
-  HStack,
-  Image,
-  Text,
-  VStack,
-  Button,
-} from '@chakra-ui/react';
-import { NextPage } from 'next';
+import { Tag, Heading, HStack, Image, Text, VStack } from '@chakra-ui/react';
 import { Envelope, GithubLogo, Info } from 'phosphor-react';
 
 const ProfileDisplay: React.FC = ({ children }) => {

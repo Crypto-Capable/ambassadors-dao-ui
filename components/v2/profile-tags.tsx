@@ -1,6 +1,6 @@
 import { Flex, Tag, TagLabel, Text } from '@chakra-ui/react';
-import { useAtom, useAtomValue } from 'jotai';
-import { Check, X } from 'phosphor-react';
+import { useAtom } from 'jotai';
+import { X } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { tagsAtom } from '../../atoms/tags';
 

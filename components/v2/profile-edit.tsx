@@ -1,16 +1,11 @@
 import {
-  Box,
-  Button,
   FormControl,
-  FormHelperText,
   FormLabel,
   HStack,
   Image,
   Input,
-  Select,
   VStack,
 } from '@chakra-ui/react';
-import { Stack } from 'phosphor-react';
 import ProfileTags from './profile-tags';
 
 const ProfileEdit: React.FC = ({ children }) => {
