@@ -32,16 +32,16 @@ const startAsync = async () => {
 };
 
 const SearchList: React.FC = () => {
-  console.log('Rerendered!');
   const [loading, setLoading] = useState<boolean>(false);
   const [inputText, setInputText] = useState<string>('');
   const [apiColleges, setApiColleges] = useState<college[]>([]);
   useEffect(() => {
     if (inputText != '') {
       const timer = setTimeout(async () => {
-        console.log('Searching Now!');
+        setLoading(true);
         const data = await startAsync();
         setApiColleges(data);
+        setLoading(false);
       }, 500);
       return () => clearTimeout(timer);
     }
