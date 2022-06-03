@@ -10,7 +10,15 @@ import {
   Select,
   FormHelperText,
   HStack,
+  Flex,
+  VStack,
+  Divider,
+  InputGroup,
+  InputRightAddon,
+  ButtonSpinner,
 } from '@chakra-ui/react';
+import { Spinner } from 'phosphor-react';
+import SearchList from '../../components/v2/sign-up/search-list';
 
 const colleges = [
   { id: 1, name: 'University of Illinois at Urbana-Champaign' },
@@ -23,7 +31,6 @@ const colleges = [
 export default function JoinOurTeam() {
   return (
     <HStack
-      bg="gray.50"
       rounded="xl"
       p={{ base: 4, sm: 6, md: 8 }}
       spacing={{ base: 8 }}
@@ -71,15 +78,7 @@ export default function JoinOurTeam() {
               color="gray.500"
             />
           </FormControl>
-          <FormControl isRequired>
-            <FormLabel htmlFor="college">College</FormLabel>
-            <Select id="college" placeholder="Select College">
-              {colleges.map((college) => (
-                <option key={college.id}>{college.name}</option>
-              ))}
-            </Select>
-          </FormControl>
-
+          <SearchList />
           <FormControl>
             <FormLabel htmlFor="discord-username">Discord Username</FormLabel>
             <Input id="discord-username" placeholder="JohnDoe#1234" />

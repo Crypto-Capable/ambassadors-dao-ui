@@ -4,21 +4,19 @@ import {
   Flex,
   FormLabel,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
-import { Camera } from 'phosphor-react';
-import { useState, useEffect } from 'react';
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from '@chakra-ui/react';
 import Image from 'next/image';
+import { Camera } from 'phosphor-react';
+import { useEffect, useState } from 'react';
 
 const ImageEdit: React.FC = () => {
   const [image, setImage] = useState<File | null>(null);
@@ -29,7 +27,7 @@ const ImageEdit: React.FC = () => {
       const interval = setInterval(onOpen, 1000);
       return () => clearInterval(interval);
     }
-  });
+  }, [image, onOpen]);
 
   const closeHandler = () => {
     setImage(null);

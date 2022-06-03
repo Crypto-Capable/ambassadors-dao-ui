@@ -1,15 +1,4 @@
-import {
-  Box,
-  Flex,
-  FormControl,
-  FormLabel,
-  Image,
-  Input,
-  Tooltip,
-  VStack,
-} from '@chakra-ui/react';
-import { Camera } from 'phosphor-react';
-import { useEffect, useState } from 'react';
+import { Flex, FormControl, FormLabel, Input, VStack } from '@chakra-ui/react';
 import ImageEdit from './profile-image-edit';
 import ProfileTags from './profile-tags';
 
