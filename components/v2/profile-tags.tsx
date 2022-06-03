@@ -9,10 +9,7 @@ const ProfileTags: React.FC = () => {
   const [tags, setTags] = useAtom(tagsAtom);
   const [tagData, setTagData] = useState<string[]>([
     'Bug Bounties',
-    'Game Design',
     'Front-end development',
-    'Back-end development',
-    'Blockchain',
     'Smart Contracts',
     'DBMS',
     'Python',
@@ -35,8 +32,8 @@ const ProfileTags: React.FC = () => {
   const handleClick = (tag: string) => {
     console.log('Clicked!');
     tags[tag] = !tags[tag];
-    setTags(tags);
-    if (tags[tag] === false) {
+    setTags({ ...tags });
+    if (!tags[tag]) {
       setActiveTags(activeTags.filter((t) => t !== tag));
       setTagData((s) => [...s, tag]);
     } else {
