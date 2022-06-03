@@ -11,9 +11,15 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { Camera } from 'phosphor-react';
+import { useEffect, useState } from 'react';
 import ProfileTags from './profile-tags';
 
 const ProfileEdit: React.FC = ({ children }) => {
+  const [image, setImage] = useState<File>();
+  const [imgURL, setImgURL] = useState<string>();
+  useEffect(() => {
+    if (image) setImgURL(URL.createObjectURL(image));
+  }, [image]);
   return (
     <>
       <VStack align="start" w="50%" m="auto" my="100px">
@@ -27,23 +33,37 @@ const ProfileEdit: React.FC = ({ children }) => {
           align="center"
           justify="center"
         >
-          <Tooltip label="Add image">
-            <Box
-              borderRadius="100px"
-              _hover={{
-                cursor: 'pointer',
-                padding: '12px',
-                bgColor: 'blackAlpha.600',
-              }}
-              bgColor="blackAlpha.800"
-              opacity="0.5"
-              padding="10px"
-            >
-              <Camera z="5" color="white" size={32} />
-            </Box>
-          </Tooltip>
+          <Input
+            id="image-input"
+            type="file"
+            style={{ display: 'none' }}
+            onChange={(e) => {
+              if (e.target.files) {
+                setImage(e.target.files[0]);
+              }
+            }}
+          />
+          <FormLabel htmlFor="image-input">
+            <Tooltip label="Add image">
+              <Box
+                borderRadius="100px"
+                _hover={{
+                  cursor: 'pointer',
+                  padding: '12px',
+                  bgColor: 'blackAlpha.600',
+                }}
+                bgColor="blackAlpha.800"
+                opacity="0.5"
+                padding="10px"
+              >
+                <Camera z="5" color="white" size={32}>
+                  <Input type="file" />
+                </Camera>
+              </Box>
+            </Tooltip>
+          </FormLabel>
         </Flex>
-
+        {imgURL && <Image src={imgURL} alt="img" />}
         <FormControl isRequired>
           <FormLabel htmlFor="name">Name</FormLabel>
           <Input
