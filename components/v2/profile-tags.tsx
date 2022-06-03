@@ -45,22 +45,17 @@ const ProfileTags: React.FC = () => {
       <Text>Active tags</Text>
       <Flex gap="10px" flexWrap="wrap" width="100%">
         {activeTags.map((tag) => (
-          <Tag key={tag} pr="1">
+          <Tag
+            onClick={() => handleClick(tag)}
+            _hover={{
+              cursor: 'pointer',
+            }}
+            key={tag}
+            pr="1"
+          >
             <TagLabel mr="3px">{tag}</TagLabel>
 
-            {tags[tag] && (
-              <Text
-                onClick={() => handleClick(tag)}
-                borderRadius={'10px'}
-                bg="red.200"
-                p="2px"
-                _hover={{
-                  cursor: 'pointer',
-                }}
-              >
-                <X size="15" />
-              </Text>
-            )}
+            {tags[tag] && <X size="15" />}
           </Tag>
         ))}
       </Flex>
