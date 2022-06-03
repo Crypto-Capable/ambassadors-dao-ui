@@ -59,7 +59,6 @@ export default function JoinOurTeam() {
               placeholder="John Doe"
               id="name"
               type="text"
-              bg="gray.100"
               color="gray.500"
             />
           </FormControl>
@@ -69,7 +68,6 @@ export default function JoinOurTeam() {
               placeholder="John Doe"
               type="email"
               id="email"
-              bg="gray.100"
               color="gray.500"
             />
           </FormControl>
