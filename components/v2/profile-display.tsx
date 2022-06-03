@@ -12,7 +12,6 @@ const ProfileDisplay: React.FC = ({ children }) => {
               <Heading as="h3">John Doe </Heading>
             </VStack>
             <Text color="gray.500"> Machine General ID</Text>
-
             <HStack gap="3">
               <Tag fontSize="1.5em" colorScheme={'blue'}>
                 Tag1

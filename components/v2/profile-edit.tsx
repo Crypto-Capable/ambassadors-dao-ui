@@ -39,7 +39,6 @@ const ProfileEdit: React.FC = ({ children }) => {
             color="gray.500"
           />
         </FormControl>
-
         <FormControl>
           <FormLabel htmlFor="discord-username">Discord Username</FormLabel>
           <Input id="discord-username" placeholder="JohnDoe#1234" />
