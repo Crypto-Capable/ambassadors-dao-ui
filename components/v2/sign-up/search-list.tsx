@@ -47,7 +47,8 @@ const SearchList: React.FC = () => {
       return () => clearTimeout(timer);
     } else setApiColleges(null);
   }, [inputText]);
-
+  // componentDidMount
+  // componentDidUnmount
   return (
     <>
       <FormControl isRequired>
