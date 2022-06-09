@@ -8,9 +8,11 @@ import {
   Heading,
   Text,
 } from '@chakra-ui/react';
+import { useAtom, useAtomValue } from 'jotai';
 import { NextPage } from 'next';
 import { CaretLeft, CaretRight } from 'phosphor-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { FormValuesAtom } from '../../atoms/form';
 import {
   AboutForm,
   DiscordForm,
@@ -21,17 +23,23 @@ import {
 } from '../../components/v2/sign-up';
 
 const forms = [
-  AboutForm,
-  InsitutionForm,
-  ReferralForm,
-  DiscordForm,
-  FinishForm,
+  <AboutForm key="1" />,
+  <InsitutionForm key="2" />,
+  <ReferralForm key="3" />,
+  <DiscordForm key="4" />,
+  <FinishForm key="5" />,
 ];
 
 const CrewSignUp: NextPage = () => {
-  const [formNumber, setForm] = useState(0);
-  //const formValues = useAtomValue(FormValuesAtom);
+  const [formValues, setFormValues] = useAtom(FormValuesAtom);
+  const [formNumber, setFormNumber] = useState(formValues.currentForm);
+
   const ActiveForm = forms[formNumber];
+  console.log(formNumber);
+  useEffect(() => {
+    formValues.currentForm = formNumber;
+    setFormValues({ ...formValues });
+  }, [formNumber]);
   return (
     <Grid
       templateAreas={`"header header"
@@ -42,7 +50,6 @@ const CrewSignUp: NextPage = () => {
       gridTemplateColumns={'minmax(400px, 1fr) 2fr'}
       maxH="100vh"
       overflowY="scroll"
-      fontWeight="bold"
     >
       <GridItem
         bgImage="url('/CrewSignUpBg.png')"
@@ -89,7 +96,7 @@ const CrewSignUp: NextPage = () => {
         bg="black"
         area="main"
       >
-        <ActiveForm />
+        {ActiveForm}
       </GridItem>
       <GridItem w="100%" area="control" pb="4">
         <Flex
@@ -105,7 +112,7 @@ const CrewSignUp: NextPage = () => {
               bgColor="white"
               borderRadius="20px"
               p="5px"
-              onClick={() => setForm((e) => e - 1)}
+              onClick={() => setFormNumber((e) => e - 1)}
               _hover={{
                 cursor: 'pointer',
               }}
@@ -118,7 +125,7 @@ const CrewSignUp: NextPage = () => {
               bgColor="white"
               borderRadius="20px"
               p="5px"
-              onClick={() => setForm((e) => e - 1)}
+              onClick={() => setFormNumber((e) => e - 1)}
               _hover={{
                 cursor: 'pointer',
               }}
@@ -131,7 +138,7 @@ const CrewSignUp: NextPage = () => {
             bgColor="white"
             borderRadius="20px"
             p="5px"
-            onClick={() => setForm((e) => e + 1)}
+            onClick={() => setFormNumber((e) => e + 1)}
             _hover={{
               cursor: 'pointer',
             }}
