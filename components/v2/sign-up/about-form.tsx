@@ -1,18 +1,7 @@
-import {
-  Flex,
-  FormControl,
-  FormLabel,
-  HStack,
-  Input,
-  useMediaQuery,
-  VStack,
-} from '@chakra-ui/react';
+import { HStack, useMediaQuery } from '@chakra-ui/react';
 import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
-import { isGeneratorObject } from 'util/types';
 import { FormValuesAtom } from '../../../atoms/form';
-import fn from '../../../util/update-atom';
-import FormContainer from './form-container';
 import FormHeading from './form-heading';
 import { FormInput } from './form-input';
 
