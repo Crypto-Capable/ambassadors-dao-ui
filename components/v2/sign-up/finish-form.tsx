@@ -19,7 +19,7 @@ export const FinishForm: React.FC = () => {
 
   useEffect(() => {
     setFormValues({ ...formValues, currentForm: 4 });
-  });
+  }, []);
   return (
     <>
       <FormHeading
