@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, Grid, Text, useMediaQuery, VStack } from '@chakra-ui/react';
 import {
   IconProps,
   User,
@@ -53,30 +53,37 @@ const SideNavItems: SideNavContent[] = [
 ];
 
 export const SideNav: React.FC = () => {
+  const [isMobile] = useMediaQuery('(max-width: 600px)');
+  const dir = isMobile ? 'row' : 'column';
+  const justify = isMobile ? 'space-evenly' : 'start';
+  const w = isMobile ? '100%' : 'auto';
+  const h = isMobile ? 'auto' : '100%';
   //
   return (
-    <Flex w="100%" h="100%" justify="start" ml="5">
-      <Box
-        h="100%"
-        pt="4"
-        _after={{
-          content: `""`,
-          position: 'absolute',
-          width: '1px',
-          backgroundColor: 'white',
-          opacity: '0.5',
-          top: '0',
-          bottom: '0',
-          right: '-45.5px',
-        }}
-        position="relative"
-      >
-        <VStack gap="20px" justify={'start'} align="end">
-          {SideNavItems.map((item) => (
-            <SideNavItem key={item.formType} {...item} />
-          ))}
-        </VStack>
-      </Box>
-    </Flex>
+    <Box
+      h={h}
+      w={w}
+      py="4"
+      _after={{
+        content: `""`,
+        position: 'absolute',
+        width: isMobile ? '100vw' : '1px',
+        height: isMobile ? '1px' : '100%',
+        // width: '1px',
+        // height: '100%',
+        backgroundColor: 'white',
+        opacity: '0.5',
+        right: isMobile ? '0' : '-45.5px',
+        top: isMobile ? '100%' : '0',
+        bottom: '0',
+      }}
+      position="relative"
+    >
+      <VStack w="100%" flexDir={dir} gap="20px" justify={justify} align="end">
+        {SideNavItems.map((item) => (
+          <SideNavItem key={item.formType} {...item} />
+        ))}
+      </VStack>
+    </Box>
   );
 };

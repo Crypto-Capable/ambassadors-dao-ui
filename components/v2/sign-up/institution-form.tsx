@@ -19,7 +19,7 @@ export const InsitutionForm: React.FC = () => {
     setFormValues({ ...formValues, currentForm: 1 });
   }, []);
   return (
-    <VStack align="start" gap="6" color="#ffffff">
+    <>
       <FormHeading
         heading="Insitution"
         helperText={`Pleae let us know of the institution you’re “currently studying” or “a graduate from” or “anything else that you’re doing”`}
@@ -49,6 +49,6 @@ export const InsitutionForm: React.FC = () => {
         value={otherWork}
         onChange={setOtherWork}
       />
-    </VStack>
+    </>
   );
 };

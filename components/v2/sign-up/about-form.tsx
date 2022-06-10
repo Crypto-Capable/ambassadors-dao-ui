@@ -4,6 +4,7 @@ import {
   FormLabel,
   HStack,
   Input,
+  useMediaQuery,
   VStack,
 } from '@chakra-ui/react';
 import { useAtom } from 'jotai';
@@ -11,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { isGeneratorObject } from 'util/types';
 import { FormValuesAtom } from '../../../atoms/form';
 import fn from '../../../util/update-atom';
+import FormContainer from './form-container';
 import FormHeading from './form-heading';
 import { FormInput } from './form-input';
 
@@ -21,6 +23,7 @@ export const AboutForm: React.FC = () => {
   const [email, setEmail] = useState<string>(formValues.emailId);
   const [phoneNo, setPhoneNo] = useState<string>(formValues.phoneNo);
 
+  const [isMobile] = useMediaQuery('(max-width: 600px');
   useEffect(() => {
     formValues.firstName = firstName;
     formValues.lastName = lastName;
@@ -31,7 +34,7 @@ export const AboutForm: React.FC = () => {
   }, [firstName, lastName, email, phoneNo]);
 
   return (
-    <VStack align="start" gap="6" color="#ffffff">
+    <>
       <FormHeading
         heading="Tell Us a few things about you"
         helperText="Fill in the personal details"
@@ -76,6 +79,6 @@ export const AboutForm: React.FC = () => {
         value={phoneNo}
         onChange={setPhoneNo}
       />
-    </VStack>
+    </>
   );
 };

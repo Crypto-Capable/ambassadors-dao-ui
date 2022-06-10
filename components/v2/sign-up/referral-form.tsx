@@ -20,7 +20,7 @@ export const ReferralForm: React.FC = () => {
     setFormValues({ ...formValues, currentForm: 2 });
   }, [code]);
   return (
-    <VStack align="start" gap="6" color="#ffffff">
+    <>
       <FormHeading
         heading="Referral Code"
         helperText="Enter the looong code given to you"
@@ -35,6 +35,6 @@ export const ReferralForm: React.FC = () => {
         value={code}
         onChange={setCode}
       />
-    </VStack>
+    </>
   );
 };

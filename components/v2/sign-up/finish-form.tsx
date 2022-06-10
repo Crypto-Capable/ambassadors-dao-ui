@@ -1,16 +1,7 @@
-import {
-  Flex,
-  FormControl,
-  FormLabel,
-  HStack,
-  Input,
-  VStack,
-} from '@chakra-ui/react';
-import { useAtom, useAtomValue } from 'jotai';
-import { useEffect, useState } from 'react';
-import { isGeneratorObject } from 'util/types';
+import { HStack } from '@chakra-ui/react';
+import { useAtom } from 'jotai';
+import { useEffect } from 'react';
 import { FormValuesAtom } from '../../../atoms/form';
-import fn from '../../../util/update-atom';
 import FormHeading from './form-heading';
 import { FormInput } from './form-input';
 
@@ -28,9 +19,9 @@ export const FinishForm: React.FC = () => {
 
   useEffect(() => {
     setFormValues({ ...formValues, currentForm: 4 });
-  }, []);
+  });
   return (
-    <VStack align="start" gap="6" color="#ffffff">
+    <>
       <FormHeading
         heading="Let’s have you Double-Check"
         helperText="You can go back to change anything if you wish to do so, otherwise tick the box and smash the submit button"
@@ -98,6 +89,6 @@ export const FinishForm: React.FC = () => {
         label="Discord Handle"
         placeholder="John#0007"
       />
-    </VStack>
+    </>
   );
 };

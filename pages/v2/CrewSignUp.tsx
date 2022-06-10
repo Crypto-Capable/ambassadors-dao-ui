@@ -7,6 +7,7 @@ import {
   GridItem,
   Heading,
   Text,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import { useAtom, useAtomValue } from 'jotai';
 import { NextPage } from 'next';
@@ -21,6 +22,7 @@ import {
   ReferralForm,
   SideNav,
 } from '../../components/v2/sign-up';
+import FormContainer from '../../components/v2/sign-up/form-container';
 
 const forms = [
   <AboutForm key="1" />,
@@ -30,27 +32,53 @@ const forms = [
   <FinishForm key="5" />,
 ];
 
-const CrewSignUp: NextPage = () => {
-  const [formValues, setFormValues] = useAtom(FormValuesAtom);
-  const [formNumber, setFormNumber] = useState(formValues.currentForm);
-
-  const ActiveForm = forms[formNumber];
-  console.log(formNumber);
-  useEffect(() => {
-    formValues.currentForm = formNumber;
-    setFormValues({ ...formValues });
-  }, [formNumber]);
-  return (
-    <Grid
-      templateAreas={`"header header"
+const ResponsiveGrid: React.FC = ({ children }) => {
+  const [isMobile] = useMediaQuery('(max-width: 600px)');
+  if (isMobile)
+    return (
+      <Grid
+        templateAreas={`"header"
+								"nav"
+								"main"
+								"control"`}
+        bg="black"
+        gridTemplateRows="1fr auto 3fr auto"
+        gridTemplateColumns="1fr"
+        maxH="100vh"
+        minH="100vh"
+        overflowY="scroll"
+      >
+        {children}
+      </Grid>
+    );
+  else
+    return (
+      <Grid
+        templateAreas={`"header header"
                   "nav main"
 									"nav control"`}
-      bg="black"
-      gridTemplateRows={'minmax(175px,1fr)  4fr '}
-      gridTemplateColumns={'minmax(400px, 1fr) 2fr'}
-      maxH="100vh"
-      overflowY="scroll"
-    >
+        bg="black"
+        gridTemplateRows={'minmax(175px,1fr)  4fr '}
+        gridTemplateColumns={'minmax(400px, 1fr) 2fr'}
+        maxH="100vh"
+        overflowY="scroll"
+      >
+        {children}
+      </Grid>
+    );
+};
+
+const CrewSignUp: NextPage = () => {
+  //const [formValues, setFormValues] = useAtom(FormValuesAtom);
+  const [formNumber, setFormNumber] = useState(0);
+  const ActiveForm = forms[formNumber];
+  const [isMobile] = useMediaQuery('(max-width: 600px)');
+  // useEffect(() => {
+  //   formValues.currentForm = formNumber;
+  //   setFormValues({ ...formValues });
+  // }, [formNumber]);
+  return (
+    <ResponsiveGrid>
       <GridItem
         bgImage="url('/CrewSignUpBg.png')"
         bgPosition="center"
@@ -59,8 +87,9 @@ const CrewSignUp: NextPage = () => {
         area="header"
       >
         <Flex
-          pl="100px"
+          // pl="100px"
           pb="20px"
+          px="20px"
           w="100%"
           h="100%"
           // bgGradient="linear(357.84deg, #070606 -3.45%, rgba(217, 217, 217, 0) 98.29%)"
@@ -84,7 +113,7 @@ const CrewSignUp: NextPage = () => {
         </Flex>
       </GridItem>
 
-      <GridItem area="nav">
+      <GridItem display="flex" area="nav">
         <SideNav />
       </GridItem>
       <GridItem
@@ -96,58 +125,55 @@ const CrewSignUp: NextPage = () => {
         bg="black"
         area="main"
       >
-        {ActiveForm}
+        <FormContainer>{ActiveForm}</FormContainer>
       </GridItem>
-      <GridItem w="100%" area="control" pb="4">
-        <Flex
-          w="80%"
-          bgColor="black"
-          //opacity="0.2"
-          // backdropBlur="20px"
-          // backdropSaturate="160%"
-          justifyContent="space-evenly"
-        >
-          {formNumber === 0 ? (
-            <Box
-              bgColor="white"
-              borderRadius="20px"
-              p="5px"
-              onClick={() => setFormNumber((e) => e - 1)}
-              _hover={{
-                cursor: 'pointer',
-              }}
-              visibility="hidden"
-            >
-              <CaretLeft color="black" size="32" />
-            </Box>
-          ) : (
-            <Box
-              bgColor="white"
-              borderRadius="20px"
-              p="5px"
-              onClick={() => setFormNumber((e) => e - 1)}
-              _hover={{
-                cursor: 'pointer',
-              }}
-            >
-              <CaretLeft color="black" size="32" />
-            </Box>
-          )}
-
+      <GridItem
+        display="flex"
+        w={isMobile ? '100%' : '80%'}
+        justifyContent="space-evenly"
+        area="control"
+        pb="4"
+      >
+        {formNumber === 0 ? (
           <Box
             bgColor="white"
             borderRadius="20px"
             p="5px"
-            onClick={() => setFormNumber((e) => e + 1)}
+            onClick={() => setFormNumber((e) => e - 1)}
+            _hover={{
+              cursor: 'pointer',
+            }}
+            visibility="hidden"
+          >
+            <CaretLeft color="black" size="32" />
+          </Box>
+        ) : (
+          <Box
+            bgColor="white"
+            borderRadius="20px"
+            p="5px"
+            onClick={() => setFormNumber((e) => e - 1)}
             _hover={{
               cursor: 'pointer',
             }}
           >
-            <CaretRight color="black" size="32" />
+            <CaretLeft color="black" size="32" />
           </Box>
-        </Flex>
+        )}
+
+        <Box
+          bgColor="white"
+          borderRadius="20px"
+          p="5px"
+          onClick={() => setFormNumber((e) => e + 1)}
+          _hover={{
+            cursor: 'pointer',
+          }}
+        >
+          <CaretRight color="black" size="32" />
+        </Box>
       </GridItem>
-    </Grid>
+    </ResponsiveGrid>
   );
 };
 

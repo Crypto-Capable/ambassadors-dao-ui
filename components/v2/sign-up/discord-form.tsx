@@ -20,7 +20,7 @@ export const DiscordForm: React.FC = () => {
     setFormValues({ ...formValues, currentForm: 3 });
   }, [handle]);
   return (
-    <VStack align="start" gap="6" color="#ffffff">
+    <>
       <FormHeading
         heading="Discord Handle"
         helperText="Enter your correct discord id otherwise you shall be ignored"
@@ -35,6 +35,6 @@ export const DiscordForm: React.FC = () => {
         value={handle}
         onChange={setHandle}
       />
-    </VStack>
+    </>
   );
 };

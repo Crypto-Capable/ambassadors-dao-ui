@@ -1,4 +1,11 @@
-import { Box, Flex, HStack, Text, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  HStack,
+  Text,
+  useMediaQuery,
+  VStack,
+} from '@chakra-ui/react';
 import { useAtomValue } from 'jotai';
 import { IconProps } from 'phosphor-react';
 import React from 'react';
@@ -21,6 +28,7 @@ const SideNavItem: React.FC<SideNavItemProps> = ({
   label,
   labelHelper,
 }) => {
+  const [isMobile] = useMediaQuery('(max-width: 600px)');
   const { currentForm } = useAtomValue(FormValuesAtom);
   const active = currentForm === formType;
   const passed = currentForm > formType;
@@ -28,21 +36,31 @@ const SideNavItem: React.FC<SideNavItemProps> = ({
   if (active) color = colors[1];
   else if (passed) color = colors[0];
   return (
-    <Flex color="white" align="center" justify="center" gap="20px">
-      <Flex
-        flexDir="column"
-        align="end"
-        gap="0"
-        columnGap="0"
-        justifyContent="space-around"
-      >
-        <Text fontSize="lg" fontWeight="400" fontFamily="Work Sans">
-          {label}
-        </Text>
-        <Text mt="-2px" fontSize="sm" fontWeight="300" fontFamily="Work Sans">
-          {labelHelper}
-        </Text>
-      </Flex>
+    <Flex
+      color="white"
+      align="center"
+      justify={isMobile ? 'center' : 'end'}
+      w="100%"
+      gap="20px"
+    >
+      {!isMobile && (
+        <Flex
+          pl="10px"
+          flexDir="column"
+          align="end"
+          gap="0"
+          columnGap="0"
+          justifyContent="space-around"
+        >
+          <Text fontSize="lg" fontWeight="400" fontFamily="Work Sans">
+            {label}
+          </Text>
+          <Text mt="-2px" fontSize="sm" fontWeight="300" fontFamily="Work Sans">
+            {labelHelper}
+          </Text>
+        </Flex>
+      )}
+
       <Box
         pos="relative"
         _after={{
@@ -52,9 +70,8 @@ const SideNavItem: React.FC<SideNavItemProps> = ({
           height: '10px',
           backgroundColor: active ? '#4097D0' : 'black',
           zIndex: 2,
-          top: '40%',
-          right: '-50px',
-          bot: '0',
+          top: isMobile ? '130%' : '40%',
+          right: isMobile ? '38%' : '-50px',
           borderRadius: '100px',
           borderWidth: '1px',
           borderColor: 'rgba(255, 255, 255, 0.5)',
