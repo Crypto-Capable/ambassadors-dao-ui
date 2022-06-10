@@ -34,7 +34,7 @@ const SideNavItems: SideNavContent[] = [
   },
   {
     label: 'Referral',
-    labelHelper: 'Received from a friend or a voyager',
+    labelHelper: 'Received from a voyager',
     Icon: Buildings,
     formType: Forms.REFERRAL,
   },
@@ -55,10 +55,11 @@ const SideNavItems: SideNavContent[] = [
 export const SideNav: React.FC = () => {
   const [isMobile] = useMediaQuery('(max-width: 600px)');
   const dir = isMobile ? 'row' : 'column';
-  const justify = isMobile ? 'space-evenly' : 'start';
+  const justify = isMobile ? 'space-evenly' : 'center';
   const w = isMobile ? '100%' : 'auto';
   const h = isMobile ? 'auto' : '100%';
   //
+  /*
   return (
     <Box
       h={h}
@@ -85,5 +86,35 @@ export const SideNav: React.FC = () => {
         ))}
       </VStack>
     </Box>
+  );
+	*/
+  return (
+    <VStack
+      h={h}
+      //w={w}
+      py="4"
+      _after={{
+        content: `""`,
+        position: 'absolute',
+        width: isMobile ? '100vw' : '1px',
+        height: isMobile ? '1px' : '100%',
+        // width: '1px',
+        // height: '100%',
+        backgroundColor: 'white',
+        opacity: '0.5',
+        right: isMobile ? '0' : '-45.5px',
+        top: isMobile ? '100%' : '0',
+        bottom: '0',
+      }}
+      position="relative"
+      flexDir={dir}
+      gap="20px"
+      justify={justify}
+      align="end"
+    >
+      {SideNavItems.map((item) => (
+        <SideNavItem key={item.formType} {...item} />
+      ))}
+    </VStack>
   );
 };

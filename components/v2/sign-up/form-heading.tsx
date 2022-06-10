@@ -8,9 +8,9 @@ interface FormHeadingProps {
 const FormHeading: React.FC<FormHeadingProps> = ({ heading, helperText }) => {
   return (
     <>
-      <Box w="80%" color="#ffffff">
+      <Box>
         <Heading as="h2">{heading}</Heading>
-        <Text mt="2"> {helperText} </Text>
+        <Text mt="2">{helperText}</Text>
       </Box>
     </>
   );

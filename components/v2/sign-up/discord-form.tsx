@@ -1,11 +1,3 @@
-import {
-  Flex,
-  FormControl,
-  FormLabel,
-  HStack,
-  Input,
-  VStack,
-} from '@chakra-ui/react';
 import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 import { FormValuesAtom } from '../../../atoms/form';

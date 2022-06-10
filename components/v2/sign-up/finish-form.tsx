@@ -26,7 +26,7 @@ export const FinishForm: React.FC = () => {
         heading="Let’s have you Double-Check"
         helperText="You can go back to change anything if you wish to do so, otherwise tick the box and smash the submit button"
       />
-      <HStack w="80%" gap="5" justifyContent="flex-start">
+      <HStack w="100%" gap="5" justifyContent="flex-start">
         <FormInput
           type="text"
           value={firstName}

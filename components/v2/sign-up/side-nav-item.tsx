@@ -55,7 +55,13 @@ const SideNavItem: React.FC<SideNavItemProps> = ({
           <Text fontSize="lg" fontWeight="400" fontFamily="Work Sans">
             {label}
           </Text>
-          <Text mt="-2px" fontSize="sm" fontWeight="300" fontFamily="Work Sans">
+          <Text
+            textAlign="end"
+            mt="-2px"
+            fontSize="sm"
+            fontWeight="300"
+            fontFamily="Work Sans"
+          >
             {labelHelper}
           </Text>
         </Flex>

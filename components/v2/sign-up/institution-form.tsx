@@ -1,11 +1,4 @@
-import {
-  Flex,
-  FormControl,
-  FormLabel,
-  HStack,
-  Input,
-  VStack,
-} from '@chakra-ui/react';
+import { FormControl, FormLabel, Input } from '@chakra-ui/react';
 import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 import { FormValuesAtom } from '../../../atoms/form';
@@ -25,7 +18,7 @@ export const InsitutionForm: React.FC = () => {
         helperText={`Pleae let us know of the institution you’re “currently studying” or “a graduate from” or “anything else that you’re doing”`}
       />
 
-      <FormControl w="80%" isRequired>
+      <FormControl w="100%" isRequired>
         <FormLabel fontSize="sm" htmlFor="institution">
           Instutition
         </FormLabel>

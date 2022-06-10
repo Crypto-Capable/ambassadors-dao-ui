@@ -22,7 +22,7 @@ export const FormInput: React.FC<FormInputPropsType> = ({
   readonly = false,
 }) => {
   return (
-    <FormControl w="80%" isRequired={required}>
+    <FormControl w="100%" isRequired={required}>
       <FormLabel fontSize="sm" htmlFor={id}>
         {label}
       </FormLabel>

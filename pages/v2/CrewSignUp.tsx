@@ -1,15 +1,16 @@
 import {
   Box,
   Button,
-  Divider,
+  Container,
   Flex,
   Grid,
   GridItem,
   Heading,
+  IconButton,
   Text,
   useMediaQuery,
 } from '@chakra-ui/react';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import { NextPage } from 'next';
 import { CaretLeft, CaretRight } from 'phosphor-react';
 import { useEffect, useState } from 'react';
@@ -69,14 +70,16 @@ const ResponsiveGrid: React.FC = ({ children }) => {
 };
 
 const CrewSignUp: NextPage = () => {
-  //const [formValues, setFormValues] = useAtom(FormValuesAtom);
   const [formNumber, setFormNumber] = useState(0);
   const ActiveForm = forms[formNumber];
   const [isMobile] = useMediaQuery('(max-width: 600px)');
-  // useEffect(() => {
-  //   formValues.currentForm = formNumber;
-  //   setFormValues({ ...formValues });
-  // }, [formNumber]);
+  const [formValues, setFormValues] = useAtom(FormValuesAtom);
+
+  useEffect(() => {
+    formValues.currentForm = formNumber;
+    setFormValues({ ...formValues });
+  }, [formNumber]);
+  /*
   return (
     <ResponsiveGrid>
       <GridItem
@@ -174,6 +177,87 @@ const CrewSignUp: NextPage = () => {
         </Box>
       </GridItem>
     </ResponsiveGrid>
+  );
+	*/
+
+  return (
+    <Box minH="100vh" pos="relative" bg="black" color="white">
+      <Box
+        as="header"
+        bgImage="url('/CrewSignUpBg.png')"
+        bgPosition="center"
+        bgRepeat="no-repeat"
+        bgSize="cover"
+        height="25vh"
+      >
+        {/* Box to apply gradient */}
+        <Box
+          h="100%"
+          bgGradient="linear(357.84deg, #070606 -3.45%, rgba(217, 217, 217, 0) 98.29%)"
+        >
+          <Flex
+            h="100%"
+            flexDir="column"
+            maxW="min(80vw, 1280px)"
+            justify="flex-end"
+            margin="auto"
+            pb="4"
+          >
+            <Heading as="h1">Crew Signup</Heading>
+            <Text>Fill the form to join as a Member in the Community </Text>
+          </Flex>
+        </Box>
+      </Box>
+
+      <Container p="0" bg="black" maxW="min(80vw, 1280px)">
+        <Flex
+          gap={isMobile ? '20px' : '90px'}
+          overflowY="auto"
+          h="75vh"
+          flexDir={isMobile ? 'column' : 'row'}
+        >
+          <Box minW="200px" as="aside">
+            <SideNav />
+          </Box>
+          <FormContainer>{ActiveForm}</FormContainer>
+        </Flex>
+      </Container>
+      <Box
+        pos="absolute"
+        w="calc(min(80vw, 1280px) - 200px - 80px)"
+        bottom="0"
+        m="auto"
+        left="calc(90vw - min(80vw, 1280px) + 200px + 80px)"
+        zIndex="500"
+      >
+        <Flex w="100%" backdropFilter="blur(2px)" justify="space-evenly" pb="3">
+          <IconButton
+            variant="unstyled"
+            color="black"
+            bgColor="white"
+            display="flex"
+            _focus={{}}
+            isRound
+            onClick={() => setFormNumber((e) => e - 1)}
+            aria-label="previous-form"
+            icon={<CaretLeft size="20" />}
+          />
+          <Button variant="unstyled" color="black" bgColor="white" _focus={{}}>
+            <Text px="15px">Submit</Text>
+          </Button>
+          <IconButton
+            variant="unstyled"
+            color="black"
+            bgColor="white"
+            display="flex"
+            isRound
+            onClick={() => setFormNumber((e) => e + 1)}
+            aria-label="next-form"
+            icon={<CaretRight size="20" />}
+          />
+        </Flex>
+      </Box>
+    </Box>
   );
 };
 

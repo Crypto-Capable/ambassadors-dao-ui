@@ -28,27 +28,25 @@ export const AboutForm: React.FC = () => {
         heading="Tell Us a few things about you"
         helperText="Fill in the personal details"
       />
-      <HStack w="80%" gap="5" justifyContent="flex-start">
-        <FormInput
-          required
-          type="text"
-          label="First Name"
-          placeholder="John"
-          id="first-name"
-          value={firstName}
-          onChange={setFirstName}
-        />
+      <FormInput
+        required
+        type="text"
+        label="First Name"
+        placeholder="John"
+        id="first-name"
+        value={firstName}
+        onChange={setFirstName}
+      />
 
-        <FormInput
-          required
-          type="text"
-          label="Last Name"
-          placeholder="Doe"
-          id="last-name"
-          value={lastName}
-          onChange={setLastName}
-        />
-      </HStack>
+      <FormInput
+        required
+        type="text"
+        label="Last Name"
+        placeholder="Doe"
+        id="last-name"
+        value={lastName}
+        onChange={setLastName}
+      />
 
       <FormInput
         id="email"
