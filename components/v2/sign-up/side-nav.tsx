@@ -57,8 +57,7 @@ export const SideNav: React.FC = () => {
     <VStack
       minW="200px"
       as="aside"
-      h={'auto'}
-      //w={w}
+      h="auto"
       py={{ base: '4', md: '55px' }}
       _after={{
         content: `""`,

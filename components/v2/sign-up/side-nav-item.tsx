@@ -1,11 +1,4 @@
-import {
-  Box,
-  Flex,
-  HStack,
-  Text,
-  useMediaQuery,
-  VStack,
-} from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { useAtomValue } from 'jotai';
 import { IconProps } from 'phosphor-react';
 import React from 'react';
@@ -28,7 +21,6 @@ const SideNavItem: React.FC<SideNavItemProps> = ({
   label,
   labelHelper,
 }) => {
-  const [isMobile] = useMediaQuery('(max-width: 768px)');
   const { currentForm } = useAtomValue(FormValuesAtom);
   const active = currentForm === formType;
   const passed = currentForm > formType;
@@ -39,7 +31,7 @@ const SideNavItem: React.FC<SideNavItemProps> = ({
     <Flex
       color="white"
       align="center"
-      justify={isMobile ? 'center' : 'end'}
+      justify={{ base: 'center', md: 'end' }}
       w="100%"
       gap="20px"
     >
@@ -75,8 +67,8 @@ const SideNavItem: React.FC<SideNavItemProps> = ({
           height: '10px',
           backgroundColor: active ? '#4097D0' : 'black',
           zIndex: 2,
-          top: isMobile ? '130%' : '40%',
-          right: isMobile ? '38%' : '-50px',
+          top: { base: '130%', md: '40%' },
+          right: { base: '38%', md: '-50px' },
           borderRadius: '100px',
           borderWidth: '1px',
           borderColor: 'rgba(255, 255, 255, 0.5)',
