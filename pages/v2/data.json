@@ -1,0 +1,161 @@
+{
+	"About": {
+		"heading": "Tell Us a few things about you",
+		"helperText": "Fill in the personal details",
+		"inputs": [
+			{
+				"label": "First Name",
+				"placeholder": "John",
+				"id": "first_name",
+				"readOnly": false,
+				"required": true,
+				"type": "text"
+			},
+			{
+				"label": "Last Name",
+				"placeholder": "John",
+				"id": "last_name",
+				"readOnly": false,
+				"required": true,
+				"type": "text"
+			},
+			{
+				"label": "Email ID",
+				"placeholder": "john@company.com",
+				"id": "email_id",
+				"readOnly": false,
+				"required": true,
+				"type": "email"
+			},
+			{
+				"label": "Would you like to get a call from one of our Voyager to induct you on this journey?",
+				"placeholder": "+ 91 99999 99999",
+				"id": "phone_no",
+				"readOnly": false,
+				"required": false,
+				"type": "number"
+			}
+		]
+	}, 
+	"Refferal": {
+		"heading": "Referral Code",
+		"helperText": "Enter the looong code given to you",
+		"inputs": [
+			{
+				"label": "Enter referral code",
+				"placeholder": "ABCD1234",
+				"id": "referral_code",
+				"readOnly": false,
+				"required": false,
+				"type": "text"
+			}
+		]
+	}
+	,
+	"Discord": {
+		"heading": "Discord Handle",
+		"helperText": "Enter your correct discord id otherwise you shall be ignored",
+		"inputs": [
+			{
+				"label": "Enter your discord handle",
+				"placeholder": "John#0007",
+				"id": "discord_handle",
+				"readOnly": false,
+				"required": false,
+				"type": "text"
+			}
+		]
+	},
+	"Insitution": {
+		"heading" :"Insitution",
+		"helperText":"Please let us know of the institution you’re “currently studying” or “a graduate from” or “anything else that you’re doing”",
+		"inputs": [
+			{
+				"label":"Institution",
+				"placeholder": "Search for your college...",
+				"id": "institution",
+				"type":"text",
+				"readOnly": false,
+				"required": false
+			},
+			{
+				"label":"Other work",
+				"placeholder": "Working at...",
+				"id": "other_work",
+				"type":"text",
+				"readOnly": false,
+				"required": false
+			}
+		]
+	},
+	"Finish": {
+		"heading":"Let’s have you Double-Check",
+		"helperText": "You can go back to change anything if you wish to do so, otherwise tick the box and smash the submit button", 
+		"inputs": [
+			{
+				"label": "First Name",
+				"placeholder": "John",
+				"id": "first_name",
+				"readOnly": true,
+				"required": true,
+				"type": "text"
+			},
+			{
+				"label": "Last Name",
+				"placeholder": "John",
+				"id": "last_name",
+				"readOnly": true,
+				"required": true,
+				"type": "text"
+			},
+			{
+				"label": "Email ID",
+				"placeholder": "john@company.com",
+				"id": "email_id",
+				"readOnly": true,
+				"required": true,
+				"type": "email"
+			},
+			{
+				"label": "Contact",
+				"placeholder": "+ 91 99999 99999",
+				"id": "phone_no",
+				"readOnly": true,
+				"required": false,
+				"type": "number"
+			},
+			{
+				"label":"Institution",
+				"placeholder": "Search for your college...",
+				"id": "institution",
+				"type":"text",
+				"readOnly": true,
+				"required": false
+			},
+			{
+				"label":"Other work",
+				"placeholder": "Working at...",
+				"id": "other_work",
+				"type":"text",
+				"readOnly": true,
+				"required": false
+			},
+			{
+				"label": "Referral code",
+				"placeholder": "ABCD1234",
+				"id": "referral_code",
+				"readOnly": true,
+				"required": false,
+				"type": "text"
+			},
+			{
+				"label": "Discord handle",
+				"placeholder": "John#0007",
+				"id": "discord_handle",
+				"readOnly": true,
+				"required": false,
+				"type": "text"
+			}
+		]
+	}
+}

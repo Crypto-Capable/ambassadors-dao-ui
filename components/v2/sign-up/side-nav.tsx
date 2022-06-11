@@ -52,34 +52,32 @@ const SideNavItems: SideNavContent[] = [
   },
 ];
 
-export const SideNav: React.FC = () => {
-  return (
-    <VStack
-      minW="226px"
-      as="aside"
-      h="auto"
-      py={{ base: '4', md: '55px' }}
-      _after={{
-        content: `""`,
-        position: 'absolute',
-        width: { base: '100vw', md: '1px' },
-        height: { base: '1px', md: '100%' },
+export const SideNav: React.FC = () => (
+  <VStack
+    minW="226px"
+    as="aside"
+    h="auto"
+    py={{ base: '4', md: '55px' }}
+    _after={{
+      content: `""`,
+      position: 'absolute',
+      width: { base: '100vw', md: '1px' },
+      height: { base: '1px', md: '100%' },
 
-        backgroundColor: 'white',
-        opacity: '0.5',
-        right: { base: '0', md: '-45.5px' },
-        top: { base: '100%', md: '0' },
-        bottom: '0',
-      }}
-      position="relative"
-      flexDir={{ base: 'row', md: 'column' }}
-      gap="20px"
-      justify={{ base: 'space-evenly', md: 'start' }}
-      align="end"
-    >
-      {SideNavItems.map((item) => (
-        <SideNavItem key={item.formType} {...item} />
-      ))}
-    </VStack>
-  );
-};
+      backgroundColor: 'white',
+      opacity: '0.5',
+      right: { base: '0', md: '-45.5px' },
+      top: { base: '100%', md: '0' },
+      bottom: '0',
+    }}
+    position="relative"
+    flexDir={{ base: 'row', md: 'column' }}
+    gap="20px"
+    justify={{ base: 'space-evenly', md: 'start' }}
+    align="end"
+  >
+    {SideNavItems.map((item) => (
+      <SideNavItem key={item.formType} {...item} />
+    ))}
+  </VStack>
+);

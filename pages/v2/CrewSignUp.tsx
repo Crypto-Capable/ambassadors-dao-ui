@@ -15,18 +15,39 @@ import {
   AboutForm,
   DiscordForm,
   FinishForm,
+  FormContainer,
+  FormCreator,
   InsitutionForm,
   ReferralForm,
   SideNav,
 } from '../../components/v2/sign-up';
-import FormContainer from '../../components/v2/sign-up/form-container';
-
+import data from './data.json';
 const forms = [
-  <AboutForm key="1" />,
+  <FormCreator
+    key="1"
+    heading={data.About.heading}
+    helperText={data.About.helperText}
+    inputs={data.About.inputs}
+  />,
   <InsitutionForm key="2" />,
-  <ReferralForm key="3" />,
-  <DiscordForm key="4" />,
-  <FinishForm key="5" />,
+  <FormCreator
+    key="3"
+    heading={data.Refferal.heading}
+    helperText={data.Refferal.helperText}
+    inputs={data.Refferal.inputs}
+  />,
+  <FormCreator
+    key="4"
+    heading={data.Discord.heading}
+    helperText={data.Discord.helperText}
+    inputs={data.Discord.inputs}
+  />,
+  <FormCreator
+    key="5"
+    heading={data.Finish.heading}
+    helperText={data.Finish.helperText}
+    inputs={data.Finish.inputs}
+  />,
 ];
 
 const CrewSignUp: NextPage = () => {
@@ -68,12 +89,12 @@ const CrewSignUp: NextPage = () => {
         </Box>
       </Box>
 
-      <Container p="0" bg="black" maxW="min(80vw, 768px)">
+      <Container p="0" maxW="min(80vw, 768px)">
         <Flex
           gap={{ md: '90px' }}
           overflowY="auto"
           h="75vh"
-          w={'100%'}
+          w="100%"
           flexDir={{ base: 'column', md: 'row' }}
         >
           <SideNav />

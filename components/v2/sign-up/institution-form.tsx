@@ -15,7 +15,7 @@ export const InsitutionForm: React.FC = () => {
     <>
       <FormHeading
         heading="Insitution"
-        helperText={`Pleae let us know of the institution you’re “currently studying” or “a graduate from” or “anything else that you’re doing”`}
+        helperText={`Please let us know of the institution you’re “currently studying” or “a graduate from” or “anything else that you’re doing”`}
       />
 
       <FormControl w="100%" isRequired>

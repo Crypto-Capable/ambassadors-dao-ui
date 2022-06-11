@@ -5,14 +5,13 @@ interface FormHeadingProps {
   helperText: string;
 }
 
-const FormHeading: React.FC<FormHeadingProps> = ({ heading, helperText }) => {
-  return (
-    <>
-      <Box>
-        <Heading as="h2">{heading}</Heading>
-        <Text mt="2">{helperText}</Text>
-      </Box>
-    </>
-  );
-};
+const FormHeading: React.FC<FormHeadingProps> = ({ heading, helperText }) => (
+  <>
+    <Box>
+      <Heading as="h2">{heading}</Heading>
+      <Text mt="2">{helperText}</Text>
+    </Box>
+  </>
+);
+
 export default FormHeading;
