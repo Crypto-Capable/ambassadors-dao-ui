@@ -13,7 +13,7 @@
 			},
 			{
 				"label": "Last Name",
-				"placeholder": "John",
+				"placeholder": "Doe",
 				"id": "last_name",
 				"readOnly": false,
 				"required": true,
