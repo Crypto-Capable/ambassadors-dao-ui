@@ -20,16 +20,17 @@ export const FormInput: React.FC<FormInputPropsType> = ({
   readonly = false,
 }) => {
   const [formValues, setFormValues] = useAtom(FormValuesAtom);
-
-  const handler = (id: FormKeysType, value: string) => {
-    formValues[id] = value;
-    setFormValues({ ...formValues });
-  };
   let val;
   if (readonly)
     val = {
       _focus: {},
     };
+
+  const handler = (id: FormKeysType, value: string) => {
+    formValues[id] = value;
+    setFormValues({ ...formValues });
+  };
+
   return (
     <FormControl w="100%" isRequired={required}>
       <FormLabel fontSize="sm" htmlFor={id}>

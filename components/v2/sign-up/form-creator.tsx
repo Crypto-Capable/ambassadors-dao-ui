@@ -20,21 +20,19 @@ export const FormCreator: React.FC<FormCreaterPropType> = ({
   heading,
   helperText,
   inputs,
-}) => {
-  return (
-    <>
-      <FormHeading heading={heading} helperText={helperText} />
-      {inputs.map((input) => (
-        <FormInput
-          type={input.type}
-          label={input.label}
-          placeholder={input.placeholder}
-          id={input.id as FormKeysType}
-          required={input.required}
-          key={input.id}
-          readonly={input.readOnly}
-        />
-      ))}
-    </>
-  );
-};
+}) => (
+  <>
+    <FormHeading heading={heading} helperText={helperText} />
+    {inputs.map((input) => (
+      <FormInput
+        type={input.type}
+        label={input.label}
+        placeholder={input.placeholder}
+        id={input.id as FormKeysType}
+        required={input.required}
+        key={input.id}
+        readonly={input.readOnly}
+      />
+    ))}
+  </>
+);
