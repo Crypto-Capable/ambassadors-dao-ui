@@ -1,15 +1,4 @@
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Grid,
-  GridItem,
-  Heading,
-  IconButton,
-  Text,
-  useMediaQuery,
-} from '@chakra-ui/react';
+import { Box, Container, Flex, Heading, Text } from '@chakra-ui/react';
 import { useAtom } from 'jotai';
 import { NextPage } from 'next';
 import { CaretLeft, CaretRight } from 'phosphor-react';
@@ -32,6 +21,9 @@ const forms = [
   <DiscordForm key="4" />,
   <FinishForm key="5" />,
 ];
+
+/*
+Responsive Grid 
 
 const ResponsiveGrid: React.FC = ({ children }) => {
   const [isMobile] = useMediaQuery('(max-width: 600px)');
@@ -68,11 +60,11 @@ const ResponsiveGrid: React.FC = ({ children }) => {
       </Grid>
     );
 };
+*/
 
 const CrewSignUp: NextPage = () => {
   const [formNumber, setFormNumber] = useState(0);
   const ActiveForm = forms[formNumber];
-  const [isMobile] = useMediaQuery('(max-width: 600px)');
   const [formValues, setFormValues] = useAtom(FormValuesAtom);
 
   useEffect(() => {
@@ -181,7 +173,7 @@ const CrewSignUp: NextPage = () => {
 	*/
 
   return (
-    <Box minH="100vh" pos="relative" bg="black" color="white">
+    <Box minH="100vh" bgColor="black" color="white">
       <Box
         as="header"
         bgImage="url('/CrewSignUpBg.png')"
@@ -198,7 +190,7 @@ const CrewSignUp: NextPage = () => {
           <Flex
             h="100%"
             flexDir="column"
-            maxW="min(80vw, 1280px)"
+            maxW="min(80vw, 768px)"
             justify="flex-end"
             margin="auto"
             pb="4"
@@ -209,20 +201,18 @@ const CrewSignUp: NextPage = () => {
         </Box>
       </Box>
 
-      <Container p="0" bg="black" maxW="min(80vw, 1280px)">
+      <Container p="0" bg="black" maxW="min(80vw, 768px)">
         <Flex
-          gap={isMobile ? '20px' : '90px'}
+          gap={{ md: '90px' }}
           overflowY="auto"
           h="75vh"
-          flexDir={isMobile ? 'column' : 'row'}
+          flexDir={{ base: 'column', md: 'row' }}
         >
-          <Box minW="200px" as="aside">
-            <SideNav />
-          </Box>
+          <SideNav />
           <FormContainer>{ActiveForm}</FormContainer>
         </Flex>
       </Container>
-      <Box
+      {/* <Box
         pos="absolute"
         w="calc(min(80vw, 1280px) - 200px - 80px)"
         bottom="0"
@@ -256,7 +246,7 @@ const CrewSignUp: NextPage = () => {
             icon={<CaretRight size="20" />}
           />
         </Flex>
-      </Box>
+      </Box> */}
     </Box>
   );
 };

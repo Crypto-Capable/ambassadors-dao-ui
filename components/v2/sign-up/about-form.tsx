@@ -12,7 +12,6 @@ export const AboutForm: React.FC = () => {
   const [email, setEmail] = useState<string>(formValues.emailId);
   const [phoneNo, setPhoneNo] = useState<string>(formValues.phoneNo);
 
-  const [isMobile] = useMediaQuery('(max-width: 600px');
   useEffect(() => {
     formValues.firstName = firstName;
     formValues.lastName = lastName;

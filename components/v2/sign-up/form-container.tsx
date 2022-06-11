@@ -1,20 +1,13 @@
-import { useMediaQuery, VStack } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
 
-type FormContainerPropsType = {
-  isMobile?: boolean;
-};
-
-const FormContainer: React.FC<FormContainerPropsType> = ({
-  children,
-  isMobile = false,
-}) => {
+const FormContainer: React.FC = ({ children }) => {
   return (
     <VStack
-      pt="20px"
-      pb="70px"
-      w="100%"
-      h={isMobile ? 'auto' : '75vh'}
+      as="form"
+      pt="50px"
+      pb="100px"
       overflowY="auto"
+      width={{ md: 'max(50%, 400px)', base: '100%' }}
       align="start"
       gap="6"
       color="#ffffff"

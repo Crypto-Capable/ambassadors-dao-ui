@@ -28,7 +28,7 @@ const SideNavItem: React.FC<SideNavItemProps> = ({
   label,
   labelHelper,
 }) => {
-  const [isMobile] = useMediaQuery('(max-width: 600px)');
+  const [isMobile] = useMediaQuery('(max-width: 768px)');
   const { currentForm } = useAtomValue(FormValuesAtom);
   const active = currentForm === formType;
   const passed = currentForm > formType;
@@ -43,29 +43,28 @@ const SideNavItem: React.FC<SideNavItemProps> = ({
       w="100%"
       gap="20px"
     >
-      {!isMobile && (
-        <Flex
-          pl="10px"
-          flexDir="column"
-          align="end"
-          gap="0"
-          columnGap="0"
-          justifyContent="space-around"
+      <Flex
+        pl="10px"
+        flexDir="column"
+        align="end"
+        gap="0"
+        columnGap="0"
+        justifyContent="space-around"
+        display={{ base: 'none', md: 'flex' }}
+      >
+        <Text fontSize="lg" fontWeight="400" fontFamily="Work Sans">
+          {label}
+        </Text>
+        <Text
+          textAlign="end"
+          mt="-2px"
+          fontSize="sm"
+          fontWeight="300"
+          fontFamily="Work Sans"
         >
-          <Text fontSize="lg" fontWeight="400" fontFamily="Work Sans">
-            {label}
-          </Text>
-          <Text
-            textAlign="end"
-            mt="-2px"
-            fontSize="sm"
-            fontWeight="300"
-            fontFamily="Work Sans"
-          >
-            {labelHelper}
-          </Text>
-        </Flex>
-      )}
+          {labelHelper}
+        </Text>
+      </Flex>
 
       <Box
         pos="relative"

@@ -1,11 +1,20 @@
 import { extendTheme, withDefaultColorScheme } from '@chakra-ui/react';
 
+const breakpoints = {
+  sm: '320px',
+  md: '768px',
+  lg: '960px',
+  xl: '1200px',
+  '2xl': '1536px',
+};
 const customTheme = extendTheme(
   {
+    breakpoints,
     fonts: {
       h1: 'Space Grotesk, sans-serif',
       body: 'Work Sans, sans-serif',
     },
+
     fontSizes: {
       xs: '0.75rem',
       sm: '0.875rem',
