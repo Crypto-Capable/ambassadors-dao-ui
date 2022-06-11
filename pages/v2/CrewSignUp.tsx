@@ -10,7 +10,6 @@ import {
 import { useAtom } from 'jotai';
 import { NextPage } from 'next';
 import { CaretLeft, CaretRight } from 'phosphor-react';
-import { useEffect, useState } from 'react';
 import { FormValuesAtom } from '../../atoms/form';
 import {
   AboutForm,
@@ -30,55 +29,15 @@ const forms = [
   <FinishForm key="5" />,
 ];
 
-/*
-Responsive Grid 
-
-const ResponsiveGrid: React.FC = ({ children }) => {
-  const [isMobile] = useMediaQuery('(max-width: 600px)');
-  if (isMobile)
-    return (
-      <Grid
-        templateAreas={`"header"
-								"nav"
-								"main"
-								"control"`}
-        bg="black"
-        gridTemplateRows="1fr auto 3fr auto"
-        gridTemplateColumns="1fr"
-        maxH="100vh"
-        minH="100vh"
-        overflowY="scroll"
-      >
-        {children}
-      </Grid>
-    );
-  else
-    return (
-      <Grid
-        templateAreas={`"header header"
-                  "nav main"
-									"nav control"`}
-        bg="black"
-        gridTemplateRows={'minmax(175px,1fr)  4fr '}
-        gridTemplateColumns={'minmax(400px, 1fr) 2fr'}
-        maxH="100vh"
-        overflowY="scroll"
-      >
-        {children}
-      </Grid>
-    );
-};
-*/
-
 const CrewSignUp: NextPage = () => {
-  const [formNumber, setFormNumber] = useState(0);
-  const ActiveForm = forms[formNumber];
   const [formValues, setFormValues] = useAtom(FormValuesAtom);
+  const ActiveForm = forms[formValues.current_form];
 
-  useEffect(() => {
-    formValues.current_form = formNumber;
-    setFormValues({ ...formValues });
-  }, [formNumber]);
+  const controlHandler = (action: number) =>
+    setFormValues({
+      ...formValues,
+      current_form: formValues.current_form + action,
+    });
 
   return (
     <Box minH="100vh" bgColor="black" color="white">
@@ -145,13 +104,13 @@ const CrewSignUp: NextPage = () => {
             display="flex"
             _focus={{}}
             isRound
-            onClick={() => setFormNumber((e) => e - 1)}
+            onClick={() => controlHandler(-1)}
             aria-label="previous-form"
             icon={<CaretLeft size="20" />}
-            visibility={formNumber === 0 ? 'hidden' : 'visible'}
+            visibility={formValues.current_form === 0 ? 'hidden' : 'visible'}
           />
           <Button
-            visibility={formNumber === 4 ? 'visible' : 'hidden'}
+            visibility={formValues.current_form === 4 ? 'visible' : 'hidden'}
             variant="unstyled"
             color="black"
             bgColor="white"
@@ -165,10 +124,10 @@ const CrewSignUp: NextPage = () => {
             bgColor="white"
             display="flex"
             isRound
-            onClick={() => setFormNumber((e) => e + 1)}
+            onClick={() => controlHandler(+1)}
             aria-label="next-form"
             icon={<CaretRight size="20" />}
-            visibility={formNumber === 4 ? 'hidden' : 'visible'}
+            visibility={formValues.current_form === 4 ? 'hidden' : 'visible'}
           />
         </Flex>
       </Box>
