@@ -52,7 +52,9 @@ const SideNavItems: SideNavContent[] = [
   },
 ];
 
-export const SideNav: React.FC = () => (
+export const SideNav: React.FC<{ current_form: number }> = ({
+  current_form,
+}) => (
   <VStack
     minW="226px"
     as="aside"
@@ -77,7 +79,7 @@ export const SideNav: React.FC = () => (
     align="end"
   >
     {SideNavItems.map((item) => (
-      <SideNavItem key={item.formType} {...item} />
+      <SideNavItem current_form={current_form} key={item.formType} {...item} />
     ))}
   </VStack>
 );

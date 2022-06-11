@@ -19,9 +19,8 @@ export type FormValueType = {
   other_work: string;
   referral_code: string;
   discord_handle: string;
-  current_form: number;
 };
-const dummy = {
+const initialFormValue = {
   first_name: '',
   last_name: '',
   email_id: '',
@@ -30,9 +29,8 @@ const dummy = {
   other_work: '',
   referral_code: '',
   discord_handle: '',
-  current_form: 0,
 };
 
 export const activeFormAtom = atom<Forms>(Forms.ABOUT);
-
-export const FormValuesAtom = atom<FormValueType>(dummy);
+export const currentFormAtom = atom<number>(0);
+export const FormValuesAtom = atom<FormValueType>(initialFormValue);

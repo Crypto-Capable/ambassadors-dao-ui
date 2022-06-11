@@ -1,8 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { useAtomValue } from 'jotai';
 import { IconProps } from 'phosphor-react';
 import React from 'react';
-import { FormValuesAtom } from '../../../atoms/form';
 import { Forms } from '../../../types/forms';
 
 interface SideNavItemProps {
@@ -12,6 +10,7 @@ interface SideNavItemProps {
   formType: Forms;
   label: string;
   labelHelper: string;
+  current_form: number;
 }
 
 const colors = ['green.300', 'blue.300'];
@@ -20,8 +19,8 @@ const SideNavItem: React.FC<SideNavItemProps> = ({
   formType,
   label,
   labelHelper,
+  current_form,
 }) => {
-  const { current_form } = useAtomValue(FormValuesAtom);
   const active = current_form === formType;
   const passed = current_form > formType;
   let color = 'white';
