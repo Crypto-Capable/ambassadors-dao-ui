@@ -9,22 +9,20 @@ export const FinishForm: React.FC = () => {
         heading="Let’s have you Double-Check"
         helperText="You can go back to change anything if you wish to do so, otherwise tick the box and smash the submit button"
       />
-      <HStack w="100%" gap="5" justifyContent="flex-start">
-        <FormInput
-          type="text"
-          readonly
-          id="first_name"
-          label="First Name"
-          placeholder="John"
-        />
-        <FormInput
-          type="text"
-          readonly
-          id="last_name"
-          label="Last Name"
-          placeholder="Doe"
-        />
-      </HStack>
+      <FormInput
+        type="text"
+        readonly
+        id="first_name"
+        label="First Name"
+        placeholder="John"
+      />
+      <FormInput
+        type="text"
+        readonly
+        id="last_name"
+        label="Last Name"
+        placeholder="Doe"
+      />
 
       <FormInput
         label="Email ID"
