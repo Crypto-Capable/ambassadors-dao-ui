@@ -7,7 +7,7 @@ const FormContainer: React.FC = ({ children }) => {
       pt="50px"
       pb="100px"
       overflowY="auto"
-      width={{ md: 'max(50%, 400px)', base: '100%' }}
+      width={{ md: 'max(50%, 300px)', base: '100%' }}
       align="start"
       gap="6"
       color="#ffffff"

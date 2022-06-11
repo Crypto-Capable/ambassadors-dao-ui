@@ -55,7 +55,7 @@ const SideNavItems: SideNavContent[] = [
 export const SideNav: React.FC = () => {
   return (
     <VStack
-      minW="200px"
+      minW="226px"
       as="aside"
       h="auto"
       py={{ base: '4', md: '55px' }}

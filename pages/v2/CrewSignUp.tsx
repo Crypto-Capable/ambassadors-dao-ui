@@ -1,4 +1,12 @@
-import { Box, Container, Flex, Heading, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  Heading,
+  IconButton,
+  Text,
+} from '@chakra-ui/react';
 import { useAtom } from 'jotai';
 import { NextPage } from 'next';
 import { CaretLeft, CaretRight } from 'phosphor-react';
@@ -206,21 +214,30 @@ const CrewSignUp: NextPage = () => {
           gap={{ md: '90px' }}
           overflowY="auto"
           h="75vh"
+          w={'100%'}
           flexDir={{ base: 'column', md: 'row' }}
         >
           <SideNav />
           <FormContainer>{ActiveForm}</FormContainer>
         </Flex>
       </Container>
-      {/* <Box
+      <Box
         pos="absolute"
-        w="calc(min(80vw, 1280px) - 200px - 80px)"
+        w={{ base: '80vw', md: 'calc(min(384px, min(80vw, 768px)/ 2))' }}
         bottom="0"
         m="auto"
-        left="calc(90vw - min(80vw, 1280px) + 200px + 80px)"
+        left={{
+          base: '10vw',
+          md: 'calc((100vw - min(80vw, 768px))/2 + 226px + 90px)',
+        }}
         zIndex="500"
       >
-        <Flex w="100%" backdropFilter="blur(2px)" justify="space-evenly" pb="3">
+        <Flex
+          w="100%"
+          backdropFilter="blur(2px)"
+          justify="space-between"
+          pb="3"
+        >
           <IconButton
             variant="unstyled"
             color="black"
@@ -231,8 +248,15 @@ const CrewSignUp: NextPage = () => {
             onClick={() => setFormNumber((e) => e - 1)}
             aria-label="previous-form"
             icon={<CaretLeft size="20" />}
+            visibility={formNumber === 0 ? 'hidden' : 'visible'}
           />
-          <Button variant="unstyled" color="black" bgColor="white" _focus={{}}>
+          <Button
+            visibility={formNumber === 4 ? 'visible' : 'hidden'}
+            variant="unstyled"
+            color="black"
+            bgColor="white"
+            _focus={{}}
+          >
             <Text px="15px">Submit</Text>
           </Button>
           <IconButton
@@ -244,9 +268,10 @@ const CrewSignUp: NextPage = () => {
             onClick={() => setFormNumber((e) => e + 1)}
             aria-label="next-form"
             icon={<CaretRight size="20" />}
+            visibility={formNumber === 4 ? 'hidden' : 'visible'}
           />
         </Flex>
-      </Box> */}
+      </Box>
     </Box>
   );
 };
