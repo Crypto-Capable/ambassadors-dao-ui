@@ -21,9 +21,9 @@ const SideNavItem: React.FC<SideNavItemProps> = ({
   label,
   labelHelper,
 }) => {
-  const { currentForm } = useAtomValue(FormValuesAtom);
-  const active = currentForm === formType;
-  const passed = currentForm > formType;
+  const { current_form } = useAtomValue(FormValuesAtom);
+  const active = current_form === formType;
+  const passed = current_form > formType;
   let color = 'white';
   if (active) color = colors[1];
   else if (passed) color = colors[0];

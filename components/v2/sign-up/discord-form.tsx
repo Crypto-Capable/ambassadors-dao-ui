@@ -4,13 +4,6 @@ import { FormValuesAtom } from '../../../atoms/form';
 import FormHeading from './form-heading';
 import { FormInput } from './form-input';
 export const DiscordForm: React.FC = () => {
-  const [formValues, setFormValues] = useAtom(FormValuesAtom);
-  const [handle, setHandle] = useState<string>(formValues.discordHandle);
-
-  useEffect(() => {
-    formValues.discordHandle = handle;
-    setFormValues({ ...formValues, currentForm: 3 });
-  }, [handle]);
   return (
     <>
       <FormHeading
@@ -23,9 +16,7 @@ export const DiscordForm: React.FC = () => {
         type="text"
         label="Enter your discord handle"
         placeholder="John#0007"
-        id="discord-handle"
-        value={handle}
-        onChange={setHandle}
+        id="discord_handle"
       />
     </>
   );

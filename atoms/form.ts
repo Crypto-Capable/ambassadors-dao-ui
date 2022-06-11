@@ -2,32 +2,38 @@ import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import { Forms } from '../types/forms';
 
-interface FormValueType {
-  firstName: string;
-  lastName: string;
-  emailId: string;
-  phoneNo: string;
+export type FormKeysType =
+  | 'first_name'
+  | 'last_name'
+  | 'email_id'
+  | 'phone_no'
+  | 'institution'
+  | 'other_work'
+  | 'referral_code'
+  | 'discord_handle';
+export type FormValueType = {
+  first_name: string;
+  last_name: string;
+  email_id: string;
+  phone_no: string;
   institution: string;
-  otherWork: string;
-  referralCode: string;
-  discordHandle: string;
-  currentForm: number;
-}
+  other_work: string;
+  referral_code: string;
+  discord_handle: string;
+  current_form: number;
+};
 const dummy = {
-  firstName: '',
-  lastName: '',
-  emailId: '',
-  phoneNo: '',
+  first_name: '',
+  last_name: '',
+  email_id: '',
+  phone_no: '',
   institution: '',
-  otherWork: '',
-  referralCode: '',
-  discordHandle: '',
-  currentForm: 0,
+  other_work: '',
+  referral_code: '',
+  discord_handle: '',
+  current_form: 0,
 };
 
 export const activeFormAtom = atom<Forms>(Forms.ABOUT);
 
-export const FormValuesAtom = atomWithStorage<FormValueType>(
-  'dao-form-value',
-  dummy
-);
+export const FormValuesAtom = atom<FormValueType>(dummy);

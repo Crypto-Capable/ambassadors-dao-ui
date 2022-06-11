@@ -9,7 +9,7 @@ export const InsitutionForm: React.FC = () => {
   const [institute, setInstitute] = useState<string>('');
   const [otherWork, setOtherWork] = useState<string>('');
   useEffect(() => {
-    setFormValues({ ...formValues, currentForm: 1 });
+    setFormValues({ ...formValues });
   }, []);
   return (
     <>
@@ -38,9 +38,7 @@ export const InsitutionForm: React.FC = () => {
         type="text"
         label="Other"
         placeholder="Working at..."
-        id="other-work"
-        value={otherWork}
-        onChange={setOtherWork}
+        id="other_work"
       />
     </>
   );

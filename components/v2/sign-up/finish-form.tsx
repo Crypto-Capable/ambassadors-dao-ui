@@ -1,25 +1,8 @@
 import { HStack } from '@chakra-ui/react';
-import { useAtom } from 'jotai';
-import { useEffect } from 'react';
-import { FormValuesAtom } from '../../../atoms/form';
 import FormHeading from './form-heading';
 import { FormInput } from './form-input';
 
 export const FinishForm: React.FC = () => {
-  const [formValues, setFormValues] = useAtom(FormValuesAtom);
-  const {
-    firstName,
-    lastName,
-    emailId,
-    phoneNo,
-    institution,
-    discordHandle,
-    referralCode,
-  } = formValues;
-
-  useEffect(() => {
-    setFormValues({ ...formValues, currentForm: 4 });
-  }, []);
   return (
     <>
       <FormHeading
@@ -29,17 +12,15 @@ export const FinishForm: React.FC = () => {
       <HStack w="100%" gap="5" justifyContent="flex-start">
         <FormInput
           type="text"
-          value={firstName}
           readonly
-          id="first-name"
+          id="first_name"
           label="First Name"
           placeholder="John"
         />
         <FormInput
           type="text"
-          value={lastName}
           readonly
-          id="last-name"
+          id="last_name"
           label="Last Name"
           placeholder="Doe"
         />
@@ -48,24 +29,21 @@ export const FinishForm: React.FC = () => {
       <FormInput
         label="Email ID"
         readonly
-        value={emailId}
-        id="email"
+        id="email_id"
         placeholder="john@company.com"
         type="email"
       />
 
       <FormInput
         type="number"
-        value={phoneNo}
         readonly
-        id="phone"
+        id="phone_no"
         label="Contact"
         placeholder="+ 91 99999 99999"
       />
 
       <FormInput
         type="text"
-        value={institution}
         readonly
         id="institution"
         label="Institute"
@@ -74,18 +52,16 @@ export const FinishForm: React.FC = () => {
 
       <FormInput
         type="text"
-        value={referralCode}
         readonly
-        id="referral-code"
+        id="referral_code"
         label="Referral Code"
         placeholder="ABCD1234"
       />
 
       <FormInput
         type="text"
-        value={discordHandle}
         readonly
-        id="discord-handle"
+        id="discord_handle"
         label="Discord Handle"
         placeholder="John#0007"
       />
